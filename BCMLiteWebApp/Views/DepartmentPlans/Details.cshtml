@@ -1,0 +1,42 @@
+﻿@model BCMLiteWebApp.Models.DepartmentPlan
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DepartmentPlan</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Department.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Plan.PlanAbbreviation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plan.PlanAbbreviation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepartmentPlanInvoked)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepartmentPlanInvoked)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.DepartmentPlanID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
