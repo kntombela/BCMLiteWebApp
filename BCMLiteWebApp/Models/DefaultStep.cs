@@ -11,8 +11,6 @@ namespace BCMLiteWebApp.Models
 
         public int PlanID { get; set; }
 
-        public int CategoryID { get; set; }
-
         public int? Number { get; set; }
 
         [StringLength(500)]
@@ -22,8 +20,6 @@ namespace BCMLiteWebApp.Models
         public string Summary { get; set; }
 
         public string Detail { get; set; }
-
-        public virtual DefaultCategory DefaultCategory { get; set; }
 
         public virtual DefaultPlan DefaultPlan { get; set; }
     }

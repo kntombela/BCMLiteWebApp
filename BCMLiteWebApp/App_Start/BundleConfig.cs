@@ -10,7 +10,7 @@ namespace BCMLiteWebApp
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/jquery-{version}.slim.min.js"));
+                        "~/Scripts/jquery-{version}.slim.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -21,14 +21,13 @@ namespace BCMLiteWebApp
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.bundle.min.js",
-                      "~/Scripts/respond.js",
-                      "~/Scripts/sb-admin.min.js"));
+                      "~/Scripts/bootstrap.bundle.js",
+                      "~/Scripts/sb-admin.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.min.css",
-                      "~/Content/font-awesome.min.css",
-                      "~/Content/sb-admin.min.css",
+                      "~/Content/bootstrap.css",
+                      "~/Content/font-awesome.css",
+                      "~/Content/sb-admin.css",
                       "~/Content/Site.css"));
         }
     }

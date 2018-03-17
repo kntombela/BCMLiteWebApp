@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BCMLiteWebApp.Models;
+using BCMLiteWebApp.DAL;
 
 namespace BCMLiteWebApp.Controllers
 {
@@ -17,6 +18,7 @@ namespace BCMLiteWebApp.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private BCMContext db = new BCMContext();
 
         public AccountController()
         {
@@ -139,6 +141,7 @@ namespace BCMLiteWebApp.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            SetRoleDropdownList();
             return View();
         }
 
@@ -151,7 +154,14 @@ namespace BCMLiteWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    Name = model.Name,
+                    Surname = model.Surname,
+                    Designation = model.Designation,
+                    UserName = model.Email,
+                    Email = model.Email
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -165,6 +175,7 @@ namespace BCMLiteWebApp.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
+                SetRoleDropdownList();
                 AddErrors(result);
             }
 
@@ -479,6 +490,12 @@ namespace BCMLiteWebApp.Controllers
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
+        }
+
+        public void SetRoleDropdownList()
+        {
+            ViewBag.UserRoles = new SelectList(db.Roles.Where(u => !u.Name.Contains("Admin"))
+                    .ToList(), "Name", "Name");
         }
         #endregion
     }

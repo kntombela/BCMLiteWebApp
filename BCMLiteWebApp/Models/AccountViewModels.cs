@@ -65,6 +65,19 @@ namespace BCMLiteWebApp.Models
     public class RegisterViewModel
     {
         [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Surname { get; set; }
+
+        [Required]
+        public string Designation { get; set; }
+
+        [Required]
+        [Display(Name = "BCM Role")]
+        public string UserRoles { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

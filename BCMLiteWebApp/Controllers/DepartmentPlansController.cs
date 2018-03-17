@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BCMLiteWebApp.Controllers
 {
+    [Authorize]
     public class DepartmentPlansController : Controller
     {
         protected UserManager<ApplicationUser> UserManager { get; set; }
@@ -29,10 +30,11 @@ namespace BCMLiteWebApp.Controllers
         {
             //if user is admin present a drop down list to select available organisations and associated plans
             ViewBag.IsAdmin = false;
+            
             if (IsAdminUser())
             {
                 ViewBag.IsAdmin = true;
-                ViewBag.OrganisationID = new SelectList(db.Organisations, "OrganisationID", "Name");
+                PopulateOrganisationDropDownList();
             }
 
             return View();
@@ -45,19 +47,35 @@ namespace BCMLiteWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DepartmentPlan departmentPlan = await db.DepartmentPlans.FindAsync(id);
+
+            //Include the list of steps when fetching department plan from the database
+            var departmentPlan = await db.DepartmentPlans
+                                            .Include(dp => dp.Steps)
+                                            .Where(dp => dp.DepartmentPlanID == id) 
+                                            .ToListAsync(); 
+
             if (departmentPlan == null)
             {
                 return HttpNotFound();
-            }
+            }         
             return View(departmentPlan);
         }
 
         // GET: DepartmentPlans/Create
-        public ActionResult Create()
+        public ActionResult Create(int? organisationId)
         {
-            ViewBag.DepartmentID = new SelectList(db.Departments, "DepartmentID", "Name");
-            ViewBag.PlanID = new SelectList(db.Plans, "PlanID", "PlanAbbreviation");
+            //Check if organisation has departments, redirect if none
+            var departments = GetOrganisationDepartments(organisationId);
+            ViewBag.IsDepartmentsEmpty = true;
+            if (departments.Any())
+            {
+                ViewBag.IsDepartmentsEmpty = false;
+
+                //Populate drop down lists to create plans
+                PopulateDepartmentDropDownList(organisationId);
+                PopulatePlanDropDownList();
+            }
+
             return View();
         }
 
@@ -75,8 +93,8 @@ namespace BCMLiteWebApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DepartmentID = new SelectList(db.Departments, "DepartmentID", "Name", departmentPlan.DepartmentID);
-            ViewBag.PlanID = new SelectList(db.Plans, "PlanID", "PlanAbbreviation", departmentPlan.PlanID);
+            PopulateDepartmentDropDownList(departmentPlan.Department.OrganisationID.Value);
+            PopulatePlanDropDownList();
             return View(departmentPlan);
         }
 
@@ -166,6 +184,28 @@ namespace BCMLiteWebApp.Controllers
                 }
             }
             return false;
+        }
+
+        private void PopulateOrganisationDropDownList(object selectedOrganisation = null)
+        {
+            var organisations = db.Organisations.OrderBy(o => o.Name);
+            ViewBag.OrganisationID = new SelectList(organisations, "OrganisationID", "Name", selectedOrganisation);
+        }
+
+        private IEnumerable<Department> GetOrganisationDepartments(int? organisationId)
+        {
+            return db.Departments.Where(d => d.OrganisationID == organisationId);
+        }
+
+        private void PopulateDepartmentDropDownList(int? organisationId)
+        {
+            var departments = GetOrganisationDepartments(organisationId);
+            ViewBag.DepartmentID = new SelectList(departments, "DepartmentID", "Name");
+        }
+
+        private void PopulatePlanDropDownList()
+        {
+            ViewBag.PlanID = new SelectList(db.Plans, "PlanID", "PlanAbbreviation");
         }
         #endregion
     }

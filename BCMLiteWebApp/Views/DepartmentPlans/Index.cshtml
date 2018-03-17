@@ -11,15 +11,12 @@
     @if (ViewBag.IsAdmin == true)
     {
         <div class="form-group">
-            @Html.Label("Select Organisation", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("OrganisationID", null, htmlAttributes: new { @class = "form-control", ng_model = "organisationId", ng_change = "getPlans(organisationId)" })
-            </div>
+                @Html.DropDownList("OrganisationID", null, "--Select Organisation--", htmlAttributes: new { @class = "form-control", ng_model = "organisationId", ng_change = "getPlans(organisationId)" })
         </div>
     }
 
     <p>
-        @Html.ActionLink("Create New", "Create")
+        <a href="@Url.Action("Create","DepartmentPlans")?organisationId={{organisationId}}">Create New</a>
     </p>
 
     <table class="table">

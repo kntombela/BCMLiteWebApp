@@ -14,7 +14,6 @@ namespace BCMLiteWebApp.DAL
 
         }
 
-        public virtual DbSet<DefaultCategory> DefaultCategories { get; set; }
         public virtual DbSet<DefaultPlan> DefaultPlans { get; set; }
         public virtual DbSet<DefaultStep> DefaultSteps { get; set; }
         public virtual DbSet<DepartmentPlan> DepartmentPlans { get; set; }
