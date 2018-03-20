@@ -11,6 +11,7 @@ using BCMLiteWebApp.DAL;
 using BCMLiteWebApp.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using BCMLiteWebApp.Models.ViewModels;
 
 namespace BCMLiteWebApp.Controllers
 {
@@ -30,11 +31,14 @@ namespace BCMLiteWebApp.Controllers
         {
             //if user is admin present a drop down list to select available organisations and associated plans
             ViewBag.IsAdmin = false;
-            
+            var model = new OrganisationDropDownViewModel();
+
             if (IsAdminUser())
             {
                 ViewBag.IsAdmin = true;
-                PopulateOrganisationDropDownList();
+                var organisation = db.Organisations.Find(2);
+                PopulateOrganisationDropDownList(organisation.OrganisationID);
+
             }
 
             return View();
@@ -51,13 +55,13 @@ namespace BCMLiteWebApp.Controllers
             //Include the list of steps when fetching department plan from the database
             var departmentPlan = await db.DepartmentPlans
                                             .Include(dp => dp.Steps)
-                                            .Where(dp => dp.DepartmentPlanID == id) 
-                                            .ToListAsync(); 
+                                            .Where(dp => dp.DepartmentPlanID == id)
+                                            .ToListAsync();
 
             if (departmentPlan == null)
             {
                 return HttpNotFound();
-            }         
+            }
             return View(departmentPlan);
         }
 

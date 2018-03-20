@@ -202,8 +202,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Api\OrganisationsApiController.cs" />
     <Compile Include="Controllers\Api\PlansApiController.cs" />
     <Compile Include="Controllers\DepartmentPlansController.cs" />
+    <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DAL\BCMContext.cs" />
@@ -237,6 +239,7 @@
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\Step.cs" />
     <Compile Include="Models\ThirdParty.cs" />
+    <Compile Include="Models\ViewModels\OrganisationDropDownViewModel.cs" />
     <Compile Include="Models\ViewModels\OrganisationViewModels.cs" />
     <Compile Include="Models\ViewModels\PlanViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -294,6 +297,7 @@
     <Content Include="Scripts\app\components\plans\plansController.js" />
     <Content Include="Scripts\app\components\plans\plansModel.js" />
     <Content Include="Scripts\app\components\plans\plansService.js" />
+    <Content Include="Scripts\app\components\plans\test.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1209,6 +1213,11 @@
     <Content Include="vendor\font-awesome\scss\_screen-reader.scss" />
     <Content Include="vendor\font-awesome\scss\_stacked.scss" />
     <Content Include="vendor\font-awesome\scss\_variables.scss" />
+    <Content Include="Views\Departments\Create.cshtml" />
+    <Content Include="Views\Departments\Delete.cshtml" />
+    <Content Include="Views\Departments\Details.cshtml" />
+    <Content Include="Views\Departments\Edit.cshtml" />
+    <Content Include="Views\Departments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

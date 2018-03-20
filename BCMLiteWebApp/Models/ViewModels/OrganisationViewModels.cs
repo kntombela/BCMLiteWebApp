@@ -7,6 +7,7 @@ namespace BCMLiteWebApp.Models.ViewModels
 {
     public class OrganisationViewModel
     {
+        public int OrganisationID { get; set; }
         public string Name { get; set; }
         public string Industry { get; set; }
         public string Type { get; set; }
