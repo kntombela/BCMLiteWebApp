@@ -18,8 +18,7 @@ namespace BCMLiteWebApp.Models
 
         public bool? RevenueGenerating { get; set; }
 
-        [StringLength(8)]
-        public string Revenue { get; set; }
+        public double? Revenue { get; set; }
 
         public int? OrganisationID { get; set; }
       

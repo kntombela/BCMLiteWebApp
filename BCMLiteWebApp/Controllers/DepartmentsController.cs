@@ -9,18 +9,40 @@ using System.Web;
 using System.Web.Mvc;
 using BCMLiteWebApp.DAL;
 using BCMLiteWebApp.Models;
+using BCMLiteWebApp.Models.ViewModels;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BCMLiteWebApp.Controllers
 {
+
+    [Authorize]
     public class DepartmentsController : Controller
     {
+        protected UserManager<ApplicationUser> UserManager { get; set; }
         private BCMContext db = new BCMContext();
+
+        public DepartmentsController()
+        {
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+        }
 
         // GET: Departments
         public async Task<ActionResult> Index()
         {
+
+            //if user is admin present a drop down list to select available organisations
+            ViewBag.IsAdmin = false;
+            var model = new OrganisationDropDownViewModel();
+
+            if (IsAdminUser())
+            {
+                ViewBag.IsAdmin = true;
+            }
+
             var departments = db.Departments.Include(d => d.Organisation);
             return View(await departments.ToListAsync());
+
         }
 
         // GET: Departments/Details/5
@@ -130,5 +152,24 @@ namespace BCMLiteWebApp.Controllers
             }
             base.Dispose(disposing);
         }
+
+        #region Helpers
+        public Boolean IsAdminUser()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var s = UserManager.GetRoles(User.Identity.GetUserId());
+                if (s[0].ToString() == "Admin")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+        #endregion
     }
 }

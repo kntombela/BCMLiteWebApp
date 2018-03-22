@@ -36,6 +36,8 @@ textarea {
     background-color: #f7f7f9;
 }
 
+
+/*Styling for landing page jumbotron */
 .bg {
     background: url('images/img_home_header.jpg') no-repeat center;
     position: fixed;
@@ -59,4 +61,29 @@ textarea {
     margin-top: 20px;
     margin-bottom: 30px;
     width: 70%
+}
+
+
+/*Font awesome icon colours for CRUD */
+.fa-minus {
+    color: red;
+}
+
+.fa-plus {
+    color: green;
+    cursor: pointer;
+}
+
+.fa-pencil {
+    color: orange;
+}
+
+.fa-info {
+    color: orange;
+}
+
+.selected {
+    background-color: black;
+    color: white;
+    font-weight: bold;
 }

@@ -2,6 +2,30 @@
     ViewBag.Title = "Home Page";
 }
 
+@{
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<!-- Page Header-->
+<div class="bg"></div>
+<div class="jumbotron jumbotron-fluid" id="page-top">
+    <div class="container">
+        <h1 class="display-4">Welcome to BCPLite</h1>
+        <p class="lead">
+            The BCPlite portal is designed to guide you through the creation of your organisation’s
+            digital plans. Login or create a new user account to begin.
+        </p>
+        <a href="@Url.Action("Dashboard", "Home")" class="btn btn-outline-secondary">GET STARTED</a>
+    </div>
+</div>
+<!-- Body-->
+<div class="container">
+    <img src="~/Content/images/img_plan_workflow.png" />
+</div>
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fa fa-angle-up"></i>
+</a>
 
 @section scripts {
 
@@ -17,24 +41,3 @@
         });
     </script>
 }
-
-<!-- Page Header-->
-<div class="bg"></div>
-<div class="jumbotron jumbotron-fluid" id="page-top">
-    <div class="container">
-        <h1 class="display-4">Welcome to BCPLite</h1>
-        <p class="lead">The BCPlite portal is designed to guide you through the creation of your organisation’s 
-        digital plans. Login or create a new user account to begin.</p>
-        <a href="#" class="btn btn-outline-secondary">GET STARTED</a>
-    </div>
-</div>
-<!-- Body-->
-<div class="container">
-    <img src="~/Content/images/img_plan_workflow.png" />
-</div>
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fa fa-angle-up"></i>
-</a>
-
-

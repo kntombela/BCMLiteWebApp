@@ -27,18 +27,14 @@ namespace BCMLiteWebApp.Controllers
         }
 
         // GET: DepartmentPlans
-        public ActionResult Index()
+        public ActionResult Index(int? organisationId)
         {
-            //if user is admin present a drop down list to select available organisations and associated plans
+            //if user is admin present a drop down list to select available organisations
             ViewBag.IsAdmin = false;
-            var model = new OrganisationDropDownViewModel();
-
             if (IsAdminUser())
             {
+                ViewBag.OrganisationID = organisationId;
                 ViewBag.IsAdmin = true;
-                var organisation = db.Organisations.Find(2);
-                PopulateOrganisationDropDownList(organisation.OrganisationID);
-
             }
 
             return View();
@@ -94,7 +90,8 @@ namespace BCMLiteWebApp.Controllers
             {
                 db.DepartmentPlans.Add(departmentPlan);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                var id = departmentPlan.Department.OrganisationID;
+                return RedirectToAction("Index", new { organisationId = id});
             }
 
             PopulateDepartmentDropDownList(departmentPlan.Department.OrganisationID.Value);

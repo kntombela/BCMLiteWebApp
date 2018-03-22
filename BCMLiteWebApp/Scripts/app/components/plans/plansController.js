@@ -28,10 +28,13 @@
 //});
 
 var app = angular.module('myApp', []);
-app.controller('organisationsCtrl', function ($scope, $http) {
+app.controller('plansCtrl', function ($scope, $http) {
 
     //Variables
     $scope.organisationId = 1;
+    $scope.plans = [];
+    $scope.selectedRow = null;
+
 
     //Get list of organisations to populate drop down
     $http.get("/api/organisations").then(function (response) {
@@ -44,6 +47,24 @@ app.controller('organisationsCtrl', function ($scope, $http) {
             $scope.plans = response.data;
         });
     };
+
+
+    $scope.setClickedRow = function (index, departmentPlanId) { 
+        $scope.selectedRow = index;
+        $scope.departmentPlanId = departmentPlanId;
+        showCrudActions(true);
+    }
+
+    function showCrudActions(isShown) {
+        //toggle between show and hide actions
+        if (isShown) {
+            $scope.showActions = true;
+            $scope.showAdd = false;
+        } else {
+            $scope.showActions = false;
+            $scope.showAdd = true;
+        }
+    }
 
 
 });
