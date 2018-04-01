@@ -1,0 +1,17 @@
+﻿<div ng-controller="organisationsCtrl">
+    <div class="row">
+        @if (ViewBag.IsAdmin == true)
+        {
+            <div class="form-group">
+                <select class="form-control"
+                        ng-model="organisationId"
+                        ng-change="setSessionOrganisation(organisationId)"
+                        ng-options="organisation.organisationID as organisation.name for organisation in organisations">
+                    <option value="" disabled selected>--Select Organisation--</option>
+                </select>
+            </div>
+
+        }
+    </div>
+</div>
+

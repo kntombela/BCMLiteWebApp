@@ -5,7 +5,7 @@ using System.Web;
 
 namespace BCMLiteWebApp.Models.ViewModels
 {
-    public class DepartmentViewModels
+    public class DepartmentViewModel
     {
         public int DepartmentID { get; set; }
 
@@ -16,5 +16,7 @@ namespace BCMLiteWebApp.Models.ViewModels
         public bool? RevenueGenerating { get; set; }
 
         public double? Revenue { get; set; }
+
+        public int OrganisationID { get; set; }
     }
 }

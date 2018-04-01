@@ -13,6 +13,7 @@ using BCMLiteWebApp.DAL;
 using BCMLiteWebApp.Models;
 using BCMLiteWebApp.Models.ViewModels;
 using System.Linq;
+using System.Web.Http.Results;
 
 namespace BCMLiteWebApp.Controllers.Api
 {
@@ -24,18 +25,19 @@ namespace BCMLiteWebApp.Controllers.Api
 
         // GET api/organisations/1/departments
         [Route("~/api/organisations/{organisationId:int}/departments")]
-        [ResponseType(typeof(DepartmentViewModels))]
+        [ResponseType(typeof(DepartmentViewModel))]
         public async Task<IHttpActionResult> GetDepartmentsByOrganisation(int organisationId)
         {
             var departments = await db.Departments.Where(d => d.OrganisationID == organisationId)
-                                                  .Select(d => new DepartmentViewModels
+                                                  .Select(d => new DepartmentViewModel
                                                   {
                                                       DepartmentID = d.DepartmentID,
                                                       Name = d.Name,
                                                       Description = d.Description,
                                                       RevenueGenerating = d.RevenueGenerating,
-                                                      Revenue = d.Revenue
-                
+                                                      Revenue = d.Revenue,
+                                                      OrganisationID = d.OrganisationID
+
                                                   }).ToListAsync();
 
             if (departments == null)
@@ -46,11 +48,22 @@ namespace BCMLiteWebApp.Controllers.Api
             return Ok(departments);
         }
 
-        // GET: api/DepartmentsApi/5
-        [ResponseType(typeof(Department))]
-        public async Task<IHttpActionResult> GetDepartment(int id)
+        // Get: api/departments/1
+        [Route("{id:int}")]
+        [ResponseType(typeof(DepartmentViewModel))]
+        public async Task<IHttpActionResult> GetDepartmentById(int id)
         {
-            Department department = await db.Departments.FindAsync(id);
+            var department = await db.Departments.Where(d => d.DepartmentID == id)
+                                                  .Select(d => new DepartmentViewModel
+                                                  {
+                                                      DepartmentID = d.DepartmentID,
+                                                      Name = d.Name,
+                                                      Description = d.Description,
+                                                      RevenueGenerating = d.RevenueGenerating,
+                                                      Revenue = d.Revenue,
+                                                      OrganisationID = d.OrganisationID
+
+                                                  }).FirstOrDefaultAsync();
             if (department == null)
             {
                 return NotFound();
@@ -59,58 +72,52 @@ namespace BCMLiteWebApp.Controllers.Api
             return Ok(department);
         }
 
-        // PUT: api/DepartmentsApi/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutDepartment(int id, Department department)
+
+        // Post: api/departments
+        [Route("")]
+        [HttpPost]
+        public async Task<IHttpActionResult> AddEditDepartment(Department department)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != department.DepartmentID)
+            //Determine if object has an id to choose between edit and update
+            if (!DepartmentExists(department.DepartmentID))
             {
-                return BadRequest();
-            }
-
-            db.Entry(department).State = EntityState.Modified;
-
-            try
-            {
+                db.Departments.Add(department);
                 await db.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!DepartmentExists(id))
+                db.Entry(department).State = EntityState.Modified;
+
+                try
                 {
-                    return NotFound();
+                    await db.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!DepartmentExists(department.DepartmentID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            string status = DepartmentExists(department.DepartmentID) ? "updated" : "saved";
+            string message = $"Department successfully { status }!";
+            return Json(message);
         }
 
-        // POST: api/DepartmentsApi
-        [ResponseType(typeof(Department))]
-        public async Task<IHttpActionResult> PostDepartment(Department department)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Departments.Add(department);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = department.DepartmentID }, department);
-        }
-
-        // DELETE: api/DepartmentsApi/5
-        [ResponseType(typeof(Department))]
+        // DELETE: api/departments/1
+        [Route("{id:int}")]
+        [HttpPost]
         public async Task<IHttpActionResult> DeleteDepartment(int id)
         {
             Department department = await db.Departments.FindAsync(id);
@@ -122,7 +129,8 @@ namespace BCMLiteWebApp.Controllers.Api
             db.Departments.Remove(department);
             await db.SaveChangesAsync();
 
-            return Ok(department);
+            string message = "Department successfully deleted!";
+            return Json(message);
         }
 
         protected override void Dispose(bool disposing)

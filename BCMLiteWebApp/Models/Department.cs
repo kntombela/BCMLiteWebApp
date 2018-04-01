@@ -1,5 +1,6 @@
 namespace BCMLiteWebApp.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -20,12 +21,18 @@ namespace BCMLiteWebApp.Models
 
         public double? Revenue { get; set; }
 
-        public int? OrganisationID { get; set; }
-      
+        public int OrganisationID { get; set; }
+
+        public DateTime DateCreated { get; set; } = DateTime.Now;
+
+        public DateTime DateModified { get; set; } = DateTime.Now;
+
         public virtual ICollection<DepartmentPlan> DepartmentPlans { get; set; }
       
         public virtual ICollection<Process> Processes { get; set; }
 
         public virtual Organisation Organisation { get; set; }
+
+
     }
 }

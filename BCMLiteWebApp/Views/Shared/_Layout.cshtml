@@ -1,12 +1,27 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"
+            integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ"
+            crossorigin="anonymous"></script>
+    <!-- Custom Styling -->
+    <link href="~/Content/sb-admin.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
 </head>
-<body class="fixed-nav sticky-footer" id="page-top">
+<body ng-app="myApp" class="fixed-nav sticky-footer" id="page-top">
     <!-- Navigation-->
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" id="mainNav">
         <a class="navbar-brand" href="~/Home">
@@ -20,7 +35,7 @@
             <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
                     <a class="nav-link" href="~/Home/Dashboard">
-                        <i class="fa fa-fw fa-bar-chart"></i>
+                        <i class="fa fa-fw fa-chart-bar"></i>
                         <span class="nav-link-text">Dashboard</span>
                     </a>
                 </li>
@@ -67,6 +82,10 @@
                         <i class="fa fa-fw fa-cloud"></i>
                         <span class="nav-link-text">Virtual Battlebox</span>
                     </a>
+                </li>
+                <!-- Organisation Drop Down-->
+                <li class="nav-link-text ml-4">
+                    @Html.Partial("_OrganisationsListPartial")
                 </li>
             </ul>
             <ul class="navbar-nav sidenav-toggler">
@@ -173,17 +192,17 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-                        <i class="fa fa-fw fa-sign-out"></i>Logout
+                        <i class="fa fa-fw fa-sign-out-alt"></i>Logout
                     </a>
                 </li>
             </ul>
         </div>
-
     </nav>
     <div class="content-wrapper">
         <div class="container-fluid">
             <!-- Body-->
             @RenderBody()
+            <div ng-view></div>
         </div>
     </div>
     <!-- /.container-fluid-->
@@ -195,10 +214,34 @@
             </div>
         </div>
     </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Angularjs -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.9/angular-route.min.js"></script>
+    <script src="~/Scripts/app/app.module.js"></script>
+    <script src="~/Scripts/app/shared/sharedService.js"></script>
+    <script src="~/Scripts/app/components/organisations/organisationsController.js"></script>
 
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <!-- JQuery easing for custom animations-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <!-- JQuery functions for sb admin template -->
+    @Scripts.Render("~/Scripts/sb-admin.min.js")
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

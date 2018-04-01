@@ -64,7 +64,7 @@ textarea {
 }
 
 
-/*Font awesome icon colours for CRUD */
+/*CRUD CSS */
 .fa-minus {
     color: red;
 }
@@ -86,4 +86,15 @@ textarea {
     background-color: black;
     color: white;
     font-weight: bold;
+}
+
+.new {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+}
+
+.organisation {
+    height: 20px;
+    width: 15px;
 }

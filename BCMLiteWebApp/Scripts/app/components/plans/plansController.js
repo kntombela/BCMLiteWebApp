@@ -27,8 +27,7 @@
 
 //});
 
-var app = angular.module('myApp', []);
-app.controller('plansCtrl', function ($scope, $http) {
+app.controller('plansCtrl', function ($scope, $http, sharedService) {
 
     //Variables
     $scope.organisationId = 1;
@@ -42,11 +41,21 @@ app.controller('plansCtrl', function ($scope, $http) {
     });
 
         //Get plans available to the selected organisation
-    $scope.getPlans = function (organisationId) {
-        $http.get("/api/organisations/" + organisationId + "/plans").then(function (response) {
+    //$scope.getPlans = function () {
+    //    //Get organisation from session storage set in dashboard dropdown select
+    //    var organisationId = sessionStorage.getItem("organisation");
+    //    //Get department plans from database
+    //    $http.get("/api/organisations/" + organisationId + "/plans").then(function (response) {
+    //        $scope.plans = response.data;
+    //    });
+    //};
+
+    function getPlans(orgId) {
+        //Get department plans from database
+        $http.get("/api/organisations/" + orgId + "/plans").then(function (response) {
             $scope.plans = response.data;
         });
-    };
+    }
 
 
     $scope.setClickedRow = function (index, departmentPlanId) { 
@@ -66,5 +75,8 @@ app.controller('plansCtrl', function ($scope, $http) {
         }
     }
 
+    $scope.$on('handlePublish', function () {
+        getPlans(sharedService.organisationId);
+    });
 
 });
