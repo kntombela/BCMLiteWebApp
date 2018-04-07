@@ -246,6 +246,10 @@
     <Compile Include="Migrations\201803311654288_DefaultDateTime.Designer.cs">
       <DependentUpon>201803311654288_DefaultDateTime.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804011749110_ValidationRules.cs" />
+    <Compile Include="Migrations\201804011749110_ValidationRules.Designer.cs">
+      <DependentUpon>201804011749110_ValidationRules.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
@@ -281,6 +285,8 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\icons\ic_add_new.png" />
+    <Content Include="Content\images\img_avatar.jpg" />
+    <Content Include="Content\images\img_avatar.png" />
     <Content Include="Content\images\img_home_header.jpg" />
     <Content Include="Content\images\img_plan_workflow.png" />
     <Content Include="Content\images\placeholder.jpg" />
@@ -1278,6 +1284,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803311654288_DefaultDateTime.resx">
       <DependentUpon>201803311654288_DefaultDateTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804011749110_ValidationRules.resx">
+      <DependentUpon>201804011749110_ValidationRules.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

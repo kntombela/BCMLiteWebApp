@@ -7,9 +7,16 @@ namespace BCMLiteWebApp.Extentions
     {
         public static string GetFirstName(this IIdentity identity)
         {
-            var claim = ((ClaimsIdentity)identity).FindFirst("Name");
+            var name = ((ClaimsIdentity)identity).FindFirst("Name");
             // Test for null to avoid issues during local testing
-            return (claim != null) ? claim.Value : string.Empty;
+            return (name != null) ? name.Value : string.Empty;
+        }
+
+        public static string GetSurname(this IIdentity identity)
+        {
+            var name = ((ClaimsIdentity)identity).FindFirst("Surname");
+            // Test for null to avoid issues during local testing
+            return (name != null) ? name.Value : string.Empty;
         }
 
     }

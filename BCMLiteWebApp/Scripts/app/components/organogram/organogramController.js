@@ -1,7 +1,8 @@
-﻿testApp.controller('organogramCtrl', function ($scope, $http, sharedService, organogramService) {
+﻿testApp.controller('organogramCtrl', function ($scope, $http, sharedService, NgTableParams, organogramService) {
 
     //Variables
     $scope.departments = [];
+    $scope.isSelected = false;
     $scope.selectedRow = null;
     $scope.isNew = false;
     $scope.department = {
@@ -10,16 +11,21 @@
         description: '',
         revenueGenerating: false,
         revenue: '',
-        organisationID: ''
+        organisationID: '',
+        isSelected: false
     };
 
     //Check to see if session storage is null if not get all departments
     if (sharedService.organisationId != null) {
+        //Show loader
+        $scope.showLoader = true;
         getDepartments(sharedService.organisationId);
     }  
 
     //Handle organisation dropdown select event
     $scope.$on('organisationSelected', function () {
+        //Show loader
+        $scope.showLoader = true;
         getDepartments(sharedService.organisationId);
         resetRowSelect();
     });
@@ -53,6 +59,11 @@
         organogramService.getDepartments(organisationId).then(function (response) {
             $scope.organisationId = organisationId;
             $scope.departments = response.data;
+            $scope.tableParams = new NgTableParams({}, { dataset: response.data });
+
+        }).finally(function () {
+            //Close loader when data has been loaded
+            $scope.showLoader = false;
         });
     }
 
@@ -77,6 +88,7 @@
     $scope.onRowClicked = function (index, departmentId) {
         $scope.selectedRow = index;
         $scope.departmentId = departmentId;
+        $scope.department.isSelected[departmentId] = true;
         showCrudActions(true);
     }
 
@@ -91,5 +103,6 @@
     function showCrudActions(isShown) {
         $scope.showActions = isShown;
     }
+
 
 });

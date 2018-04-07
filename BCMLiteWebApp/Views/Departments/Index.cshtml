@@ -14,43 +14,32 @@
         <h1>Departments</h1>
     </div>
 </div>
+<div class="loader" ng-if="showLoader"></div>
 <!-- Table-->
 <p>
     <button type="button" class="btn btn-outline-success" data-target="#addEditDepartment" data-toggle="modal" ng-click="resetRowSelect()">New</button>
     <button type="button" class="btn btn-outline-info" data-target="#addEditDepartment" data-toggle="modal" ng-show="showActions" ng-click="editDepartment(departmentId)">Edit</button>
     <button type="button" class="btn btn-outline-danger" ng-show="showActions" data-target="#deleteModal" data-toggle="modal">Delete</button>
 </p>
-<table class="table table-hover">
-    <thead class="thead-light">
-        <tr>
-            <th>#</th>
-            <th>
-                Department
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                Revenue Generating
-            </th>
-            <th>
-                Renvenue
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="x in departments" ng-class="{'selected':$index == selectedRow}" ng-click="onRowClicked($index, x.departmentID)">
-            <td>{{ $index + 1 }}</td>
-            <td>{{ x.name }}</td>
-            <td>{{ x.description }}</td>
-            <td>{{ x.revenueGenerating }}</td>
-            <td>{{ x.revenue }}</td>
-        </tr>
-    </tbody>
+<table ng-table="tableParams" class="table table-hover" show-filter="true">
+    <tr ng-repeat="x in $data" ng-class="{'selected':$index == selectedRow}" ng-click="onRowClicked($index, x.departmentID)">
+        <td class="text-left" title="'Index'" sortable="'index'">{{ $index + 1 }}</td>
+        <td class="ml-auto" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+            <a href="#">{{ x.name }}</a>
+        </td>
+        <td title="'Date Modified'" sortable="'date'">{{ x.dateModified | date:'medium' }}</td>
+        <td title="''">
+            <div class="dropdown">
+                <span class="fa fa-ellipsis-v row-options" data-toggle="dropdown"></span>
+                <ul class="dropdown-menu dropdown-content">
+                    <li><a href="#">HTML</a></li>
+                    <li><a href="#">CSS</a></li>
+                    <li><a href="#">JavaScript</a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
 </table>
-
-
-
 
 <!-- Add Department Modal-->
 <div id="addEditDepartment" class="modal fade" role="dialog">
@@ -61,24 +50,26 @@
                 <button type="button" class="close" data-dismiss="modal">×</button>
             </div>
             <div class="modal-body">
-                <input type="hidden" class="form-control" ng-model="department.departmentId">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" class="form-control" id="name" ng-model="department.name" maxlength="50">
+                <div class="form-group" ng-form name="myForm">
+                    <input type="hidden" class="form-control" ng-model="department.departmentId">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="Name" ng-model="department.name" ng-required="true">
+                        <span class="error" ng-show="myForm.Name.$touched && myForm.Name.$error.required">Required!</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <input type="text" class="form-control" id="description" ng-model="department.description" maxlength="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="revenueGenerating">Revenue Generating:</label>
+                        <input type="checkbox" class="form-control" id="revenueGenerating" ng-model="department.revenueGenerating" maxlength="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="revenue">Revenue:</label>
+                        <input type="number" class="form-control" id="revenue" ng-model="department.revenue" maxlength="10">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <input type="text" class="form-control" id="description" ng-model="department.description" maxlength="100">
-                </div>
-                <div class="form-group">
-                    <label for="revenueGenerating">Revenue Generating:</label>
-                    <input type="checkbox" class="form-control" id="revenueGenerating" ng-model="department.revenueGenerating" maxlength="100">
-                </div>
-                <div class="form-group">
-                    <label for="revenue">Revenue:</label>
-                    <input type="number" class="form-control" id="revenue" ng-model="department.revenue" maxlength="10">
-                </div>
-
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-success" ng-click="addDepartment(organisationId)">Save</button>
@@ -103,12 +94,3 @@
         </div>
     </div>
 </div>
-<!-- Dropdown select-->
-@*<div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-        <div id="myDropdown" class="dropdown-content">
-            <a href="#">Link 1</a>
-            <a href="#">Link 2</a>
-            <a href="#">Link 3</a>
-        </div>
-    </div>*@

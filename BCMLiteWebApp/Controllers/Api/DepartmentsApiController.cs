@@ -36,6 +36,7 @@ namespace BCMLiteWebApp.Controllers.Api
                                                       Description = d.Description,
                                                       RevenueGenerating = d.RevenueGenerating,
                                                       Revenue = d.Revenue,
+                                                      DateModified = d.DateModified,
                                                       OrganisationID = d.OrganisationID
 
                                                   }).ToListAsync();

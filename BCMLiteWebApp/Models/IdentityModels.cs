@@ -37,6 +37,7 @@ namespace BCMLiteWebApp.Models
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
             userIdentity.AddClaim(new Claim("Name", this.Name));
+            userIdentity.AddClaim(new Claim("Surname", this.Surname));
             return userIdentity;
         }
     }

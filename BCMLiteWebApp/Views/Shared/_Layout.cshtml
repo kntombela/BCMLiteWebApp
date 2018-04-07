@@ -1,30 +1,25 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>@ViewBag.Title</title>
-
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - BCMLite</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
-    <!-- Font Awesome -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"
-            integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ"
-            crossorigin="anonymous"></script>
+    <!-- Font Awesome Icons CSS-->
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <!-- Custom Styling -->
     <link href="~/Content/sb-admin.min.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
-
+    <!-- Angularjs Datatables-->
+    <link rel="stylesheet" ; href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
 </head>
-<body ng-app="myApp" class="fixed-nav sticky-footer" id="page-top">
+<body>
     <!-- Navigation-->
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" id="mainNav">
-        <a class="navbar-brand" href="~/Home">
+        <a class="navbar-brand" href="~/Home/Landing">
             <img src="" width="30" height="30" alt=""> BCMLite
         </a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,19 +29,19 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                    <a class="nav-link" href="~/Home/Dashboard">
-                        <i class="fa fa-fw fa-chart-bar"></i>
+                    <a class="nav-link" href="/#/routeOne">
+                        <i class="fa fa-fw fa-bar-chart"></i>
                         <span class="nav-link-text">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Organogram">
-                    <a class="nav-link" href="~/Departments">
+                    <a class="nav-link" href="/#/departments">
                         <i class="fa fa-fw fa-sitemap"></i>
                         <span class="nav-link-text">Organogram</span>
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Plans">
-                    <a class="nav-link" href="~/DepartmentPlans">
+                    <a class="nav-link" href="/#/routeThree">
                         <i class="fa fa-fw fa-book"></i>
                         <span class="nav-link-text">Plans</span>
                     </a>
@@ -83,10 +78,16 @@
                         <span class="nav-link-text">Virtual Battlebox</span>
                     </a>
                 </li>
-                <!-- Organisation Drop Down-->
-                <li class="nav-link-text ml-4">
-                    @Html.Partial("_OrganisationsListPartial")
-                </li>
+                @*<li class="nav-item">
+                        <div class="form-group col-12">
+                            <select class="form-control nav-link-text"
+                                    ng-model="organisationId"
+                                    ng-change="onOrganisationSelected(organisationId)"
+                                    ng-options="organisation.organisationID as organisation.name for organisation in organisations">
+                                <option value="" disabled selected>--Select Organisation--</option>
+                            </select>
+                        </div>
+                    </li>*@
             </ul>
             <ul class="navbar-nav sidenav-toggler">
                 <li class="nav-item">
@@ -95,7 +96,7 @@
                     </a>
                 </li>
             </ul>
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-fw fa-envelope"></i>
@@ -190,57 +191,36 @@
                         </div>
                     </form>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-                        <i class="fa fa-fw fa-sign-out-alt"></i>Logout
-                    </a>
-                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                @Html.Partial("_LoginPartial")
             </ul>
         </div>
     </nav>
-    <div class="content-wrapper">
-        <div class="container-fluid">
-            <!-- Body-->
-            @RenderBody()
-            <div ng-view></div>
-        </div>
+    <!-- Body-->
+    <div>
+        @RenderBody()
     </div>
-    <!-- /.container-fluid-->
-    <!-- /.content-wrapper-->
-    <footer class="sticky-footer">
-        <div class="container">
-            <div class="text-center">
-                <small>Copyright © Digispect 2018</small>
-            </div>
-        </div>
-    </footer>
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fa fa-angle-up"></i>
-    </a>
-    <!-- Angularjs -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.9/angular-route.min.js"></script>
-    <script src="~/Scripts/app/app.module.js"></script>
-    <script src="~/Scripts/app/shared/sharedService.js"></script>
-    <script src="~/Scripts/app/components/organisations/organisationsController.js"></script>
 
+    <!-- Angularjs -->
+    @Scripts.Render("~/bundles/angularjs")
+    @Scripts.Render("~/bundles/angularApp")
+    <script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
-    @Scripts.Render("~/bundles/jqueryval")
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-    <!-- JQuery easing for custom animations-->
+    <!-- JQuery Easing for custom animations-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-
     <!-- JQuery functions for sb admin template -->
-    @Scripts.Render("~/Scripts/sb-admin.min.js")
+    <script src="~/Scripts/sb-admin.min.js"></script>
+
 
     @RenderSection("scripts", required: false)
 </body>

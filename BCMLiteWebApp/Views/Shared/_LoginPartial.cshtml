@@ -1,18 +1,20 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using BCMLiteWebApp.Extentions;
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink("Hello " + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
-            </li>
-            <li>
-                <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">
-                    <i class="fa fa-fw fa-sign-out-alt"></i>Logout
-                </a>
+        <ul class="nav navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                    <img src="~/Content/images/img_avatar.jpg" class="avatar d-inline mb-1" />
+                    <a class="nav-link dropdown-toggle d-inline" data-toggle="dropdown" href="~/Manage" role="button" aria-haspopup="true" aria-expanded="false">@User.Identity.GetFirstName() @User.Identity.GetSurname()</a>
+                <div class="dropdown-menu float-left ml-0">
+                    <a class="dropdown-item" href="~/Manage">Edit Profile</a>
+                    <a class="dropdown-item" href="#">View Account</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+                </div>
             </li>
         </ul>
     }

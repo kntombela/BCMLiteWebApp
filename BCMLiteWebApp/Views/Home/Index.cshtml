@@ -1,16 +1,23 @@
 ﻿<!DOCTYPE html>
 <html ng-app="testApp" ng-controller="navCtrl">
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <title {{ appTitle }}></title>
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- Custom CSS-->
-    <link href="~/Content/sb-admin.css" rel="stylesheet" />
-    <link href="~/Content/Site.css" rel="stylesheet" />
     <!-- Font Awesome Icons CSS-->
-    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <!-- Custom CSS-->
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/sb-admin.min.css" rel="stylesheet" />
+    <!-- Angularjs Datatables-->
+    <link rel="stylesheet" ; href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
 </head>
-<body class="fixed-nav sticky-footer" id="page-top">
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
     <!-- Navigation-->
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" id="mainNav">
         <a class="navbar-brand" href="~/Home/Landing">
@@ -90,7 +97,7 @@
                     </a>
                 </li>
             </ul>
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-fw fa-envelope"></i>
@@ -185,8 +192,8 @@
                         </div>
                     </form>
                 </li>
-                @Html.Partial("_LoginPartial")
             </ul>
+            @Html.Partial("_LoginPartial")
         </div>
     </nav>
 
@@ -195,27 +202,25 @@
         <div class="container-fluid">
             <div ng-view></div>
         </div>
-    </div>
-    <!-- /.container-fluid-->
-    <!-- /.content-wrapper-->
-    <footer class="sticky-footer">
-        <div class="container">
-            <div class="text-center">
-                <small>Copyright © Digispect 2018</small>
+        <!-- /.container-fluid-->
+        <footer class="sticky-footer">
+            <div class="container">
+                <div class="text-center">
+                    <small>Copyright © Digispect 2018</small>
+                </div>
             </div>
-        </div>
-    </footer>
-
-    <!-- Angularjs -->
-    @Scripts.Render("~/bundles/angularjs")  
-    @Scripts.Render("~/bundles/angularApp")
-    @Scripts.Render("~/bundles/jquery")
-    <!-- Bootstrap -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!-- Custom Scripts -->
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>*@
-    @Scripts.Render("~/bundles/sb-admin")
-
+        </footer>
+        <!-- Angularjs -->
+        @Scripts.Render("~/bundles/angularjs")
+        @Scripts.Render("~/bundles/angularApp")
+        <script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
+        <!-- JQuery -->
+        @Scripts.Render("~/bundles/jquery")
+        <!-- Bootstrap -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+        <!-- Custom Scripts -->
+        <script src="~/Scripts/sb-admin.min.js"></script>
+    </div>
+    <!-- /.content-wrapper-->
 </body>
 </html>

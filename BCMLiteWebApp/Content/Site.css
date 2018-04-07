@@ -1,41 +1,10 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿/* Profile */
+.avatar {
+    vertical-align: middle;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
 }
-
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
-}
-
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
-
-/* Digispect corporate colors */
-.bg-digi-primary {
-    background-color: #607d8b;
-}
-
-.bg-digi-secondary {
-    background-color: #f7f7f9;
-}
-
-.bg-digi-accent {
-    background-color: #f7f7f9;
-}
-
 
 /*Styling for landing page jumbotron */
 .bg {
@@ -64,37 +33,97 @@ textarea {
 }
 
 
-/*CRUD CSS */
-.fa-minus {
+/* CRUD CSS */
+.error {
     color: red;
 }
 
-.fa-plus {
-    color: green;
+.selected {
+    background-color: lightgray;
+}
+
+    .selected .row-options {
+        visibility: visible
+    }
+
+
+tr td a, a:hover {
+    color: black;
+}
+
+.row-options {
+    visibility: hidden;
+    color: gray;
     cursor: pointer;
 }
 
-.fa-pencil {
-    color: orange;
+.dropdown {
+    float: left;
+    position: relative;
+    display: inline-block;
 }
 
-.fa-info {
-    color: orange;
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    right: 0;
+    z-index: 1;
 }
 
-.selected {
-    background-color: black;
-    color: white;
-    font-weight: bold;
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+.dropdown a:hover {
+    background-color: #ddd
 }
 
-.new {
-    background-color: green;
-    color: white;
-    font-weight: bold;
+/* Page Load Animation */
+.loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
 }
 
-.organisation {
-    height: 20px;
-    width: 15px;
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loadingDiv {
+    display: none;
+    text-align: center;
 }

@@ -12,9 +12,9 @@ namespace BCMLiteWebApp.Models
         public int DepartmentID { get; set; }
 
         [StringLength(28)]
+        [Required]
         public string Name { get; set; }
 
-        [StringLength(105)]
         public string Description { get; set; }
 
         public bool? RevenueGenerating { get; set; }
