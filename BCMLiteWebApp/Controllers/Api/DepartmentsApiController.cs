@@ -134,6 +134,28 @@ namespace BCMLiteWebApp.Controllers.Api
             return Json(message);
         }
 
+        // DELETE: api/departments/delete
+        [Route("delete")]
+        [HttpPost]
+        public async Task<IHttpActionResult> DeleteMultipleDepartments(int[] ids)
+        {
+            foreach(int i in ids)
+            {
+                Department department = await db.Departments.FindAsync(i);
+                if (department == null)
+                {
+                    return NotFound();
+                }
+
+                db.Departments.Remove(department);
+            }
+            await db.SaveChangesAsync();
+
+            string message = "Departments deleted successfully!";
+            return Json(message);
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

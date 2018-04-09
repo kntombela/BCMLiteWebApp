@@ -28,4 +28,13 @@
         });
     }
 
+    //Delete departments
+    this.deleteMultipleDepartments = function (ids) {
+        return $http({
+            method: "post",
+            url: "/api/departments/delete",
+            data: ids,
+        });
+    }
+
 });

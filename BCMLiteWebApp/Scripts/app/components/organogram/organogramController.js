@@ -1,26 +1,23 @@
-﻿testApp.controller('organogramCtrl', function ($scope, $http, sharedService, NgTableParams, organogramService) {
+﻿testApp.controller('organogramCtrl', function ($scope, $http, sharedService, organogramService) {
 
     //Variables
     $scope.departments = [];
     $scope.isSelected = false;
     $scope.selectedRow = null;
     $scope.isNew = false;
+
+    $scope.checkboxes = { 'checked': false, items: {} };
     $scope.department = {
         departmentId: '',
         name: '',
         description: '',
         revenueGenerating: false,
         revenue: '',
-        organisationID: '',
-        isSelected: false
+        organisationID: ''
     };
 
-    //Check to see if session storage is null if not get all departments
-    if (sharedService.organisationId != null) {
-        //Show loader
-        $scope.showLoader = true;
-        getDepartments(sharedService.organisationId);
-    }  
+    //Get all departments on load
+    getDepartments();
 
     //Handle organisation dropdown select event
     $scope.$on('organisationSelected', function () {
@@ -31,15 +28,15 @@
     });
 
     //Add new departments
-    $scope.addDepartment = function (organisationId) {
-        $scope.department.organisationID = organisationId;
+    $scope.addDepartment = function () {
+        $scope.department.organisationID = sharedService.organisationId;
         var requestResponse = organogramService.addEditDepartment($scope.department);
-        Message(requestResponse, organisationId);
+        Message(requestResponse);
     };
 
     //Edit existing department
-    $scope.editDepartment = function (departmentId) {
-        organogramService.getDepartmentById(departmentId).then(function (department) {
+    $scope.editDepartment = function () {
+        organogramService.getDepartmentById($scope.departmentId).then(function (department) {
             $scope.department = department.data;
         },
             function () {
@@ -48,29 +45,52 @@
     }
 
     //Delete department
-    $scope.deleteDepartment = function (departmentId, organisationId) {
-        var requestResponse = organogramService.deleteDepartment(departmentId);
-        Message(requestResponse, organisationId);
+    $scope.deleteDepartment = function () {
+
+         //Get list of checked items
+        var checked = [];
+        angular.forEach($scope.departments, function (item) {
+            if ($scope.checkboxes.items[item.departmentID]) {
+                //Push all selected ids into array
+                checked.push(item.departmentID);
+            }          
+        });
+
+        //TODO: May need to be removed if delete button is toggled by select
+        if (!checked.length) {
+            return;
+        }
+        else {
+
+            //Call delete function of service
+            var requestResponse = organogramService.deleteMultipleDepartments(checked);
+            Message(requestResponse);
+        }
+
         resetRowSelect();
     };
 
     //Get departments
-    function getDepartments(organisationId) {
-        organogramService.getDepartments(organisationId).then(function (response) {
-            $scope.organisationId = organisationId;
-            $scope.departments = response.data;
-            $scope.tableParams = new NgTableParams({}, { dataset: response.data });
-
-        }).finally(function () {
-            //Close loader when data has been loaded
-            $scope.showLoader = false;
-        });
+    function getDepartments() {
+        if (sharedService.organisationId != null) {
+            //Show loader
+            $scope.showLoader = true;
+            //Get departments
+            organogramService.getDepartments(sharedService.organisationId).then(function (response) {
+                //$scope.organisationId = organisationId;
+                $scope.departments = response.data;
+            }).finally(function () {
+                //Close loader when data has been loaded
+                $scope.showLoader = false;
+            });
+        }
     }
 
-    function Message(requestResponse, organisationId) {
+    //Helper function to call api asynchronously
+    function Message(requestResponse) {
         requestResponse.then(function successCallback(response) {
-            getDepartments(organisationId);
-            $('#addEditDepartment').modal('hide'); 
+            getDepartments();
+            $('#addEditDepartment').modal('hide');
             // this callback will be called asynchronously
             // when the response is available
         }, function errorCallback(response) {
@@ -88,7 +108,11 @@
     $scope.onRowClicked = function (index, departmentId) {
         $scope.selectedRow = index;
         $scope.departmentId = departmentId;
-        $scope.department.isSelected[departmentId] = true;
+        //Clear check boxes prior to select
+        if ($scope.checkboxes) {
+            $scope.checkboxes.items = {};
+        }
+        $scope.checkboxes.items[departmentId] = true;
         showCrudActions(true);
     }
 
@@ -96,13 +120,41 @@
     function resetRowSelect() {
         $scope.selectedRow = null;
         $scope.department = {};
+        $scope.checkboxes = { 'checked': false, items: {} };
         showCrudActions(false);
     }
 
-   //toggle between show and hide actions
+    //toggle between show and hide actions
     function showCrudActions(isShown) {
         $scope.showActions = isShown;
     }
 
+    //watch for check all checkbox
+    $scope.$watch('checkboxes.checked', function (value) {
+        angular.forEach($scope.departments, function (item) {
+            if (angular.isDefined(item.departmentID)) {
+                $scope.checkboxes.items[item.departmentID] = value;
+            }
+        });
+    });
+
+    // Watch for multiple checkbox selects
+    $scope.$watch('checkboxes.items', function (value) {
+        if (!$scope.departments) {
+            return;
+        }
+
+        var checked = 0, unchecked = 0,
+            total = $scope.departments.length;
+        angular.forEach($scope.departments, function (item) {
+            checked += ($scope.checkboxes.items[item.departmentID]) || 0;
+            unchecked += (!$scope.checkboxes.items[item.departmentID]) || 0;
+        });
+        if ((unchecked == 0) || (checked == 0)) {
+            $scope.checkboxes.checked = (checked == total);
+        }
+        // grayed checkbox
+        angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+    }, true);
 
 });
