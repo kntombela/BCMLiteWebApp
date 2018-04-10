@@ -17,11 +17,11 @@
 <div class="loader" ng-if="showLoader"></div>
 <!-- Table-->
 <p>
-    <button type="button" class="btn btn-outline-success" data-target="#addEditDepartment" data-toggle="modal" ng-click="resetRowSelect()">New</button>
-    <button type="button" class="btn btn-outline-info" data-target="#addEditDepartment" data-toggle="modal" ng-show="showActions" ng-click="editDepartment()">Edit</button>
-    <button type="button" class="btn btn-outline-danger" ng-show="showActions" data-target="#deleteModal" data-toggle="modal">Delete</button>
+    <button type="button" class="btn btn-outline-success" ng-show="showNew" data-target="#addEditDepartment" data-toggle="modal" ng-click="resetRowSelect()">New</button>
+    <button type="button" class="btn btn-outline-info" data-target="#addEditDepartment" data-toggle="modal" ng-show="showEdit" ng-click="editDepartment()">Edit</button>
+    <button type="button" class="btn btn-outline-danger" ng-show="showDelete" data-target="#deleteModal" data-toggle="modal">Delete</button>
 </p>
-{{checkboxes.items}}
+@*{{checkboxes.items}}*@
 <table class="table table-hover">
     <thead>
         <tr>
@@ -32,7 +32,7 @@
             <th></th>
         </tr>
     </thead>
-    <tr ng-repeat="x in departments" ng-class="{'selected':$index == selectedRow}" ng-click="onRowClicked($index, x.departmentID)">
+    <tr ng-repeat="x in departments" ng-class="{'selected':checkboxes.items[x.departmentID]}" ng-click="onRowClicked(x.departmentID)">
         <td><input type="checkbox" ng-model="checkboxes.items[x.departmentID]" ng-click="$event.stopPropagation();" /></td>
         <td>{{ $index + 1 }}</td>
         <td><a href="#">{{ x.name }}</a></td>
@@ -49,7 +49,7 @@
         </td>
     </tr>
 </table>
-
+<p>{{recordsError}}</p>
 <!-- Add Department Modal-->
 <div id="addEditDepartment" class="modal fade" role="dialog">
     <div class="modal-dialog">

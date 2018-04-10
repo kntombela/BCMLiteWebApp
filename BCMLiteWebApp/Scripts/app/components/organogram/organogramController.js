@@ -2,10 +2,7 @@
 
     //Variables
     $scope.departments = [];
-    $scope.isSelected = false;
-    $scope.selectedRow = null;
     $scope.isNew = false;
-
     $scope.checkboxes = { 'checked': false, items: {} };
     $scope.department = {
         departmentId: '',
@@ -46,43 +43,51 @@
 
     //Delete department
     $scope.deleteDepartment = function () {
-
-         //Get list of checked items
-        var checked = [];
-        angular.forEach($scope.departments, function (item) {
-            if ($scope.checkboxes.items[item.departmentID]) {
-                //Push all selected ids into array
-                checked.push(item.departmentID);
-            }          
-        });
-
-        //TODO: May need to be removed if delete button is toggled by select
-        if (!checked.length) {
-            return;
-        }
-        else {
-
-            //Call delete function of service
-            var requestResponse = organogramService.deleteMultipleDepartments(checked);
-            Message(requestResponse);
-        }
+        //Call delete function of service
+        var requestResponse = organogramService.deleteMultipleDepartments(getSelectedItems());
+        Message(requestResponse);
 
         resetRowSelect();
     };
 
+    //Clear form before adding new department
+    $scope.resetRowSelect = function () {
+        resetRowSelect();
+    }
+
+    //Show CRUD actions when a row is selected
+    $scope.onRowClicked = function (departmentId) {
+        $scope.departmentId = departmentId;
+        //Clear check boxes prior to select if items have selected
+        if (getSelectedItems()) {
+            $scope.checkboxes.items = {};
+        }
+        $scope.checkboxes.items[departmentId] = true;
+        showCrudActions(true);
+    }
+
     //Get departments
     function getDepartments() {
         if (sharedService.organisationId != null) {
+            $scope.showNew = true;
             //Show loader
             $scope.showLoader = true;
             //Get departments
             organogramService.getDepartments(sharedService.organisationId).then(function (response) {
                 //$scope.organisationId = organisationId;
                 $scope.departments = response.data;
+                if (!$scope.departments.length) {
+                    $scope.recordsError = "No departments added yet, click 'New' to begin.";
+                }
+                else {
+                    $scope.recordsError = "";
+                }
             }).finally(function () {
                 //Close loader when data has been loaded
                 $scope.showLoader = false;
             });
+        } else {
+            $scope.showNew = false;
         }
     }
 
@@ -99,34 +104,32 @@
         });
     }
 
-    //Clear form before adding new department
-    $scope.resetRowSelect = function () {
-        resetRowSelect();
-    }
-
-    //Show CRUD actions when a row is selected
-    $scope.onRowClicked = function (index, departmentId) {
-        $scope.selectedRow = index;
-        $scope.departmentId = departmentId;
-        //Clear check boxes prior to select
-        if ($scope.checkboxes) {
-            $scope.checkboxes.items = {};
-        }
-        $scope.checkboxes.items[departmentId] = true;
-        showCrudActions(true);
-    }
 
     //Reset row select
-    function resetRowSelect() {
-        $scope.selectedRow = null;
+    function resetRowSelect() {     
         $scope.department = {};
         $scope.checkboxes = { 'checked': false, items: {} };
         showCrudActions(false);
     }
 
-    //toggle between show and hide actions
+    //toggle between show and hide CRUD actions
     function showCrudActions(isShown) {
-        $scope.showActions = isShown;
+        $scope.showEdit = isShown;
+        $scope.showDelete = isShown;
+    }
+
+    //Get number of selected items
+    function getSelectedItems() {
+        //Get list of checked items
+        var checked = [];
+        angular.forEach($scope.departments, function (item) {
+            if ($scope.checkboxes.items[item.departmentID]) {
+                //Push all selected ids into array
+                checked.push(item.departmentID);
+            }
+        });
+
+        return checked;
     }
 
     //watch for check all checkbox
@@ -138,18 +141,26 @@
         });
     });
 
-    // Watch for multiple checkbox selects
+    // Watch for multiple item selects
     $scope.$watch('checkboxes.items', function (value) {
         if (!$scope.departments) {
             return;
         }
-
         var checked = 0, unchecked = 0,
             total = $scope.departments.length;
         angular.forEach($scope.departments, function (item) {
             checked += ($scope.checkboxes.items[item.departmentID]) || 0;
             unchecked += (!$scope.checkboxes.items[item.departmentID]) || 0;
         });
+        //IF multiple items have been selected do not show edit functionality      
+        if (getSelectedItems().length > 1) {
+            $scope.showEdit = false;
+            $scope.showDelete = true;
+        } else if (getSelectedItems().length == 1) {
+            $scope.showDelete = true;
+        } else {
+            showCrudActions(false);
+        }
         if ((unchecked == 0) || (checked == 0)) {
             $scope.checkboxes.checked = (checked == total);
         }
