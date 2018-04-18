@@ -205,9 +205,11 @@
     <Compile Include="Controllers\Api\DepartmentsApiController.cs" />
     <Compile Include="Controllers\Api\OrganisationsApiController.cs" />
     <Compile Include="Controllers\Api\PlansApiController.cs" />
+    <Compile Include="Controllers\Api\ProcessesApiController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProcessesController.cs" />
     <Compile Include="Controllers\RoutesDemoController.cs" />
     <Compile Include="DAL\BCMContext.cs" />
     <Compile Include="Extentions\IdentityExtensions.cs" />
@@ -250,6 +252,14 @@
     <Compile Include="Migrations\201804011749110_ValidationRules.Designer.cs">
       <DependentUpon>201804011749110_ValidationRules.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804132040125_DateTrackingOnProcessModel.cs" />
+    <Compile Include="Migrations\201804132040125_DateTrackingOnProcessModel.Designer.cs">
+      <DependentUpon>201804132040125_DateTrackingOnProcessModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804132041428_DbTriggerOnProcessTable.cs" />
+    <Compile Include="Migrations\201804132041428_DbTriggerOnProcessTable.Designer.cs">
+      <DependentUpon>201804132041428_DbTriggerOnProcessTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
@@ -269,9 +279,10 @@
     <Compile Include="Models\Step.cs" />
     <Compile Include="Models\ThirdParty.cs" />
     <Compile Include="Models\ViewModels\DepartmentViewModels.cs" />
-    <Compile Include="Models\ViewModels\OrganisationDropDownViewModel.cs" />
     <Compile Include="Models\ViewModels\OrganisationViewModels.cs" />
     <Compile Include="Models\ViewModels\PlanViewModels.cs" />
+    <Compile Include="Models\ViewModels\PostResponseViewModel.cs" />
+    <Compile Include="Models\ViewModels\ProcessViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -328,12 +339,14 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.module.test.js" />
     <Content Include="Scripts\app\app.routes.js" />
-    <Content Include="Scripts\app\components\organisations\organisationsController.js" />
-    <Content Include="Scripts\app\components\organogram\organogramController.js" />
-    <Content Include="Scripts\app\components\organogram\organogramService.js" />
+    <Content Include="Scripts\app\components\organisation\organisationsController.js" />
+    <Content Include="Scripts\app\components\department\departmentController.js" />
+    <Content Include="Scripts\app\components\department\departmentService.js" />
     <Content Include="Scripts\app\components\plans\plansController.js" />
     <Content Include="Scripts\app\components\plans\plansService.js" />
     <Content Include="Scripts\app\app.module.js" />
+    <Content Include="Scripts\app\components\process\processController.js" />
+    <Content Include="Scripts\app\components\process\processService.js" />
     <Content Include="Scripts\app\shared\navigation\navigationController.js" />
     <Content Include="Scripts\app\shared\sharedService.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -355,6 +368,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="Scripts\dirPagination.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -1234,6 +1248,8 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\Landing.cshtml" />
     <Content Include="Views\Departments\Index.cshtml" />
+    <Content Include="Views\Processes\Index.cshtml" />
+    <Content Include="Views\Departments\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1287,6 +1303,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804011749110_ValidationRules.resx">
       <DependentUpon>201804011749110_ValidationRules.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804132040125_DateTrackingOnProcessModel.resx">
+      <DependentUpon>201804132040125_DateTrackingOnProcessModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804132041428_DbTriggerOnProcessTable.resx">
+      <DependentUpon>201804132041428_DbTriggerOnProcessTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 namespace BCMLiteWebApp.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -57,6 +58,10 @@ namespace BCMLiteWebApp.Models
         public bool? SiteDependent { get; set; }
 
         public string Location { get; set; }
+
+        public DateTime DateCreated { get; set; } = DateTime.Now;
+
+        public DateTime DateModified { get; set; } = DateTime.Now;
 
         public virtual ICollection<Document> Documents { get; set; }
 

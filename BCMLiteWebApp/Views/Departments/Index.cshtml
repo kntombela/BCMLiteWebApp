@@ -1,42 +1,49 @@
-﻿@{
-    ViewBag.Title = "Organogram";
-}
-
-<!-- Breadcrumbs-->
-<ol class="breadcrumb">
+﻿<!-- Breadcrumbs-->
+<ol class="breadcrumb mb-2 arr-bread">
     <li class="breadcrumb-item">
         <a href="/#/dashboard">Home</a>
     </li>
-    <li class="breadcrumb-item active">@ViewBag.Title</li>
+    <li class="breadcrumb-item active">{{pageTitle}}</li>
 </ol>
-<div class="row mb-3">
-    <div class="col-12">
-        <h1>Departments</h1>
-    </div>
-</div>
+<h4 class="ml-3">{{pageTitle}}</h4>
+
 <div class="loader" ng-if="showLoader"></div>
-<!-- Table-->
-<p>
-    <button type="button" class="btn btn-outline-success" ng-show="showNew" data-target="#addEditDepartment" data-toggle="modal" ng-click="resetRowSelect()">New</button>
-    <button type="button" class="btn btn-outline-info" data-target="#addEditDepartment" data-toggle="modal" ng-show="showEdit" ng-click="editDepartment()">Edit</button>
-    <button type="button" class="btn btn-outline-danger" ng-show="showDelete" data-target="#deleteModal" data-toggle="modal">Delete</button>
-</p>
-@*{{checkboxes.items}}*@
+<!-- Information Div-->
+<div class="alert alert-dismissible alert-success" ng-show="showMessageAlert">
+    <strong>{{message}}</strong>
+</div>
+<!-- Department Table-->
+<form class="form-inline m-3">
+    <button type="button" class="btn btn-outline-secondary mr-1" ng-show="showNew" data-target="#addEditDepartment" data-toggle="modal" ng-click="resetRowSelect()"><span class="fa fa-plus mr-2"></span>New</button>
+    <button type="button" class="btn btn-outline-secondary mr-1" data-target="#addEditDepartment" data-toggle="modal" ng-show="showEdit" ng-click="editDepartment()"><span class="fa fa-edit mr-2"></span>Edit</button>
+    <button type="button" class="btn btn-outline-secondary" ng-show="showDelete" data-target="#deleteModal" data-toggle="modal"><span class="fa fa-remove mr-2"></span>Delete</button>
+    <label for="search" class="ml-auto mr-2">Search:</label>
+    <input type="text" id="search" ng-model="search" class="form-control">
+</form>
 <table class="table table-hover">
     <thead>
         <tr>
             <th><input type="checkbox" ng-model="checkboxes.checked" id="select_all" /></th>
             <th>#</th>
-            <th>Name</th>
-            <th>Date Modified</th>
+            <th class="sort" ng-click="sort('name')">
+                Name
+                <span class="fa fa-sort" ng-show="sortKey=='name'" ng-class="{'fa fa-angle-up':reverse,'fa fa-angle-down':!reverse}"></span>
+            </th>
+            <th class="sort" ng-click="sort('dateModified')">
+                Date Modified
+                <span class="fa fa-sort" ng-show="sortKey=='dateModified'" ng-class="{'fa fa-angle-up':reverse,'fa fa-angle-down':!reverse}"></span>
+            </th>
             <th></th>
         </tr>
     </thead>
-    <tr ng-repeat="x in departments" ng-class="{'selected':checkboxes.items[x.departmentID]}" ng-click="onRowClicked(x.departmentID)">
+    <tr ng-repeat="x in departments|orderBy:sortKey:reverse|filter:search" ng-class="{'selected':checkboxes.items[x.departmentID]}" ng-click="onRowClicked(x.departmentID)">
         <td><input type="checkbox" ng-model="checkboxes.items[x.departmentID]" ng-click="$event.stopPropagation();" /></td>
         <td>{{ $index + 1 }}</td>
-        <td><a href="#">{{ x.name }}</a></td>
-        <td>{{ x.dateModified | date:'medium' }}</td>
+        <td>
+            <span class="fa fa fa-asterisk new" ng-show="x.departmentID == newDepartment"></span>
+            <a href="/#/departments/edit/{{x.departmentID}}">{{ x.name }}</a>
+        </td>
+        <td>{{ x.dateModified | date:'MMM d, y h:mm a'}}</td>
         <td>
             <div class="dropdown">
                 <span class="fa fa-ellipsis-v row-options" data-toggle="dropdown"></span>
@@ -50,6 +57,7 @@
     </tr>
 </table>
 <p>{{recordsError}}</p>
+
 <!-- Add Department Modal-->
 <div id="addEditDepartment" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -68,15 +76,36 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <input type="text" class="form-control" id="description" ng-model="department.description" maxlength="100">
+                        <textarea class="form-control" id="description" rows="3" ng-model="department.description"></textarea>
                     </div>
-                    <div class="form-group">
+                    <fieldset class="form-group">
                         <label for="revenueGenerating">Revenue Generating:</label>
-                        <input type="checkbox" class="form-control" id="revenueGenerating" ng-model="department.revenueGenerating" maxlength="100">
-                    </div>
+                        <div class="form-check" id="revenueGenerating">
+                            <label class="form-check-label">
+                                <input type="radio" ng-model="department.revenueGenerating" value="true" ng-checked="department.revenueGenerating == true">
+                                Yes
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" ng-model="department.revenueGenerating" value="false" ng-checked="department.revenueGenerating == false">
+                                No
+                            </label>
+                        </div>
+                    </fieldset>
                     <div class="form-group">
-                        <label for="revenue">Revenue:</label>
-                        <input type="number" class="form-control" id="revenue" ng-model="department.revenue" maxlength="10">
+                        <label class="control-label">Revenue:</label>
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">R</span>
+                                </div>
+                                <input type="number" class="form-control" id="revenue" ng-model="department.revenue" maxlength="10" aria-label="Amount (to the nearest rand)">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">.00</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

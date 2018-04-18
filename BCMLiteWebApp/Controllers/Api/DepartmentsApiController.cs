@@ -4,16 +4,12 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using BCMLiteWebApp.DAL;
 using BCMLiteWebApp.Models;
 using BCMLiteWebApp.Models.ViewModels;
-using System.Linq;
-using System.Web.Http.Results;
 
 namespace BCMLiteWebApp.Controllers.Api
 {
@@ -23,23 +19,12 @@ namespace BCMLiteWebApp.Controllers.Api
     {
         private BCMContext db = new BCMContext();
 
-        // GET api/organisations/1/departments
+        // GET: api/organisations/1/departments
         [Route("~/api/organisations/{organisationId:int}/departments")]
         [ResponseType(typeof(DepartmentViewModel))]
-        public async Task<IHttpActionResult> GetDepartmentsByOrganisation(int organisationId)
+        public async Task<IHttpActionResult> GetDepartments(int organisationId)
         {
-            var departments = await db.Departments.Where(d => d.OrganisationID == organisationId)
-                                                  .Select(d => new DepartmentViewModel
-                                                  {
-                                                      DepartmentID = d.DepartmentID,
-                                                      Name = d.Name,
-                                                      Description = d.Description,
-                                                      RevenueGenerating = d.RevenueGenerating,
-                                                      Revenue = d.Revenue,
-                                                      DateModified = d.DateModified,
-                                                      OrganisationID = d.OrganisationID
-
-                                                  }).ToListAsync();
+            var departments = await GetDepartmentsByOrganisation(organisationId);
 
             if (departments == null)
             {
@@ -49,22 +34,13 @@ namespace BCMLiteWebApp.Controllers.Api
             return Ok(departments);
         }
 
-        // Get: api/departments/1
+        // GET: api/departments/1
         [Route("{id:int}")]
         [ResponseType(typeof(DepartmentViewModel))]
-        public async Task<IHttpActionResult> GetDepartmentById(int id)
+        public async Task<IHttpActionResult> GetDepartment(int id)
         {
-            var department = await db.Departments.Where(d => d.DepartmentID == id)
-                                                  .Select(d => new DepartmentViewModel
-                                                  {
-                                                      DepartmentID = d.DepartmentID,
-                                                      Name = d.Name,
-                                                      Description = d.Description,
-                                                      RevenueGenerating = d.RevenueGenerating,
-                                                      Revenue = d.Revenue,
-                                                      OrganisationID = d.OrganisationID
+            var department = await GetDepartmentById(id);
 
-                                                  }).FirstOrDefaultAsync();
             if (department == null)
             {
                 return NotFound();
@@ -72,31 +48,39 @@ namespace BCMLiteWebApp.Controllers.Api
 
             return Ok(department);
         }
-
-
-        // Post: api/departments
+    
+        // POST: api/departments    
         [Route("")]
         [HttpPost]
+        [ResponseType(typeof(PostResponseViewModel))]
         public async Task<IHttpActionResult> AddEditDepartment(Department department)
         {
+            string status = "";
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            //Determine if object has an id to choose between edit and update
+            //Edit or add depending on if id exists
             if (!DepartmentExists(department.DepartmentID))
-            {
+            {             
                 db.Departments.Add(department);
                 await db.SaveChangesAsync();
+                status = "created";
             }
             else
             {
                 db.Entry(department).State = EntityState.Modified;
 
+                //When value is not specified for model DateTime property, the value defaults to 0001-01-01
+                //which is outside of the range of SQL Server's DATETIME
+                department.DateModified = DateTime.Now;
+
                 try
                 {
                     await db.SaveChangesAsync();
+                    status = "updated";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -110,34 +94,17 @@ namespace BCMLiteWebApp.Controllers.Api
                     }
                 }
             }
-
-            string status = DepartmentExists(department.DepartmentID) ? "updated" : "saved";
+          
             string message = $"Department successfully { status }!";
-            return Json(message);
-        }
 
-        // DELETE: api/departments/1
-        [Route("{id:int}")]
-        [HttpPost]
-        public async Task<IHttpActionResult> DeleteDepartment(int id)
-        {
-            Department department = await db.Departments.FindAsync(id);
-            if (department == null)
-            {
-                return NotFound();
-            }
-
-            db.Departments.Remove(department);
-            await db.SaveChangesAsync();
-
-            string message = "Department successfully deleted!";
-            return Json(message);
+            return Ok(new PostResponseViewModel { Id = department.DepartmentID, Message = message });
         }
 
         // DELETE: api/departments/delete
         [Route("delete")]
         [HttpPost]
-        public async Task<IHttpActionResult> DeleteMultipleDepartments(int[] ids)
+        [ResponseType(typeof(PostResponseViewModel))]
+        public async Task<IHttpActionResult> Delete(int[] ids)
         {
             foreach(int i in ids)
             {
@@ -152,7 +119,8 @@ namespace BCMLiteWebApp.Controllers.Api
             await db.SaveChangesAsync();
 
             string message = "Departments deleted successfully!";
-            return Json(message);
+
+            return Ok(new PostResponseViewModel { Id = null, Message = message });    
         }
 
 
@@ -165,9 +133,42 @@ namespace BCMLiteWebApp.Controllers.Api
             base.Dispose(disposing);
         }
 
+        #region Helpers
+
         private bool DepartmentExists(int id)
         {
             return db.Departments.Count(e => e.DepartmentID == id) > 0;
         }
+
+        private async Task<List<DepartmentViewModel>> GetDepartmentsByOrganisation(int organisationId)
+        {
+            return await db.Departments.Where(d => d.OrganisationID == organisationId)
+                                                  .Select(d => new DepartmentViewModel
+                                                  {
+                                                      DepartmentID = d.DepartmentID,
+                                                      Name = d.Name,
+                                                      Description = d.Description,
+                                                      RevenueGenerating = d.RevenueGenerating,
+                                                      Revenue = d.Revenue,
+                                                      DateModified = d.DateModified,
+                                                      OrganisationID = d.OrganisationID
+                                                  }).ToListAsync();
+        }
+
+        private async Task<DepartmentViewModel> GetDepartmentById(int id)
+        {
+            return await db.Departments.Where(d => d.DepartmentID == id)
+                                                  .Select(d => new DepartmentViewModel
+                                                  {
+                                                      DepartmentID = d.DepartmentID,
+                                                      Name = d.Name,
+                                                      Description = d.Description,
+                                                      RevenueGenerating = d.RevenueGenerating,
+                                                      Revenue = d.Revenue,
+                                                      OrganisationID = d.OrganisationID
+                                                  }).FirstOrDefaultAsync();
+        }
+
+        #endregion
     }
 }

@@ -38,8 +38,10 @@ namespace BCMLiteWebApp
                       "~/Scripts/app/app.routes.js",
                       "~/Scripts/app/shared/sharedService.js",
                       "~/Scripts/app/shared/navigation/navigationController.js",
-                      "~/Scripts/app/components/organogram/organogramService.js",
-                      "~/Scripts/app/components/organogram/organogramController.js"));
+                      "~/Scripts/app/components/department/departmentService.js",
+                      "~/Scripts/app/components/department/departmentController.js",
+                      "~/Scripts/app/components/process/processService.js",
+                      "~/Scripts/app/components/process/processController.js"));
 
         }
     }

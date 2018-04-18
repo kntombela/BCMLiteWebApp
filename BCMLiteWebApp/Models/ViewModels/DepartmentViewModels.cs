@@ -22,4 +22,5 @@ namespace BCMLiteWebApp.Models.ViewModels
 
         public int OrganisationID { get; set; }
     }
+
 }

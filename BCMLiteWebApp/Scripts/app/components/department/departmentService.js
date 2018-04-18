@@ -1,4 +1,4 @@
-﻿testApp.service("organogramService", function ($http) {
+﻿testApp.service("departmentService", function ($http) {
 
     //Get all departments
     this.getDepartments = function (organisationId) {
@@ -19,17 +19,8 @@
         });
     }
 
-    //Delete department
-    this.deleteDepartment = function (departmentId) {
-        return $http({
-            method: "post",
-            url: "/api/departments/" + departmentId,
-            data: "{ id:" + departmentId + " }",
-        });
-    }
-
     //Delete departments
-    this.deleteMultipleDepartments = function (ids) {
+    this.deleteDepartments = function (ids) {
         return $http({
             method: "post",
             url: "/api/departments/delete",

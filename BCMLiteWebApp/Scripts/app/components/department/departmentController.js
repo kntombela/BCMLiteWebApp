@@ -1,8 +1,8 @@
-﻿testApp.controller('organogramCtrl', function ($scope, $http, sharedService, organogramService) {
+﻿testApp.controller('departmentCtrl', function ($scope, $http, $routeParams, sharedService, departmentService) {
 
     //Variables
+    $scope.pageTitle = "Departments";
     $scope.departments = [];
-    $scope.isNew = false;
     $scope.checkboxes = { 'checked': false, items: {} };
     $scope.department = {
         departmentId: '',
@@ -13,38 +13,40 @@
         organisationID: ''
     };
 
+    //Re-populate scope on route change
+    if ($routeParams.id) {
+        $scope.pageTitle = "Details";
+        getDepartment($routeParams.id);
+    }
+
     //Get all departments on load
-    getDepartments();
+    getDepartmentList();
 
     //Handle organisation dropdown select event
     $scope.$on('organisationSelected', function () {
         //Show loader
         $scope.showLoader = true;
-        getDepartments(sharedService.organisationId);
+        getDepartmentList(sharedService.organisationId);
         resetRowSelect();
     });
 
     //Add new departments
     $scope.addDepartment = function () {
         $scope.department.organisationID = sharedService.organisationId;
-        var requestResponse = organogramService.addEditDepartment($scope.department);
+        var requestResponse = departmentService.addEditDepartment($scope.department);
         Message(requestResponse);
+
     };
 
     //Edit existing department
     $scope.editDepartment = function () {
-        organogramService.getDepartmentById($scope.departmentId).then(function (department) {
-            $scope.department = department.data;
-        },
-            function () {
-                alert('Error getting record');
-            });
+        getDepartment($scope.departmentId);
     }
 
     //Delete department
     $scope.deleteDepartment = function () {
         //Call delete function of service
-        var requestResponse = organogramService.deleteMultipleDepartments(getSelectedItems());
+        var requestResponse = departmentService.deleteDepartments(getSelectedItems());
         Message(requestResponse);
 
         resetRowSelect();
@@ -66,14 +68,24 @@
         showCrudActions(true);
     }
 
+    //Get department
+    function getDepartment(id) {
+        departmentService.getDepartmentById(id).then(function (department) {
+            $scope.department = department.data;
+        }, function () {
+            alert('Error getting record');
+        });
+    }
+
     //Get departments
-    function getDepartments() {
+    function getDepartmentList() {
         if (sharedService.organisationId != null) {
+            //Show button to add new item
             $scope.showNew = true;
             //Show loader
             $scope.showLoader = true;
             //Get departments
-            organogramService.getDepartments(sharedService.organisationId).then(function (response) {
+            departmentService.getDepartments(sharedService.organisationId).then(function (response) {
                 //$scope.organisationId = organisationId;
                 $scope.departments = response.data;
                 if (!$scope.departments.length) {
@@ -87,6 +99,7 @@
                 $scope.showLoader = false;
             });
         } else {
+            //Hide add new item button
             $scope.showNew = false;
         }
     }
@@ -94,19 +107,20 @@
     //Helper function to call api asynchronously
     function Message(requestResponse) {
         requestResponse.then(function successCallback(response) {
-            getDepartments();
+            getDepartmentList();
             $('#addEditDepartment').modal('hide');
             // this callback will be called asynchronously
             // when the response is available
+            showMessageAlert(response.data.message)
+            $scope.newDepartment = response.data.id;
         }, function errorCallback(response) {
             // called asynchronously if an error occurs
             // or server returns response with an error status.
         });
     }
 
-
     //Reset row select
-    function resetRowSelect() {     
+    function resetRowSelect() {
         $scope.department = {};
         $scope.checkboxes = { 'checked': false, items: {} };
         showCrudActions(false);
@@ -131,6 +145,16 @@
 
         return checked;
     }
+
+    function showMessageAlert(msg) {
+        $scope.message = msg;
+        $scope.showMessageAlert = true;
+    }
+
+    $scope.$watch('showMessageAlert', function (value) {
+        //Hide message alert after 3 seconds
+        setTimeout(function () { $scope.showMessageAlert = false; }, 3000);
+    });
 
     //watch for check all checkbox
     $scope.$watch('checkboxes.checked', function (value) {
@@ -167,5 +191,10 @@
         // grayed checkbox
         angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
     }, true);
+
+    $scope.sort = function (keyname) {
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
 
 });

@@ -1,1 +1,1 @@
-﻿var testApp = angular.module("testApp", ["ngRoute", "ngTable"]);
+﻿var testApp = angular.module("testApp", ["ngRoute", "angularUtils.directives.dirPagination"]);
