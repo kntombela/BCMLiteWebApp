@@ -8,7 +8,7 @@
     </li>
     <li class="breadcrumb-item active">Processes</li>
 </ol>
-<!-- Content-->
+<!-- Department Details-->
 <div class="ml-3 mb-3">
     <h4 class="mb-3">{{department.name}}</h4>
     <div class="row">
@@ -36,38 +36,68 @@
         </div>
     </div>
 </div>
-<!-- Process Table-->
-<div ng-controller="processCtrl" ng-init="getProcesses()">
-    <form class="form-inline justify-content-end mb-3">
-        <label for="search" class="mr-sm-2">Search:</label>
-        <input type="text" id="search" ng-model="search" class="form-control">
-    </form>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>RTO</th>
-                <th>Date Modified</th>
-                <th></th>
+<div class="card mb-3" ng-controller="processCtrl" ng-init="getProcessList()">
+    <div class="card-body">
+        <!-- Title-->
+        <h5 class="text-muted ml-3">{{pageTitle}}</h5>
+        <!-- Information Div-->
+        <div class="alert alert-dismissible alert-success" ng-show="showMessageAlert">
+            <strong>{{message}}</strong>
+        </div>
+        <!-- CRUD Actions-->
+        <form class="form-inline m-3">
+            <button type="button"
+                    class="btn btn-sm btn-outline-secondary mr-1"
+                    ng-show="showNew"
+                    ng-click="redirectToCreate()">
+                <span class="fa fa-plus mr-2"></span>New
+            </button>
+            <button type="button"
+                    class="btn btn-sm btn-outline-secondary mr-1"
+                    data-target="#addEditProcess"
+                    data-toggle="modal"
+                    ng-show="showEdit"
+                    ng-click="editDepartment()">
+                <span class="fa fa-edit mr-2"></span>Edit
+            </button>
+            <button type="button"
+                    class="btn btn-sm btn-outline-secondary"
+                    ng-show="showDelete"
+                    data-target="#deleteModal"
+                    data-toggle="modal">
+                <span class="fa fa-remove mr-2"></span>Delete
+            </button>
+            <label for="search" class="ml-auto mr-2">Search:</label>
+            <input type="text" id="search" ng-model="search" class="form-control form-control-sm">
+        </form>
+        <!-- Process Table-->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>RTO</th>
+                    <th>Date Modified</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tr ng-repeat="x in processes">
+                <td>{{ $index + 1 }}</td>
+                <td><a href="#">{{ x.name }}</a></td>
+                <td>{{ x.rto }}</td>
+                <td>{{ x.dateModified | date:'MMM d, y h:mm a'}}</td>
+                <td>
+                    <div class="dropdown">
+                        <span class="fa fa-ellipsis-v row-options" data-toggle="dropdown"></span>
+                        <ul class="dropdown-menu dropdown-content">
+                            <li><a data-target="#addEditDepartment" data-toggle="modal" ng-click="">Edit</a></li>
+                            <li><a data-target="#deleteModal" data-toggle="modal">Delete</a></li>
+                            <li><a href="#">Details</a></li>
+                        </ul>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tr ng-repeat="x in processes">
-            <td>{{ $index + 1 }}</td>
-            <td><a href="#">{{ x.name }}</a></td>
-            <td>{{ x.rto }}</td>
-            <td>{{ x.dateModified | date:'MMM d, y h:mm a'}}</td>
-            <td>
-                <div class="dropdown">
-                    <span class="fa fa-ellipsis-v row-options" data-toggle="dropdown"></span>
-                    <ul class="dropdown-menu dropdown-content">
-                        <li><a data-target="#addEditDepartment" data-toggle="modal" ng-click="">Edit</a></li>
-                        <li><a data-target="#deleteModal" data-toggle="modal">Delete</a></li>
-                        <li><a href="#">Details</a></li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
-    </table>
+        </table>
+        <p>{{recordsError}}</p>
+    </div>
 </div>
-

@@ -13,7 +13,8 @@
         organisationID: ''
     };
 
-    //Re-populate scope on route change
+    //Re-populate department scope on route change
+    //to make it available to next controller
     if ($routeParams.id) {
         $scope.pageTitle = "Details";
         getDepartment($routeParams.id);
@@ -35,7 +36,6 @@
         $scope.department.organisationID = sharedService.organisationId;
         var requestResponse = departmentService.addEditDepartment($scope.department);
         Message(requestResponse);
-
     };
 
     //Edit existing department
@@ -107,15 +107,17 @@
     //Helper function to call api asynchronously
     function Message(requestResponse) {
         requestResponse.then(function successCallback(response) {
+            //Repopulate page with refreshed list
             getDepartmentList();
+            //Close popup window
             $('#addEditDepartment').modal('hide');
-            // this callback will be called asynchronously
-            // when the response is available
+            //Show success message
             showMessageAlert(response.data.message)
+            //Flag new row
             $scope.newDepartment = response.data.id;
         }, function errorCallback(response) {
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
+            //Show error message
+            showMessageAlert("Something went wrong, please try again or contact your administrator if the problem persists.");
         });
     }
 

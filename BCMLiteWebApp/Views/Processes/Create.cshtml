@@ -1,0 +1,68 @@
+﻿<!-- Breadcrumbs-->
+<ol class="breadcrumb mb-2 arr-bread">
+    <li class="breadcrumb-item">
+        <a href="/#/dashboard">Home</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/#/departments/edit/1">Processes</a>
+    </li>
+    <li class="breadcrumb-item active">New</li>
+</ol>
+<!-- Form-->
+<div class="card">
+    <div class="card-body">
+        <h5 class="text-muted ml-3">New Process</h5>
+        <hr />
+        <div class="row">
+            <div class="col">
+                <h5>General</h5>
+            </div>
+            <div class="col">
+                <h5>Impact Analysis</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-6" ng-form name="myForm">
+                <div class="form-group">
+                    <label class="col-form-label" for="name">Name:</label>
+                    <input type="text" class="form-control" id="name">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea class="form-control" id="description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" for="location">Location:</label>
+                    <input type="text" class="form-control" id="location">
+                </div>
+            </div>
+            <div class="form-group col-6" ng-form name="myForm">
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label class="col-form-label" for="operationalImpact">Operational Impact:</label>
+                        <select class="form-control" id="operationalImpact">
+                            <option>No Impact</option>
+                            <option>Low</option>
+                            <option>Siginifact</option>
+                            <option>Severe</option>
+                            <option>Catastrophic</option>
+                            <option value="" disabled selected>--Select Impact--</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="col-form-label" for="financialImpact">Financial Impact:</label>
+                        <select class="form-control" id="financialImpact">
+                            <option>No Impact</option>
+                            <option>Low</option>
+                            <option>Siginifact</option>
+                            <option>Severe</option>
+                            <option>Catastrophic</option>
+                            <option value="" disabled selected>--Select Impact--</option>
+                        </select>
+                    </div>
+                </div>
+                <h5>Critical Timeframes</h5>
+            </div>
+        </div>
+    </div>
+</div>

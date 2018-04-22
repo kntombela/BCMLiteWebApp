@@ -300,6 +300,11 @@
     <Content Include="Content\images\img_avatar.png" />
     <Content Include="Content\images\img_home_header.jpg" />
     <Content Include="Content\images\img_plan_workflow.png" />
+    <Content Include="Content\images\iphone_cover_light.png" />
+    <Content Include="Content\images\iphone_features_light.png" />
+    <Content Include="Content\images\iphone_ipad_light.png" />
+    <Content Include="Content\images\iphone_isometric_light.png" />
+    <Content Include="Content\images\iphone_side_light.png" />
     <Content Include="Content\images\placeholder.jpg" />
     <Content Include="Content\sb-admin.css" />
     <Content Include="Content\sb-admin.min.css" />
@@ -337,6 +342,7 @@
     <Content Include="Scripts\angular-touch.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\animate-in.js" />
     <Content Include="Scripts\app\app.module.test.js" />
     <Content Include="Scripts\app\app.routes.js" />
     <Content Include="Scripts\app\components\organisation\organisationsController.js" />
@@ -1115,6 +1121,10 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -1126,6 +1136,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\navbar-ontop.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -1138,6 +1149,7 @@
     <Content Include="Scripts\sb-admin-datatables.min.js" />
     <Content Include="Scripts\sb-admin.js" />
     <Content Include="Scripts\sb-admin.min.js" />
+    <Content Include="Scripts\smooth-scroll.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -1250,6 +1262,8 @@
     <Content Include="Views\Departments\Index.cshtml" />
     <Content Include="Views\Processes\Index.cshtml" />
     <Content Include="Views\Departments\Edit.cshtml" />
+    <Content Include="Views\Home\App.cshtml" />
+    <Content Include="Views\Processes\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

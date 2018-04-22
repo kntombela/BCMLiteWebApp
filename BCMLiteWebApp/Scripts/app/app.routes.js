@@ -15,9 +15,9 @@
             templateUrl: function (params) { return '/departments/edit?id=' + params.id; },
             controller: 'departmentCtrl'
         })
-        .when('/departments/delete/:id', {
-            templateUrl: function (params) { return '/departments/delete?id=' + params.id; },
-            controller: 'departmentCtrl'
+        .when('/processes/create', {
+            templateUrl: 'processes/create',
+            controller: 'processCtrl'
         })
         .when('/routeTwo', {
             templateUrl: 'routesDemo/two'

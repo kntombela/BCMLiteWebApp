@@ -1,8 +1,10 @@
 ﻿using BCMLiteWebApp.DAL;
+using BCMLiteWebApp.Models;
 using BCMLiteWebApp.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -19,8 +21,8 @@ namespace BCMLiteWebApp.Controllers.Api
 
         private BCMContext db = new BCMContext();
 
-        [ResponseType(typeof(ProcessSummaryViewModel))]
         // GET: api/departments/1/processes
+        [ResponseType(typeof(ProcessSummaryViewModel))]
         [Route("~/api/departments/{departmentId:int}/processes")]
         public async Task<IHttpActionResult> GetProcesses(int departmentId)
         {
@@ -35,7 +37,7 @@ namespace BCMLiteWebApp.Controllers.Api
         }
 
         [ResponseType(typeof(ProcessDetailViewModel))]
-        // GET: api/departments/1
+        // GET: api/processes/1
         [Route("~/api/processes/{id:int}/details")]
         public async Task<IHttpActionResult> GetProcess(int id)
         {
@@ -49,6 +51,80 @@ namespace BCMLiteWebApp.Controllers.Api
             return Ok(processes);
         }
 
+        // POST: api/processes    
+        [Route("")]
+        [HttpPost]
+        [ResponseType(typeof(PostResponseViewModel))]
+        public async Task<IHttpActionResult> AddEditProcess(Process process)
+        {
+            string status = "";
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //Edit or add depending on if id exists
+            if (!ProcessExists(process.ProcessID))
+            {
+                db.Processes.Add(process);
+                await db.SaveChangesAsync();
+                status = "created";
+            }
+            else
+            {
+                db.Entry(process).State = EntityState.Modified;
+
+                //When value is not specified for model DateTime property, the value defaults to 0001-01-01
+                //which is outside of the range of SQL Server's DATETIME
+                process.DateModified = DateTime.Now;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    status = "updated";
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProcessExists(process.ProcessID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            string message = $"Process successfully { status }!";
+
+            return Ok(new PostResponseViewModel { Id = process.ProcessID, Message = message });
+        }
+
+        // DELETE: api/processes/delete
+        [Route("delete")]
+        [HttpPost]
+        [ResponseType(typeof(PostResponseViewModel))]
+        public async Task<IHttpActionResult> Delete(int[] ids)
+        {
+            foreach (int i in ids)
+            {
+                Process process = await db.Processes.FindAsync(i);
+                if (process == null)
+                {
+                    return NotFound();
+                }
+
+                db.Processes.Remove(process);
+            }
+            await db.SaveChangesAsync();
+
+            string message = "Processes deleted successfully!";
+
+            return Ok(new PostResponseViewModel { Id = null, Message = message });
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -59,6 +135,11 @@ namespace BCMLiteWebApp.Controllers.Api
         }
 
         #region Helpers
+        private bool ProcessExists(int id)
+        {
+            return db.Processes.Count(e => e.ProcessID == id) > 0;
+        }
+
         private async Task<List<ProcessSummaryViewModel>> GetProcessSummaryByDepartmentId(int departmentId)
         {
             return await db.Processes.Where(p => p.DepartmentID == departmentId)

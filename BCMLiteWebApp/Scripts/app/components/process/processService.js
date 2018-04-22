@@ -10,4 +10,22 @@
         return $http.get("/api/processes/" + processId);
     }
 
+    //Add/Edit process
+    this.addEditProcess = function (process) {
+        return $http({
+            method: "post",
+            url: "/api/processes",
+            data: department
+        });
+    }
+
+    //Delete process
+    this.deleteProcess = function (ids) {
+        return $http({
+            method: "post",
+            url: "/api/processes/delete",
+            data: ids,
+        });
+    }
+
 });
