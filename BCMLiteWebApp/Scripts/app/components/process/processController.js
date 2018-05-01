@@ -1,11 +1,11 @@
-﻿testApp.controller('processCtrl', function ($scope, $http, $routeParams, processService) {
+﻿testApp.controller('processCtrl', function ($scope, $http, $routeParams, processService, navService) {
 
     //Variables
-    $scope.pageTitle = "Processes";
+    $scope.tableTitle = "Processes";
     $scope.processes = [];
     $scope.checkboxes = { 'checked': false, items: {} };
     $scope.process = {
-        processID: '',
+        processId: -1,
         name: '',
         description: '',
         criticalTime: '',
@@ -21,7 +21,8 @@
         revisedOpsLevelDesc: '',
         remoteWorking: '',
         siteDependent: '',
-        location: ''
+        location: '',
+        departmentID: ''
     };
 
     //Get processes
@@ -49,10 +50,10 @@
     }
 
     //Add new process
-    $scope.addProcess = function (departmentId) {
+    $scope.addProcess = function () {
+        $scope.process.departmentID = sessionStorage.departmentId; //Check for null value
         var requestResponse = processService.addEditProcess($scope.process);
         Message(requestResponse);
-
     };
 
     //Get processes
@@ -108,13 +109,13 @@
         if (getSelectedItems()) {
             $scope.checkboxes.items = {};
         }
-        $scope.checkboxes.items[process] = true;
+        $scope.checkboxes.items[processId] = true;
         showCrudActions(true);
     }
 
     //Reset row select
     function resetRowSelect() {
-        $scope.department = {};
+        $scope.process = {};
         $scope.checkboxes = { 'checked': false, items: {} };
         showCrudActions(false);
     }
@@ -123,6 +124,20 @@
     function showCrudActions(isShown) {
         $scope.showEdit = isShown;
         $scope.showDelete = isShown;
+    }
+
+    //Get number of selected items
+    function getSelectedItems() {
+        //Get list of checked items
+        var checked = [];
+        angular.forEach($scope.processes, function (item) {
+            if ($scope.checkboxes.items[item.processID]) {
+                //Push all selected ids into array
+                checked.push(item.processID);
+            }
+        });
+
+        return checked;
     }
 
     function showMessageAlert(msg) {
@@ -135,8 +150,47 @@
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     }
 
-    $scope.redirectToCreate = function () {
-        window.location.href = '/#/processes/create';
-    };
+    //watch for check all checkbox
+    $scope.$watch('checkboxes.checked', function (value) {
+        angular.forEach($scope.processes, function (item) {
+            if (angular.isDefined(item.processID)) {
+                $scope.checkboxes.items[item.processID] = value;
+            }
+        });
+    });
+
+    // Watch for multiple item selects
+    $scope.$watch('checkboxes.items', function (value) {
+        if (!$scope.processes) {
+            return;
+        }
+        var checked = 0, unchecked = 0,
+            total = $scope.processes.length;
+        angular.forEach($scope.processes, function (item) {
+            checked += ($scope.checkboxes.items[item.processID]) || 0;
+            unchecked += (!$scope.checkboxes.items[item.processID]) || 0;
+        });
+        //IF multiple items have been selected do not show edit functionality      
+        if (getSelectedItems().length > 1) {
+            $scope.showEdit = false;
+            $scope.showDelete = true;
+        } else if (getSelectedItems().length == 1) {
+            $scope.showDelete = true;
+        } else {
+            showCrudActions(false);
+        }
+        if ((unchecked == 0) || (checked == 0)) {
+            $scope.checkboxes.checked = (checked == total);
+        }
+        // grayed checkbox
+        angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+    }, true);
+
+    //Clear processGeneral form
+    $scope.clearProcessGeneral = function () {
+        $scope.process.name = '';
+        $scope.process.description = '';
+        $scope.process.location = '';
+    }
 
 });

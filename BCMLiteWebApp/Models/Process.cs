@@ -8,7 +8,7 @@ namespace BCMLiteWebApp.Models
     [Table("bia.Process")]
     public partial class Process
     {
-
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProcessID { get; set; }
 
         [StringLength(255)]
@@ -36,12 +36,12 @@ namespace BCMLiteWebApp.Models
         [StringLength(255)]
         public string OperationalImpact { get; set; }
 
-        public int OperationalImpactValue { get; set; }
+        public int? OperationalImpactValue { get; set; }
 
         [StringLength(255)]
         public string FinancialImpact { get; set; }
 
-        public int FinancialImpactValue { get; set; }
+        public int? FinancialImpactValue { get; set; }
 
         public double? StaffCompliment { get; set; }
 

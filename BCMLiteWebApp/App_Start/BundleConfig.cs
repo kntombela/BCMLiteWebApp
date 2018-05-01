@@ -48,6 +48,8 @@ namespace BCMLiteWebApp
                       "~/Scripts/app/app.routes.js",
                       "~/Scripts/app/shared/sharedService.js",
                       "~/Scripts/app/shared/navigation/navigationController.js",
+                      "~/Scripts/app/shared/navigation/navigationService.js",
+                      "~/Scripts/app/shared/crud/crudService.js",
                       "~/Scripts/app/components/department/departmentService.js",
                       "~/Scripts/app/components/department/departmentController.js",
                       "~/Scripts/app/components/process/processService.js",

@@ -13,9 +13,6 @@ button.bg-primary:focus {
     color: #18BC9C !important;
 }
 
-
-
-
 /* Profile */
 .avatar {
     vertical-align: middle;
@@ -131,6 +128,11 @@ tr td a, a:hover {
 
 .arr-bread {
     background-color: transparent
+}
+
+.form-group.required .col-form-label:after {
+    content: "*";
+    color: red;
 }
 
 /* Page Load Animation */

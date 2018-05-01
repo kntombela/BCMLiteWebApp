@@ -15,7 +15,7 @@
         return $http({
             method: "post",
             url: "/api/processes",
-            data: department
+            data: process
         });
     }
 

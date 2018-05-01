@@ -4,65 +4,208 @@
         <a href="/#/dashboard">Home</a>
     </li>
     <li class="breadcrumb-item">
-        <a href="/#/departments/edit/1">Processes</a>
+        <a href="" ng-click="redirectToDepartmentDetail()">Processes</a>
     </li>
     <li class="breadcrumb-item active">New</li>
 </ol>
-<!-- Form-->
-<div class="card">
-    <div class="card-body">
-        <h5 class="text-muted ml-3">New Process</h5>
-        <hr />
-        <div class="row">
+<h5 class="ml-3">New Process</h5>
+<!-- Forms-->
+<div class="row">
+    <!-- Process General Form-->
+    <div class="col my-2">
+        <div class="row mb-3">
             <div class="col">
-                <h5>General</h5>
-            </div>
-            <div class="col">
-                <h5>Impact Analysis</h5>
+                <div class="card">
+                    <div class="card-body">
+                        <span class="close">&times;</span>
+                        <span class="fa fa-2x fa-angle-down close mx-2" data-toggle="collapse"
+                              href="#processGeneral" aria-expanded="true"
+                              aria-controls="processGeneral">
+                        </span>
+                        <h5 class="text-muted">General</h5>
+                        <hr />
+                        <form class="form-group collapse show" name="processGeneral" id="processGeneral">
+                            <input type="hidden" class="form-control" ng-model="process.processId">
+                            <div class="form-group required">
+                                <label class="col-form-label" for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" ng-model="process.name">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea class="form-control" id="description" rows="3" ng-model="process.description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="location">Location:</label>
+                                <input type="text" class="form-control" id="location" ng-model="process.location">
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-info" ng-click="clearProcessGeneral()">Clear</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group col-6" ng-form name="myForm">
-                <div class="form-group">
-                    <label class="col-form-label" for="name">Name:</label>
-                    <input type="text" class="form-control" id="name">
-                </div>
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea class="form-control" id="description" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label" for="location">Location:</label>
-                    <input type="text" class="form-control" id="location">
+        <!-- Recovery Details Form-->
+        <div class="row mb-3">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <span class="close">&times;</span>
+                        <span class="fa fa-2x fa-angle-down close mx-2" data-toggle="collapse"
+                              href="#recoveryDetails" aria-expanded="true"
+                              aria-controls="recoveryDetails">
+                        </span>
+                        <h5 class="text-muted">Recovery Details</h5>
+                        <hr />
+                        <form class="form-group collapse show" name="recoveryDetails" id="recoveryDetails">
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label class="col-form-label" for="rto">RTO:</label>
+                                    <input type="text" class="form-control" id="rto">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-form-label" for="mtpd">MTPD:</label>
+                                    <input type="text" class="form-control" id="mtpd">
+                                </div>
+                            </div>
+                            <fieldset class="form-group">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="">
+                                        Site Dependent?
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="">
+                                        Remote Working  Possible?
+                                    </label>
+                                </div>
+                            </fieldset>
+                            <div class="form-group">
+                                <label for="wsComment">Comment:</label>
+                                <textarea class="form-control" id="wsComment" rows="3"></textarea>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-info">Clear</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <div class="form-group col-6" ng-form name="myForm">
-                <div class="row">
-                    <div class="form-group col-6">
-                        <label class="col-form-label" for="operationalImpact">Operational Impact:</label>
-                        <select class="form-control" id="operationalImpact">
-                            <option>No Impact</option>
-                            <option>Low</option>
-                            <option>Siginifact</option>
-                            <option>Severe</option>
-                            <option>Catastrophic</option>
-                            <option value="" disabled selected>--Select Impact--</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-6">
-                        <label class="col-form-label" for="financialImpact">Financial Impact:</label>
-                        <select class="form-control" id="financialImpact">
-                            <option>No Impact</option>
-                            <option>Low</option>
-                            <option>Siginifact</option>
-                            <option>Severe</option>
-                            <option>Catastrophic</option>
-                            <option value="" disabled selected>--Select Impact--</option>
-                        </select>
+        </div>
+    </div>
+    <div class="col my-2">
+        <!-- Impact Analysis Form-->
+        <div class="row mb-3">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <span class="close">&times;</span>
+                        <span class="fa fa-2x fa-angle-down close mx-2" data-toggle="collapse"
+                              href="#impactAnalysis" aria-expanded="true"
+                              aria-controls="impactAnalysis">
+                        </span>
+                        <h5 class="text-muted">Impact Analysis</h5>
+                        <hr />
+                        <form class="form-group collapse show" name="impactAnalysis" id="impactAnalysis">
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label class="col-form-label" for="operationalImpact">Operational Impact:</label>
+                                    <select class="form-control" id="operationalImpact">
+                                        <option>No Impact</option>
+                                        <option>Low</option>
+                                        <option>Siginifact</option>
+                                        <option>Severe</option>
+                                        <option>Catastrophic</option>
+                                        <option value="" disabled selected>--Select Impact--</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-form-label" for="financialImpact">Financial Impact:</label>
+                                    <select class="form-control" id="financialImpact">
+                                        <option>No Impact</option>
+                                        <option>Low</option>
+                                        <option>Siginifact</option>
+                                        <option>Severe</option>
+                                        <option>Catastrophic</option>
+                                        <option value="" disabled selected>--Select Impact--</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <h6 class="mt-4">Critical Periods</h6>
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <label class="col-form-label" for="year">Year:</label>
+                                    <input type="text" class="form-control" id="year">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label class="col-form-label" for="month">Month:</label>
+                                    <input type="text" class="form-control" id="month">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label class="col-form-label" for="day">Day:</label>
+                                    <input type="text" class="form-control" id="day">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cpComment">Comment:</label>
+                                <textarea class="form-control" id="cpComment" rows="3"></textarea>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-info">Clear</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <h5>Critical Timeframes</h5>
+            </div>
+        </div>
+        <!-- Additional Information Form-->
+        <div class="row mb-3">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <span class="close">&times;</span>
+                        <span class="fa fa-2x fa-angle-down close mx-2" data-toggle="collapse"
+                              href="#additionalInformation" aria-expanded="true"
+                              aria-controls="additionalInformation">
+                        </span>
+                        <h5 class="text-muted">Additional Information</h5>
+                        <hr />
+                        <form class="form-group collapse show" name="additionalInformation" id="additionalInformation">
+                            <fieldset class="form-group">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="">
+                                        Has Documented Standard Operating Procedures?
+                                    </label>
+                                </div>
+                            </fieldset>
+                            <div class="form-group">
+                                <label for="sopComment">Comment:</label>
+                                <textarea class="form-control" id="sopComment" rows="3"></textarea>
+                            </div>
+                            <fieldset class="form-group">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="">
+                                        Linked to Service Level Agreement?
+                                    </label>
+                                </div>
+                            </fieldset>
+                            <div class="form-group">
+                                <label for="slaComment">Comment:</label>
+                                <textarea class="form-control" id="slaComment" rows="3"></textarea>
+                            </div>
+                        </form>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-info">Clear</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+

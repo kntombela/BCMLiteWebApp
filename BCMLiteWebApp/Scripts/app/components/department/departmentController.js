@@ -1,4 +1,4 @@
-﻿testApp.controller('departmentCtrl', function ($scope, $http, $routeParams, sharedService, departmentService) {
+﻿testApp.controller('departmentCtrl', function ($scope, $http, $routeParams, sharedService, departmentService, navService) {
 
     //Variables
     $scope.pageTitle = "Departments";
@@ -16,6 +16,7 @@
     //Re-populate department scope on route change
     //to make it available to next controller
     if ($routeParams.id) {
+        sessionStorage.departmentId = $routeParams.id;
         $scope.pageTitle = "Details";
         getDepartment($routeParams.id);
     }
