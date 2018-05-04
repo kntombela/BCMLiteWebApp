@@ -1461,9 +1461,9 @@
     <Content Include="Views\Home\Landing.cshtml" />
     <Content Include="Views\Departments\Index.cshtml" />
     <Content Include="Views\Processes\Index.cshtml" />
-    <Content Include="Views\Departments\Edit.cshtml" />
     <Content Include="Views\Home\App.cshtml" />
     <Content Include="Views\Processes\Create.cshtml" />
+    <Content Include="Views\Departments\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

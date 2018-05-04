@@ -177,3 +177,9 @@ tr td a, a:hover {
     display: none;
     text-align: center;
 }
+
+@media only screen and (max-width: 575px) {
+    .hide {
+        display: none;
+    }
+}
