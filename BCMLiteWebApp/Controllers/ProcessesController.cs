@@ -8,10 +8,15 @@ namespace BCMLiteWebApp.Controllers
 {
     public class ProcessesController : Controller
     {
-        // GET: Processes
         public ActionResult Index()
         {
             return View();
         }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
     }
 }

@@ -39,6 +39,11 @@ namespace BCMLiteWebApp.Controllers
             return View();
         }
 
+        public ActionResult App()
+        {
+            return View();
+        }
+
         #region Helpers
         public Boolean IsAdminUser()
         {
