@@ -8,28 +8,47 @@ namespace BCMLiteWebApp.Models
     [Table("bia.Process")]
     public partial class Process
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProcessID { get; set; }
 
         [StringLength(255)]
         public string Name { get; set; }
 
-        [StringLength(500)]
+        [StringLength(int.MaxValue)]
         public string Description { get; set; }
 
         [StringLength(255)]
-        public string CriticalTime { get; set; }
+        public string CriticalTimeYear { get; set; }
+
+        [StringLength(255)]
+        public string CriticalTimeMonth { get; set; }
+
+        [StringLength(255)]
+        public string CriticalTimeDay { get; set; }
+
+        [StringLength(int.MaxValue)]
+        public string CriticalTimeComment { get; set; }
 
         public bool? SOP { get; set; }
 
+        [StringLength(int.MaxValue)]
+        public string SOPComment { get; set; }
+
         public bool? SLA { get; set; }
+
+        [StringLength(int.MaxValue)]
+        public string SLAComment { get; set; }
 
         public int? DepartmentID { get; set; }
 
-        [StringLength(255)]
+        [StringLength(50)]
         public string RTO { get; set; }
 
         public int? RTOValue { get; set; }
+
+        [StringLength(50)]
+        public string MTPD { get; set; }
+
+        public int? MTPDValue { get; set; }
 
         public double? MBCO { get; set; }
 
@@ -45,17 +64,20 @@ namespace BCMLiteWebApp.Models
 
         public double? StaffCompliment { get; set; }
 
-        [StringLength(500)]
+        [StringLength(int.MaxValue)]
         public string StaffCompDesc { get; set; }
 
         public double? RevisedOpsLevel { get; set; }
 
-        [StringLength(500)]
+        [StringLength(int.MaxValue)]
         public string RevisedOpsLevelDesc { get; set; }
 
         public bool? RemoteWorking { get; set; }
 
         public bool? SiteDependent { get; set; }
+
+        [StringLength(int.MaxValue)]
+        public string WorkAreaComment { get; set; }
 
         public string Location { get; set; }
 

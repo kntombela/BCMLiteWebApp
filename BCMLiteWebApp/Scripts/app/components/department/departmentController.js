@@ -184,7 +184,7 @@
             $scope.showEdit = false;
             $scope.showDelete = true;
         } else if (getSelectedItems().length == 1) {
-            $scope.showDelete = true;
+            showCrudActions(true);
         } else {
             showCrudActions(false);
         }
