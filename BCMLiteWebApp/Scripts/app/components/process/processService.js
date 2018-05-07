@@ -7,7 +7,7 @@
 
     //Get process by id
     this.getProcessById = function (processId) {
-        return $http.get("/api/processes/" + processId);
+        return $http.get("/api/processes/" + processId + "/details");
     }
 
     //Add/Edit process
@@ -20,7 +20,7 @@
     }
 
     //Delete process
-    this.deleteProcess = function (ids) {
+    this.deleteProcesses = function (ids) {
         return $http({
             method: "post",
             url: "/api/processes/delete",

@@ -5,13 +5,19 @@
     $scope.processes = [];
     $scope.checkboxes = { 'checked': false, items: {} };
     $scope.process = {
-        processId: -1,
+        processID: -1,
         name: '',
         description: '',
-        criticalTime: '',
+        criticalTimeYear: '',
+        criticalTimeMonth: '',
+        criticalTimeDay: '',
+        criticalTimeComment: '',
         sop: '',
+        sopComment: '',
         sla: '',
+        slaComment: '',
         rto: '',
+        mtpd: '',
         mbco: '',
         operationalImpact: '',
         financialImpact: '',
@@ -21,42 +27,42 @@
         revisedOpsLevelDesc: '',
         remoteWorking: '',
         siteDependent: '',
+        workingAreaComment: '',
         location: '',
         departmentID: ''
     };
 
-    //Get processes
-    //$scope.getProcesses = function () {
-
-    //    if ($routeParams.id) {
-    //        processService.getProcesses($routeParams.id).then(function (response) {
-    //            $scope.processes = response.data;
-    //            if (!$scope.processes.length) {
-    //                $scope.recordsError = "No processes added yet, click 'New' to begin.";
-    //            }
-    //            else {
-    //                $scope.recordsError = "";
-    //            }
-    //        }).finally(function () {
-    //            //Close loader when data has been loaded
-    //            $scope.showLoader = false;
-    //            });
-    //    }
-    //}
-
-    //Get processes on load
+    //Get process list
     $scope.getProcessList = function () {
         getProcessList();
     }
 
-    //Add new process
-    $scope.addProcess = function () {
-        $scope.process.departmentID = sessionStorage.departmentId; //Check for null value
-        var requestResponse = processService.addEditProcess($scope.process);
-        Message(requestResponse);
+    //Get process
+    if (sessionStorage.processId) {
+        getProcess(sessionStorage.processId);
+    }
+
+    //Add process/es
+    $scope.addProcess = function (process) {
+        if (process && sessionStorage.departmentId) {
+            process.departmentID = sessionStorage.departmentId;
+            var requestResponse = processService.addEditProcess(process);
+            Message(requestResponse);
+        } else {
+            alert('Error, no department or process selected!');
+        }    
     };
 
-    //Get processes
+    //Delete process
+    $scope.deleteProcess = function () {
+        var requestResponse = processService.deleteProcesses(getSelectedItems());
+        Message(requestResponse);
+        //Reset selected row
+        resetRowSelect();
+    };
+
+    /**********************************HELPERS***************************************/
+    //Get process list
     function getProcessList() {
         if ($routeParams.id) {
             //Show button to add new item
@@ -79,13 +85,20 @@
         }
     }
 
+    //Get process
+    function getProcess(id) {
+        processService.getProcessById(id).then(function (response) {
+            $scope.process = response.data;
+        }, function () {
+            alert('Error getting record');
+        });
+    }
+   
     //Helper function to call api asynchronously
     function Message(requestResponse) {
         requestResponse.then(function successCallback(response) {
             //Repopulate page with refreshed list
             getProcessList();
-            //Close popup window
-            $('#addEditProcess').modal('hide');
             //Show success message
             showMessageAlert(response.data.message)
             //Flag new row
@@ -96,7 +109,7 @@
         });
     }
 
-    /***********Crud Actions**************/
+    /**********************************CRUD ACTIONS**********************************/
     //Clear form before adding new process
     $scope.resetRowSelect = function () {
         resetRowSelect();
@@ -175,7 +188,7 @@
             $scope.showEdit = false;
             $scope.showDelete = true;
         } else if (getSelectedItems().length == 1) {
-            $scope.showDelete = true;
+            showCrudActions(true);
         } else {
             showCrudActions(false);
         }
