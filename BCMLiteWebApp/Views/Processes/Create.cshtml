@@ -17,12 +17,21 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <span class="close">&times;</span>
-                        <span class="fa fa-2x fa-angle-down close mx-2" data-toggle="collapse"
-                              href="#processGeneral" aria-expanded="true"
-                              aria-controls="processGeneral">
-                        </span>
-                        <h5 class="text-muted">General</h5>
+                        <div class="form-inline">
+                            <h5 class="text-muted">General</h5>
+                            <ul class="nav panel_toolbox ml-auto">
+                                <li>
+                                    <a href=""
+                                       ng-click="hide()"
+                                       ng-class="{'fa fa-chevron-down':expand,'fa fa-chevron-up':!expand}"
+                                       data-toggle="collapse"
+                                       data-target="#processGeneral" aria-expanded="true"
+                                       aria-controls="processGeneral">
+                                    </a>
+                                </li>
+                                <li><a href="#" class="fa fa-close"></a></li>
+                            </ul>
+                        </div>
                         <hr />
                         <form class="form-group collapse show" name="processGeneral" id="processGeneral">
                             <input type="hidden" class="form-control" ng-model="process.processID">

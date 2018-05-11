@@ -135,6 +135,22 @@ tr td a, a:hover {
     color: red;
 }
 
+.panel_toolbox > li > a {
+    padding: 5px;
+    color: #C5C7CB;
+    font-size: 14px;
+}
+
+    .panel_toolbox > li > a:hover {
+        text-decoration: none;
+        color: black;
+    }
+
+.panel_toolbox > li {
+    float: left;
+    cursor: pointer;
+}
+
 /* Page Load Animation */
 .loader {
     position: absolute;

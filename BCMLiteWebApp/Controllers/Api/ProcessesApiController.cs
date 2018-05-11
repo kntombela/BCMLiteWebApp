@@ -102,6 +102,33 @@ namespace BCMLiteWebApp.Controllers.Api
             return Ok(new PostResponseViewModel { Id = process.ProcessID, Message = message });
         }
 
+
+        // POST: api/processes    
+        [Route("import")]
+        [HttpPost]
+        [ResponseType(typeof(PostResponseViewModel))]
+        public async Task<IHttpActionResult> AddMultipleProcess(List<Process> processList)
+        {
+            string status = "";
+
+            if (!ModelState.IsValid)
+            {
+                status = "unsuccessful";
+                return BadRequest(ModelState);                
+            }
+
+            foreach (var data in processList)
+            {
+                db.Processes.Add(data);
+            }
+            await db.SaveChangesAsync();
+            status = "successful";
+
+            string message = $"Process import { status }!";
+
+            return Ok(new PostResponseViewModel { Id = null, Message = message });
+        }
+
         // DELETE: api/processes/delete
         [Route("delete")]
         [HttpPost]
@@ -150,7 +177,7 @@ namespace BCMLiteWebApp.Controllers.Api
                                                       RTO = p.RTO,
                                                       DateModified = p.DateModified,
                                                       DepartmentID = p.DepartmentID
-                                                  }).ToListAsync(); 
+                                                  }).ToListAsync();
         }
 
         private async Task<ProcessSummaryViewModel> GetProcessSummaryById(int id)
@@ -183,7 +210,7 @@ namespace BCMLiteWebApp.Controllers.Api
                                                       CriticalTimeDay = p.CriticalTimeDay,
                                                       CriticalTimeComment = p.CriticalTimeComment,
                                                       Location = p.Location,
-                                                      MBCO = p.MBCO, 
+                                                      MBCO = p.MBCO,
                                                       RemoteWorking = p.RemoteWorking,
                                                       SiteDependent = p.SiteDependent,
                                                       WorkAreaComment = p.WorkAreaComment,

@@ -12,32 +12,48 @@
         <div class="alert alert-dismissible alert-success" ng-show="showMessageAlert">
             <strong>{{message}}</strong>
         </div>
-        <h5 class="text-muted ml-3">{{pageTitle}}</h5>
+        <div class="form-inline">
+            <h5 class="text-muted">{{pageTitle}}</h5>
+            <ul class="nav panel_toolbox ml-auto">
+                <li class="dropdown">
+                    <a href="" class="fa fa-wrench" data-toggle="dropdown"></a>
+                    <ul class="dropdown-menu dropdown-content">
+                        <li>
+                            <a href="">Import</a>
+                        </li>
+                        <li>
+                            <a href="">Export</a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="#" class="fa fa-close"></a></li>
+            </ul>
+        </div>
         <div class="loader" ng-if="showLoader"></div>
         <!-- CRUD Actions-->
         <div class="container-fluid">
             <div class="row">
                 <div class="form-inline m-3">
-                    <button type="button" 
+                    <button type="button"
                             class="btn btn-sm btn-outline-secondary mr-1"
-                            ng-show="showNew" 
+                            ng-show="showNew"
                             ng-click="resetRowSelect()"
-                            data-toggle="modal" 
+                            data-toggle="modal"
                             data-target="#addEditDepartment">
                         <span class="fa fa-plus mr-2"></span>New
                     </button>
-                    <button type="button" 
+                    <button type="button"
                             class="btn btn-sm btn-outline-secondary mr-1"
-                            ng-show="showEdit" 
+                            ng-show="showEdit"
                             ng-click="editDepartment()"
-                            data-toggle="modal" 
+                            data-toggle="modal"
                             data-target="#addEditDepartment">
                         <span class="fa fa-edit mr-2"></span>Edit
                     </button>
-                    <button type="button" 
+                    <button type="button"
                             class="btn btn-sm btn-outline-secondary"
                             ng-show="showDelete"
-                            data-toggle="modal" 
+                            data-toggle="modal"
                             data-target="#deleteModal">
                         <span class="fa fa-remove mr-2"></span>Delete
                     </button>
@@ -56,30 +72,33 @@
                     <th>#</th>
                     <th class="sort" ng-click="sort('name')">
                         Name
-                        <span class="fa fa-sort" 
-                              ng-show="sortKey=='name'" 
+                        <span class="fa fa-sort"
+                              ng-show="sortKey=='name'"
                               ng-class="{'fa fa-angle-up':reverse,'fa fa-angle-down':!reverse}">
                         </span>
                     </th>
                     <th class="sort hide" ng-click="sort('dateModified')">
                         Date Modified
-                        <span class="fa fa-sort" 
-                              ng-show="sortKey=='dateModified'" 
+                        <span class="fa fa-sort"
+                              ng-show="sortKey=='dateModified'"
                               ng-class="{'fa fa-angle-up':reverse,'fa fa-angle-down':!reverse}">
                         </span>
                     </th>
                     <th></th>
                 </tr>
             </thead>
-            <tr ng-repeat="x in departments|orderBy:sortKey:reverse|filter:search" 
-                ng-class="{'selected':checkboxes.items[x.departmentID]}" 
+            <tr ng-repeat="x in departments|orderBy:sortKey:reverse|filter:search"
+                ng-class="{'selected':checkboxes.items[x.departmentID]}"
                 ng-click="onRowClicked(x.departmentID)">
-                <td><input type="checkbox" ng-model="checkboxes.items[x.departmentID]" 
-                           ng-click="$event.stopPropagation();" /></td>
+                <td>
+                    <input type="checkbox" ng-model="checkboxes.items[x.departmentID]"
+                           ng-click="$event.stopPropagation();" />
+                </td>
                 <td>{{ $index + 1 }}</td>
                 <td>
-                    <span class="fa fa fa-asterisk new" ng-show="x.departmentID == newDepartment"></span>
+                    @*<span class="fa fa fa-asterisk new" ng-show="x.departmentID == newDepartment"></span>*@
                     <a href="/#/departments/edit/{{x.departmentID}}">{{ x.name }}</a>
+                    <span class="badge badge-success" ng-show="x.departmentID == newDepartment">New</span>
                 </td>
                 <td class="hide">{{ x.dateModified | date:'MMM d, y h:mm a'}}</td>
                 <td>

@@ -39,8 +39,24 @@
 <div ng-controller="processCtrl" ng-init="getProcessList()">
     <div class="card mb-3">
         <div class="card-body">
-            <!-- Title-->
-            <h5 class="text-muted ml-3">{{tableTitle}}</h5>
+            <!-- Card Header-->
+            <div class="form-inline">
+                <h5 class="text-muted">{{tableTitle}}</h5>
+                <ul class="nav panel_toolbox ml-auto">
+                    <li class="dropdown">
+                        <a href="" class="fa fa-wrench" data-toggle="dropdown"></a>
+                        <ul class="dropdown-menu dropdown-content">
+                            <li>
+                                <a href="" data-target="#import-modal" data-toggle="modal">Import</a>
+                            </li>
+                            <li>
+                                <a href="">Export</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#" class="fa fa-close"></a></li>
+                </ul>
+            </div>
             <!-- Information Div-->
             <div class="alert alert-dismissible alert-success" ng-show="showMessageAlert">
                 <strong>{{message}}</strong>
@@ -142,6 +158,25 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" data-dismiss="modal" ng-click="deleteProcess()">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Process Import-->
+    <div class="modal fade" id="import-modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <input type="file" name="file" class="form-control"
+                       onchange="angular.element(this).scope().loadFile(this.files)" />
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" data-dismiss="modal" ng-click="handleFile()">Import</a>
                 </div>
             </div>
         </div>

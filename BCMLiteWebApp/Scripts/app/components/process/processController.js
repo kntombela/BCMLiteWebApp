@@ -50,7 +50,7 @@
             Message(requestResponse);
         } else {
             alert('Error, no department or process selected!');
-        }    
+        }
     };
 
     //Delete process
@@ -60,6 +60,59 @@
         //Reset selected row
         resetRowSelect();
     };
+
+    //Import processes from excel
+    $scope.loadFile = function (files) {
+
+        $scope.$apply(function () {
+
+            $scope.selectedFile = files[0];
+
+        })
+
+    } 
+
+    $scope.handleFile = function () {
+
+        var file = $scope.selectedFile;
+
+        if (file) {
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+
+                var data = e.target.result;
+
+                var workbook = XLSX.read(data, { type: 'binary' });
+
+                var first_sheet_name = workbook.SheetNames[0];
+
+                var dataObjects = XLSX.utils.sheet_to_json(workbook.Sheets[first_sheet_name]);
+
+                //console.log(excelData);  
+
+                if (dataObjects.length > 0) {
+
+                    Import(dataObjects);
+
+                    getProcessList();
+
+                } else {
+
+                    $scope.msg = "Error : Something Wrong !";
+
+                }
+
+            }
+
+            reader.onerror = function (ex) {
+
+            }
+
+            reader.readAsBinaryString(file);
+        }
+    }
 
     /**********************************HELPERS***************************************/
     //Get process list
@@ -93,7 +146,7 @@
             alert('Error getting record');
         });
     }
-   
+
     //Helper function to call api asynchronously
     function Message(requestResponse) {
         requestResponse.then(function successCallback(response) {
@@ -105,8 +158,13 @@
             $scope.newProcess = response.data.id;
         }, function errorCallback(response) {
             //Show error message
-            showMessageAlert("Something went wrong, please try again or contact your administrator if the problem persists.");
+            showMessageAlert('Something went wrong, please try again or contact your administrator if the problem persists.');
         });
+    }
+
+    function Import(data) {
+        var requestResponse = processService.importProcesses(data);
+        Message(requestResponse);
     }
 
     /**********************************CRUD ACTIONS**********************************/
@@ -204,6 +262,11 @@
         $scope.process.name = '';
         $scope.process.description = '';
         $scope.process.location = '';
+    }
+
+    //Icon toggle for card expand/shrink
+    $scope.hide = function () {
+        $scope.expand = !$scope.expand;
     }
 
 });
