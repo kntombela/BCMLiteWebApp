@@ -100,6 +100,32 @@ namespace BCMLiteWebApp.Controllers.Api
             return Ok(new PostResponseViewModel { Id = department.DepartmentID, Message = message });
         }
 
+        // POST: api/processes    
+        [Route("import")]
+        [HttpPost]
+        [ResponseType(typeof(PostResponseViewModel))]
+        public async Task<IHttpActionResult> AddMultipleDepartments(List<Department> departmentList)
+        {
+            string status = "";
+
+            if (!ModelState.IsValid)
+            {
+                status = "unsuccessful";
+                return BadRequest(ModelState);
+            }
+
+            foreach (var data in departmentList)
+            {
+                db.Departments.Add(data);
+            }
+            await db.SaveChangesAsync();
+            status = "successful";
+
+            string message = $"Department import { status }!";
+
+            return Ok(new PostResponseViewModel { Id = null, Message = message });
+        }
+
         // DELETE: api/departments/delete
         [Route("delete")]
         [HttpPost]

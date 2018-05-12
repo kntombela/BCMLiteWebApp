@@ -105,6 +105,30 @@
         }
     }
 
+    //Import departments
+    function Import(data) {
+
+        if (sharedService.organisationId) {
+
+            //Append selected organisation to import data
+            for (x in data) {
+
+                data[x].organisationID = sharedService.organisationId;
+
+            }
+
+            var requestResponse = departmentService.importDepartments(data);
+
+            Message(requestResponse);
+
+        } else {
+
+            alert("No organisation selected!");
+
+        }
+
+    }
+
     //Helper function to call api asynchronously
     function Message(requestResponse) {
         requestResponse.then(function successCallback(response) {
@@ -197,8 +221,61 @@
 
     //Show/hide column sorting
     $scope.sort = function (keyname) {
-        $scope.sortKey = keyname;   
-        $scope.reverse = !$scope.reverse; 
+        $scope.sortKey = keyname;
+        $scope.reverse = !$scope.reverse;
+    }
+
+    //Import departments from excel
+    $scope.loadFile = function (files) {
+
+        $scope.$apply(function () {
+
+            $scope.selectedFile = files[0];
+
+        })
+
+    }
+
+    $scope.handleFile = function () {
+
+        var file = $scope.selectedFile;
+
+        if (file) {
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+
+                var data = e.target.result;
+
+                var workbook = XLSX.read(data, { type: 'binary' });
+
+                var first_sheet_name = workbook.SheetNames[0];
+
+                var dataObjects = XLSX.utils.sheet_to_json(workbook.Sheets[first_sheet_name]);
+
+                //console.log(excelData);  
+
+                if (dataObjects.length > 0) {
+
+                    Import(dataObjects);
+
+                    getDepartmentList();
+
+                } else {
+
+                    showMessageAlert("Error loading file");
+
+                }
+
+            }
+
+            reader.onerror = function (ex) {
+
+            }
+
+            reader.readAsBinaryString(file);
+        }
     }
 
 });

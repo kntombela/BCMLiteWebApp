@@ -107,7 +107,7 @@ namespace BCMLiteWebApp.Controllers.Api
         [Route("import")]
         [HttpPost]
         [ResponseType(typeof(PostResponseViewModel))]
-        public async Task<IHttpActionResult> AddMultipleProcess(List<Process> processList)
+        public async Task<IHttpActionResult> AddMultipleProcesses(List<Process> processList)
         {
             string status = "";
 
