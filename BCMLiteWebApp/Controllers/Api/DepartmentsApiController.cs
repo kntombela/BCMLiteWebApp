@@ -97,7 +97,7 @@ namespace BCMLiteWebApp.Controllers.Api
           
             string message = $"Department successfully { status }!";
 
-            return Ok(new PostResponseViewModel { Id = department.DepartmentID, Message = message });
+            return Ok(new PostResponseViewModel { Ids = new List<int>() {department.DepartmentID}, Message = message });
         }
 
         // POST: api/processes    
@@ -106,6 +106,7 @@ namespace BCMLiteWebApp.Controllers.Api
         [ResponseType(typeof(PostResponseViewModel))]
         public async Task<IHttpActionResult> AddMultipleDepartments(List<Department> departmentList)
         {
+            var departmentIds = new List<int>();
             string status = "";
 
             if (!ModelState.IsValid)
@@ -119,11 +120,16 @@ namespace BCMLiteWebApp.Controllers.Api
                 db.Departments.Add(data);
             }
             await db.SaveChangesAsync();
+
+            foreach (var data in departmentList)
+            {
+                departmentIds.Add(data.DepartmentID);
+            }
             status = "successful";
 
             string message = $"Department import { status }!";
 
-            return Ok(new PostResponseViewModel { Id = null, Message = message });
+            return Ok(new PostResponseViewModel { Ids = departmentIds, Message = message });
         }
 
         // DELETE: api/departments/delete
@@ -146,7 +152,7 @@ namespace BCMLiteWebApp.Controllers.Api
 
             string message = "Departments deleted successfully!";
 
-            return Ok(new PostResponseViewModel { Id = null, Message = message });    
+            return Ok(new PostResponseViewModel { Ids = null, Message = message });    
         }
 
 

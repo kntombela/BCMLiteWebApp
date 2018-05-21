@@ -5,9 +5,10 @@ using System.Web;
 
 namespace BCMLiteWebApp.Models.ViewModels
 {
+
     public class PostResponseViewModel
     {
-        public int? Id { get; set; }
+        public List<int> Ids { get; set; }
 
         public string Message { get; set; }
     }

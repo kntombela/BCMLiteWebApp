@@ -1,6 +1,7 @@
 ﻿testApp.controller('departmentCtrl', function ($scope, $http, $routeParams, sharedService, departmentService, navService) {
 
     //Variables
+    $scope.newDepartments = [];
     $scope.pageTitle = "Departments";
     $scope.departments = [];
     $scope.checkboxes = { 'checked': false, items: {} };
@@ -138,12 +139,24 @@
             $('#addEditDepartment').modal('hide');
             //Show success message
             showMessageAlert(response.data.message)
-            //Flag new row
-            $scope.newDepartment = response.data.id;
+            //Flag new rows
+            if (response.data.ids) {
+                $scope.newDepartments = response.data.ids;
+            }
+
         }, function errorCallback(response) {
             //Show error message
             showMessageAlert("Something went wrong, please try again or contact your administrator if the problem persists.");
         });
+    }
+
+    //Flag new rows
+    $scope.isNewRow = function (id) {
+        var flag = false
+        if ($scope.newDepartments) {
+            flag = $scope.newDepartments.includes(id);
+        }
+        return flag;
     }
 
     //Reset row select

@@ -99,7 +99,7 @@ namespace BCMLiteWebApp.Controllers.Api
 
             string message = $"Process successfully { status }!";
 
-            return Ok(new PostResponseViewModel { Id = process.ProcessID, Message = message });
+            return Ok(new PostResponseViewModel { Ids = new List<int>() { process.ProcessID }, Message = message });
         }
 
 
@@ -109,6 +109,7 @@ namespace BCMLiteWebApp.Controllers.Api
         [ResponseType(typeof(PostResponseViewModel))]
         public async Task<IHttpActionResult> AddMultipleProcesses(List<Process> processList)
         {
+            var processIds = new List<int>();
             string status = "";
 
             if (!ModelState.IsValid)
@@ -122,11 +123,17 @@ namespace BCMLiteWebApp.Controllers.Api
                 db.Processes.Add(data);
             }
             await db.SaveChangesAsync();
+
+            foreach (var data in processList)
+            {
+                processIds.Add(data.ProcessID);
+            }
+
             status = "successful";
 
             string message = $"Process import { status }!";
 
-            return Ok(new PostResponseViewModel { Id = null, Message = message });
+            return Ok(new PostResponseViewModel { Ids = processIds, Message = message });
         }
 
         // DELETE: api/processes/delete
@@ -149,7 +156,7 @@ namespace BCMLiteWebApp.Controllers.Api
 
             string message = "Processes deleted successfully!";
 
-            return Ok(new PostResponseViewModel { Id = null, Message = message });
+            return Ok(new PostResponseViewModel { Ids = null, Message = message });
         }
 
         protected override void Dispose(bool disposing)

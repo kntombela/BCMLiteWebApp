@@ -163,8 +163,24 @@
     }
 
     function Import(data) {
-        var requestResponse = processService.importProcesses(data);
-        Message(requestResponse);
+
+        if (sessionStorage.departmentId) {
+
+            //Append selected organisation to import data
+            for (x in data) {
+
+                data[x].departmentID = sessionStorage.departmentId;
+
+            }
+
+            var requestResponse = processService.importProcesses(data);
+
+            Message(requestResponse);
+
+        } else {
+
+            alert("No department selected!");
+        }
     }
 
     /**********************************CRUD ACTIONS**********************************/
@@ -257,16 +273,47 @@
         angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
     }, true);
 
-    //Clear processGeneral form
+    //Icon toggle for card expand/shrink
+    $scope.hide = function () {
+        $scope.expand = !$scope.expand;
+    }
+
+    //Clear forms
     $scope.clearProcessGeneral = function () {
         $scope.process.name = '';
         $scope.process.description = '';
         $scope.process.location = '';
     }
 
-    //Icon toggle for card expand/shrink
-    $scope.hide = function () {
-        $scope.expand = !$scope.expand;
+    $scope.clearImpactAnalysis = function () {
+        $scope.process.operationalImpact = '';
+        $scope.process.financialImpact = '';
+        $scope.process.criticalTimeYear = '';
+        $scope.process.criticalTimeMonth = '';
+        $scope.process.criticalTimeDay = '';
+        $scope.process.criticalTimeComment = '';
+    }
+
+    $scope.clearRecoveryDetails = function () {
+        $scope.process.rto = '';
+        $scope.process.mtpd = '';
+        $scope.process.siteDependent = '';
+        $scope.process.remoteWorking = '';
+        $scope.process.workingAreaComment = '';
+    }
+
+    $scope.clearAdditionalInformation = function () {
+        $scope.process.sop = '';
+        $scope.process.sopComment = '';
+        $scope.process.sla = '';
+        $scope.process.slaComment = '';
+    }
+
+    $scope.clearAll = function () {
+        $scope.process.clearProcessGeneral();
+        $scope.process.clearImpactAnalysis();
+        $scope.process.clearRecoveryDetails();
+        $scope.process.clearAdditionalInformation();
     }
 
 });

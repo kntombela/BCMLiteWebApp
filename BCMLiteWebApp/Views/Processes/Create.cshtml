@@ -48,7 +48,7 @@
                                 <input type="text" class="form-control" id="location" ng-model="process.location">
                             </div>
                             <div class="text-right">
-                                <button type="submit" class="btn btn-info" ng-click="addProcess(process, department.departmentId)">Clear</button>
+                                <button type="submit" class="btn btn-info" ng-click="clearProcessGeneral()">Clear</button>
                             </div>
                         </form>
                     </div>
@@ -97,7 +97,7 @@
                                 <textarea class="form-control" id="wsComment" rows="3" ng-model="process.workingAreaComment"></textarea>
                             </div>
                             <div class="text-right">
-                                <button type="submit" class="btn btn-info">Clear</button>
+                                <button type="submit" class="btn btn-info" ng-click="clearRecoveryDetails()">Clear</button>
                             </div>
                         </form>
                     </div>
@@ -163,7 +163,7 @@
                                 <textarea class="form-control" id="cpComment" rows="3" ng-model="process.criticalTimeComment"></textarea>
                             </div>
                             <div class="text-right">
-                                <button type="submit" class="btn btn-info">Clear</button>
+                                <button type="submit" class="btn btn-info" ng-click="clearImpactAnalysis()">Clear</button>
                             </div>
                         </form>
                     </div>
@@ -209,7 +209,7 @@
                             </div>
                         </form>
                         <div class="text-right">
-                            <button type="submit" class="btn btn-info">Clear</button>
+                            <button type="submit" class="btn btn-info" ng-click="clearAdditionalInformation()">Clear</button>
                         </div>
                     </div>
                 </div>
@@ -217,4 +217,11 @@
         </div>
     </div>
 </div>
-
+<div class="container">
+    <div class="row justify-content-end">
+        <div class="form-group">
+            <button type="submit" class="btn btn-secondary" ng-click="redirectToDepartmentDetail()">Cancel</button>
+            <button type="submit" class="btn btn-success" ng-click="addProcess(process, department.departmentId)">Save</button>
+        </div>
+    </div>
+</div>

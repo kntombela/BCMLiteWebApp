@@ -14,6 +14,7 @@
         </div>
         <div class="form-inline">
             <h5 class="text-muted">{{pageTitle}}</h5>
+            <p>{{test}}</p>
             <ul class="nav panel_toolbox ml-auto">
                 <li class="dropdown">
                     <a href="" class="fa fa-wrench" data-toggle="dropdown"></a>
@@ -98,7 +99,7 @@
                 <td>
                     @*<span class="fa fa fa-asterisk new" ng-show="x.departmentID == newDepartment"></span>*@
                     <a href="/#/departments/edit/{{x.departmentID}}">{{ x.name }}</a>
-                    <span class="badge badge-success" ng-show="x.departmentID == newDepartment">New</span>
+                    <span class="badge badge-success" ng-show="isNewRow(x.departmentID)">New</span>
                 </td>
                 <td class="hide">{{ x.dateModified | date:'MMM d, y h:mm a'}}</td>
                 <td>
