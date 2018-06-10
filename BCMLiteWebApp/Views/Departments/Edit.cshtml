@@ -39,6 +39,10 @@
 <div ng-controller="processCtrl" ng-init="getProcessList()">
     <div class="card mb-3">
         <div class="card-body">
+            <!-- Information Div-->
+            <div class="alert alert-dismissible alert-success" ng-show="showMessageAlert">
+                <strong>{{message}}</strong>
+            </div>
             <!-- Card Header-->
             <div class="form-inline">
                 <h5 class="text-muted">{{tableTitle}}</h5>
@@ -56,10 +60,6 @@
                     </li>
                     <li><a href="#" class="fa fa-close"></a></li>
                 </ul>
-            </div>
-            <!-- Information Div-->
-            <div class="alert alert-dismissible alert-success" ng-show="showMessageAlert">
-                <strong>{{message}}</strong>
             </div>
             <!-- CRUD Actions-->
             <div class="container-fluid">
@@ -125,7 +125,8 @@
                     </td>
                     <td>{{$index + 1}}</td>
                     <td>
-                        <a href="" ng-click="redirectToProcessEdit(x.processID)">{{ x.name }}</a>
+                        <a href="" ng-click="redirectToProcessDetails(x.processID)">{{ x.name }}</a>
+                        <span class="badge badge-success" ng-show="isNewRow(x.processID)">New</span>
                     </td>
                     <td class="hide">{{x.rto}}</td>
                     <td class="hide">{{x.dateModified | date:'MMM d, y h:mm a'}}</td>
@@ -135,7 +136,7 @@
                             <ul class="dropdown-menu dropdown-content">
                                 <li><a ng-click="">Edit</a></li>
                                 <li><a data-target="#deleteModal" data-toggle="modal">Delete</a></li>
-                                <li><a href="#">Details</a></li>
+                                <li><a href="" ng-click="redirectToProcessDetails(x.processID)">Details</a></li>
                             </ul>
                         </div>
                     </td>
@@ -144,6 +145,7 @@
             <p>{{recordsError}}</p>
         </div>
     </div>
+
     <!-- Delete Process Modal-->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

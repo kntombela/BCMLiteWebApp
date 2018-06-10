@@ -151,6 +151,22 @@ tr td a, a:hover {
     cursor: pointer;
 }
 
+.process {
+    height: 20rem;
+}
+
+    .process h6 {
+        padding-right: 2em;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-bottom: 0;
+    }
+
+    .process:hover {
+        cursor: pointer;
+    }
+
 /* Page Load Animation */
 .loader {
     position: absolute;

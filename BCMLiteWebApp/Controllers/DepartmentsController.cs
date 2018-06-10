@@ -17,9 +17,9 @@ namespace BCMLiteWebApp.Controllers
             return View();
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int departmentId)
         {
-            ViewBag.DepartmentID = id;
+            ViewBag.DepartmentID = departmentId;
             return View();
         }
     }

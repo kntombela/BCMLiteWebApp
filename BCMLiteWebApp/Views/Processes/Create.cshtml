@@ -22,8 +22,9 @@
                             <ul class="nav panel_toolbox ml-auto">
                                 <li>
                                     <a href=""
-                                       ng-click="hide()"
-                                       ng-class="{'fa fa-chevron-down':expand,'fa fa-chevron-up':!expand}"
+                                       class="fa fa-chevron-up"
+                                       ng-click=""
+                                       ng-class=""
                                        data-toggle="collapse"
                                        data-target="#processGeneral" aria-expanded="true"
                                        aria-controls="processGeneral">
@@ -60,12 +61,22 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <span class="close">&times;</span>
-                        <span class="fa fa-2x fa-angle-down close mx-2" data-toggle="collapse"
-                              href="#recoveryDetails" aria-expanded="true"
-                              aria-controls="recoveryDetails">
-                        </span>
-                        <h5 class="text-muted">Recovery Details</h5>
+                        <div class="form-inline">
+                            <h5 class="text-muted">Recovery Details</h5>
+                            <ul class="nav panel_toolbox ml-auto">
+                                <li>
+                                    <a href=""
+                                       class="fa fa-chevron-up"
+                                       ng-click=""
+                                       ng-class=""
+                                       data-toggle="collapse"
+                                       data-target="#recoveryDetails" aria-expanded="true"
+                                       aria-controls="recoveryDetails">
+                                    </a>
+                                </li>
+                                <li><a href="#" class="fa fa-close"></a></li>
+                            </ul>
+                        </div>
                         <hr />
                         <form class="form-group collapse show" name="recoveryDetails" id="recoveryDetails">
                             <div class="row">
@@ -111,12 +122,22 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <span class="close">&times;</span>
-                        <span class="fa fa-2x fa-angle-down close mx-2" data-toggle="collapse"
-                              href="#impactAnalysis" aria-expanded="true"
-                              aria-controls="impactAnalysis">
-                        </span>
-                        <h5 class="text-muted">Impact Analysis</h5>
+                        <div class="form-inline">
+                            <h5 class="text-muted">Impact Analysis</h5>
+                            <ul class="nav panel_toolbox ml-auto">
+                                <li>
+                                    <a href=""
+                                       class="fa fa-chevron-up"
+                                       ng-click=""
+                                       ng-class=""
+                                       data-toggle="collapse"
+                                       data-target="#impactAnalysis" aria-expanded="true"
+                                       aria-controls="impactAnalysis">
+                                    </a>
+                                </li>
+                                <li><a href="#" class="fa fa-close"></a></li>
+                            </ul>
+                        </div>
                         <hr />
                         <form class="form-group collapse show" name="impactAnalysis" id="impactAnalysis">
                             <div class="row">
@@ -175,12 +196,22 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <span class="close">&times;</span>
-                        <span class="fa fa-2x fa-angle-down close mx-2" data-toggle="collapse"
-                              href="#additionalInformation" aria-expanded="true"
-                              aria-controls="additionalInformation">
-                        </span>
-                        <h5 class="text-muted">Additional Information</h5>
+                        <div class="form-inline">
+                            <h5 class="text-muted">Additional Information</h5>
+                            <ul class="nav panel_toolbox ml-auto">
+                                <li>
+                                    <a href=""
+                                       class="fa fa-chevron-up"
+                                       ng-click=""
+                                       ng-class=""
+                                       data-toggle="collapse"
+                                       data-target="#additionalInformation" aria-expanded="true"
+                                       aria-controls="additionalInformation">
+                                    </a>
+                                </li>
+                                <li><a href="#" class="fa fa-close"></a></li>
+                            </ul>
+                        </div>
                         <hr />
                         <form class="form-group collapse show" name="additionalInformation" id="additionalInformation">
                             <fieldset class="form-group">
@@ -207,21 +238,21 @@
                                 <label for="slaComment">Comment:</label>
                                 <textarea class="form-control" id="slaComment" rows="3" ng-model="process.slaComment"></textarea>
                             </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-info" ng-click="clearAdditionalInformation()">Clear</button>
+                            </div>
                         </form>
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-info" ng-click="clearAdditionalInformation()">Clear</button>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-end">
         <div class="form-group">
             <button type="submit" class="btn btn-secondary" ng-click="redirectToDepartmentDetail()">Cancel</button>
-            <button type="submit" class="btn btn-success" ng-click="addProcess(process, department.departmentId)">Save</button>
+            <button type="submit" class="btn btn-success" ng-click="addProcess(process)">Save</button>
         </div>
     </div>
 </div>

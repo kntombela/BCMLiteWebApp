@@ -1,8 +1,9 @@
-﻿testApp.controller('processCtrl', function ($scope, $http, $routeParams, processService, navService) {
+﻿testApp.controller('processCtrl', function ($scope, $rootScope, $http, $routeParams, processService, navService) {
 
     //Variables
     $scope.tableTitle = "Processes";
     $scope.processes = [];
+    $scope.newProcesses = [];
     $scope.checkboxes = { 'checked': false, items: {} };
     $scope.process = {
         processID: -1,
@@ -37,17 +38,19 @@
         getProcessList();
     }
 
-    //Get process
-    if (sessionStorage.processId) {
-        getProcess(sessionStorage.processId);
+    ////Get process on edit and add load
+    if ($routeParams.processId) {
+        getProcess($routeParams.processId);
     }
 
     //Add process/es
     $scope.addProcess = function (process) {
         if (process && sessionStorage.departmentId) {
             process.departmentID = sessionStorage.departmentId;
-            var requestResponse = processService.addEditProcess(process);
+            var requestResponse = processService.addEditProcess(process);           
             Message(requestResponse);
+            //Redirect to Department edit page using functions in navigationService tied to $rootScope
+            window.location.href = '/#/departments/edit/' + sessionStorage.departmentId;
         } else {
             alert('Error, no department or process selected!');
         }
@@ -117,13 +120,13 @@
     /**********************************HELPERS***************************************/
     //Get process list
     function getProcessList() {
-        if ($routeParams.id) {
+        if ($routeParams.departmentId) {
             //Show button to add new item
             $scope.showNew = true;
             //Show loader
             $scope.showLoader = true;
             //Get processes
-            processService.getProcesses($routeParams.id).then(function (response) {
+            processService.getProcesses($routeParams.departmentId).then(function (response) {
                 $scope.processes = response.data;
                 if (!$scope.processes.length) {
                     $scope.recordsError = "No processes added yet, click 'New' to begin.";
@@ -154,12 +157,24 @@
             getProcessList();
             //Show success message
             showMessageAlert(response.data.message)
-            //Flag new row
-            $scope.newProcess = response.data.id;
+            //Flag new rows
+            if (response.data.ids) {
+                $scope.newProcesses = response.data.ids;
+            }
+
         }, function errorCallback(response) {
             //Show error message
             showMessageAlert('Something went wrong, please try again or contact your administrator if the problem persists.');
         });
+    }
+
+    //Flag new rows
+    $scope.isNewRow = function (id) {
+        var flag = false
+        if ($scope.newProcesses) {
+            flag = $scope.newProcesses.includes(id);
+        }
+        return flag;
     }
 
     function Import(data) {
@@ -227,10 +242,17 @@
         return checked;
     }
 
+    //Show success messages
     function showMessageAlert(msg) {
         $scope.message = msg;
         $scope.showMessageAlert = true;
     }
+
+    //Close message alert after 3 seconds
+    $scope.$watch('showMessageAlert', function (value) {
+        //Hide message alert after 3 seconds
+        setTimeout(function () { $scope.showMessageAlert = false; }, 3000);
+    });
 
     $scope.sort = function (keyname) {
         $scope.sortKey = keyname;   //set the sortKey to the param passed
@@ -251,12 +273,15 @@
         if (!$scope.processes) {
             return;
         }
+        //Count number of checked and unchecked checkboxes
         var checked = 0, unchecked = 0,
             total = $scope.processes.length;
         angular.forEach($scope.processes, function (item) {
             checked += ($scope.checkboxes.items[item.processID]) || 0;
             unchecked += (!$scope.checkboxes.items[item.processID]) || 0;
+
         });
+
         //IF multiple items have been selected do not show edit functionality      
         if (getSelectedItems().length > 1) {
             $scope.showEdit = false;
@@ -274,8 +299,9 @@
     }, true);
 
     //Icon toggle for card expand/shrink
-    $scope.hide = function () {
-        $scope.expand = !$scope.expand;
+    $scope.collapse = function () {
+        //$scope.hideKey = hideKey;
+        //$scope.expand = !$scope.expand;
     }
 
     //Clear forms

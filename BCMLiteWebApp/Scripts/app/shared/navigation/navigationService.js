@@ -10,9 +10,14 @@
         window.location.href = '/#/processes/create';
     };
 
-    $rootScope.redirectToProcessEdit = function (id) {
-        window.location.href = '/#/processes/edit/' + id;
+    $rootScope.redirectToProcessEdit = function (processId) {
+        window.location.href = '/#/processes/edit/' + processId;
         sessionStorage.processId = id;
+    };
+
+    $rootScope.redirectToProcessDetails = function (processId) {
+        window.location.href = '/#/processes/details/' + processId;
+        sessionStorage.processId = processId;
     };
 
     $rootScope.redirectToDepartmentDetail = function () {

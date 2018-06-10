@@ -62,6 +62,8 @@ namespace BCMLiteWebApp.Models.ViewModels
 
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         public string RTO { get; set; }
 
         public DateTime DateModified { get; set; }

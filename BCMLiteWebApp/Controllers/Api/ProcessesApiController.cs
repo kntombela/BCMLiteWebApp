@@ -181,6 +181,7 @@ namespace BCMLiteWebApp.Controllers.Api
                                                   {
                                                       ProcessID = p.ProcessID,
                                                       Name = p.Name,
+                                                      Description = p.Description,
                                                       RTO = p.RTO,
                                                       DateModified = p.DateModified,
                                                       DepartmentID = p.DepartmentID
@@ -194,6 +195,7 @@ namespace BCMLiteWebApp.Controllers.Api
                                                   {
                                                       ProcessID = p.ProcessID,
                                                       Name = p.Name,
+                                                      Description = p.Description,
                                                       RTO = p.RTO,
                                                       DateModified = p.DateModified,
                                                       DepartmentID = p.DepartmentID

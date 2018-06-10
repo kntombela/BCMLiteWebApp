@@ -53,7 +53,9 @@ namespace BCMLiteWebApp
                       "~/Scripts/app/components/department/departmentService.js",
                       "~/Scripts/app/components/department/departmentController.js",
                       "~/Scripts/app/components/process/processService.js",
-                      "~/Scripts/app/components/process/processController.js"));
+                      "~/Scripts/app/components/process/processController.js",
+                      "~/Scripts/app/components/application/applicationService.js",
+                      "~/Scripts/app/components/application/applicationController.js"));
 
         }
     }

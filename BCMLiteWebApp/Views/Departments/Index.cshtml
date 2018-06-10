@@ -14,7 +14,6 @@
         </div>
         <div class="form-inline">
             <h5 class="text-muted">{{pageTitle}}</h5>
-            <p>{{test}}</p>
             <ul class="nav panel_toolbox ml-auto">
                 <li class="dropdown">
                     <a href="" class="fa fa-wrench" data-toggle="dropdown"></a>
@@ -66,7 +65,7 @@
             </div>
         </div>
         <!-- Department Table-->
-        <table class="table table-hover">
+        <table class="table table-hover" ng-init="getDepartmentList()">
             <thead>
                 <tr>
                     <th><input type="checkbox" ng-model="checkboxes.checked" id="select_all" /></th>

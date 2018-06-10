@@ -11,16 +11,20 @@
             templateUrl: function (params) { return '/departments/create?organisationId=' + params.organisationId; },
             controller: 'departmentCtrl'
         })
-        .when('/departments/edit/:id', {
-            templateUrl: function (params) { return '/departments/edit?id=' + params.id; },
+        .when('/departments/edit/:departmentId', {
+            templateUrl: function (params) { return '/departments/edit?departmentId=' + params.departmentId; },
             controller: 'departmentCtrl'
         })
         .when('/processes/create', {
             templateUrl: 'processes/create',
             controller: 'processCtrl'
         })
-        .when('/processes/edit/:id', {
-            templateUrl: function (params) { return '/processes/edit?id=' + params.id; },
+        .when('/processes/edit/:processId', {
+            templateUrl: function (params) { return '/processes/edit?processId=' + params.processId; },
+            controller: 'processCtrl'
+        })
+        .when('/processes/details/:processId', {
+            templateUrl: function (params) { return '/processes/details?processId=' + params.processId; },
             controller: 'processCtrl'
         })
         .when('/routeTwo', {

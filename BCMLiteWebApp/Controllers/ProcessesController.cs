@@ -18,7 +18,12 @@ namespace BCMLiteWebApp.Controllers
             return View();
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int processId)
+        {
+            return View();
+        }
+
+        public ActionResult Details(int processId)
         {
             return View();
         }

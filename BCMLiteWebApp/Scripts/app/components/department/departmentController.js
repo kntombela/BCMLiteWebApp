@@ -16,14 +16,17 @@
 
     //Re-populate department scope on route change
     //to make it available to next controller
-    if ($routeParams.id) {
-        sessionStorage.departmentId = $routeParams.id;
+    if ($routeParams.departmentId) {
+        sessionStorage.departmentId = $routeParams.departmentId;
         $scope.pageTitle = "Details";
-        getDepartment($routeParams.id);
+        getDepartment($routeParams.departmentId);
     }
 
-    //Get all departments on load
-    getDepartmentList();
+    //Initialise Index
+    $scope.getDepartmentList = function () {
+        getDepartmentList();
+    };
+
 
     //Handle organisation dropdown select event
     $scope.$on('organisationSelected', function () {
