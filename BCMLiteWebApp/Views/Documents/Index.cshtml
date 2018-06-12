@@ -118,7 +118,7 @@
                     </tr>
                 </thead>
                 <tr ng-repeat="x in documents|orderBy:sortKey:reverse|filter:search"
-                    ng-click="onRowClicked(x.processID)"
+                    ng-click="onRowClicked(x.documentID)"
                     ng-class="{'selected':checkboxes.items[x.documentID]}">
                     <td>
                         <input type="checkbox"

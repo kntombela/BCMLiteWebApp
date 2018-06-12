@@ -1,6 +1,7 @@
 ﻿testApp.controller('equipmentCtrl', function ($scope, $rootScope, $http, $routeParams, equipmentService, navService) {
 
     //Variables
+    $scope.tableTitle = "Equipment";
     $scope.equipments = [];
     $scope.newRecords = [];
     $scope.checkboxes = { 'checked': false, items: {} };

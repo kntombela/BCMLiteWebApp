@@ -1,6 +1,7 @@
 ﻿testApp.controller('skillCtrl', function ($scope, $rootScope, $http, $routeParams, skillService, navService) {
 
     //Variables
+    $scope.tableTitle = "Skills";
     $scope.skills = [];
     $scope.newRecords = [];
     $scope.checkboxes = { 'checked': false, items: {} };

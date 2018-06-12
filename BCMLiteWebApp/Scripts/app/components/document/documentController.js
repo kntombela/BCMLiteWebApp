@@ -1,6 +1,7 @@
 ﻿testApp.controller('documentCtrl', function ($scope, $rootScope, $http, $routeParams, documentService, navService) {
 
     //Variables
+    $scope.tableTitle = "Document";
     $scope.documents = [];
     $scope.newRecords = [];
     $scope.checkboxes = { 'checked': false, items: {} };

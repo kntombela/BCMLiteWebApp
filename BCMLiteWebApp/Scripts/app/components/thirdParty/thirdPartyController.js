@@ -1,6 +1,7 @@
 ﻿testApp.controller('thirdPartyCtrl', function ($scope, $rootScope, $http, $routeParams, thirdPartyService, navService) {
 
     //Variables
+    $scope.tableTitle = "Third Parties";
     $scope.thirdParties = [];
     $scope.newRecords = [];
     $scope.checkboxes = { 'checked': false, items: {} };

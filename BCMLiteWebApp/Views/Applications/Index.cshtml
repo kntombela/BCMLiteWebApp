@@ -75,6 +75,7 @@
                         <button type="button"
                                 class="btn btn-sm btn-outline-secondary mr-1"
                                 ng-show="showEdit"
+                                ng-click="editApplication()"
                                 data-target="#addEditModal"
                                 data-toggle="modal">
                             <span class="fa fa-edit mr-2"></span>Edit
@@ -108,11 +109,18 @@
                         </th>
                         <th class="hide">RTO</th>
                         <th class="hide">RPO</th>
+                        <th class="sort hide" ng-click="sort('dateModified')">
+                            Date Modified
+                            <span class="fa fa-sort"
+                                  ng-show="sortKey=='dateModified'"
+                                  ng-class="{'fa fa-angle-up':reverse,'fa fa-angle-down':!reverse}">
+                            </span>
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
                 <tr ng-repeat="x in applications|orderBy:sortKey:reverse|filter:search"
-                    ng-click="onRowClicked(x.processID)"
+                    ng-click="onRowClicked(x.applicationID)"
                     ng-class="{'selected':checkboxes.items[x.applicationID]}">
                     <td>
                         <input type="checkbox"
@@ -126,7 +134,7 @@
                     </td>
                     <td class="hide">{{x.rto}}</td>
                     <td class="hide">{{x.rpo}}</td>
-                    @*<td class="hide">{{x.dateModified | date:'MMM d, y h:mm a'}}</td>*@
+                    <td class="hide">{{x.dateModified | date:'MMM d, y h:mm a'}}</td>
                     <td>
                         <div class="dropdown">
                             <span class="fa fa-ellipsis-v row-options" data-toggle="dropdown"></span>
@@ -180,4 +188,39 @@
         </div>
     </div>
 </div>
-
+<!-- Add Application Modal-->
+<div id="addEditModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title mr-auto">Add Application</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" ng-form name="myForm">
+                    <input type="hidden" class="form-control" ng-model="application.applicationID">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" ng-model="application.name" ng-required="true">
+                        <span class="error" ng-show="myForm.name.$touched && myForm.name.$error.required">Required!</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea class="form-control" id="description" rows="3" ng-model="application.description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">RTO:</label>
+                        <input type="text" class="form-control" id="rto" name="rto" ng-model="application.rto">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">RPO:</label>
+                        <input type="text" class="form-control" id="rpo" name="rpo" ng-model="application.rpo">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" ng-click="addApplication()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

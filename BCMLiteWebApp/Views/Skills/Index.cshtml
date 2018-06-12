@@ -118,7 +118,7 @@
                     </tr>
                 </thead>
                 <tr ng-repeat="x in skills|orderBy:sortKey:reverse|filter:search"
-                    ng-click="onRowClicked(x.processID)"
+                    ng-click="onRowClicked(x.skillID)"
                     ng-class="{'selected':checkboxes.items[x.skillID]}">
                     <td>
                         <input type="checkbox"
