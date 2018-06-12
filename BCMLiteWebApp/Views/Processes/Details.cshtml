@@ -4,6 +4,9 @@
         <a href="/#/dashboard">Home</a>
     </li>
     <li class="breadcrumb-item">
+        <a href="" ng-click="redirectToDepartmentIndex()">Departments</a>
+    </li>
+    <li class="breadcrumb-item">
         <a href="" ng-click="redirectToDepartmentDetail()">Processes</a>
     </li>
     <li class="breadcrumb-item active">Details</li>
@@ -86,85 +89,31 @@
             </div>
         </div>
         <div class="col-8">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" data-target="#applications">Applications</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" data-target="#people">People</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" data-target="#third-parties">Third Parties</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" data-target="#documents">Documents</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" data-target="#equipment">Equipment</a>
-                </li>
-            </ul>
-            <div id="resource-tabs" class="tab-content">
-                <div class="tab-pane fade show active" id="applications" ng-controller="applicationCtrl" ng-init="getApplicationList()">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th><input type="checkbox" ng-model="checkboxes.checked" id="select_all" /></th>
-                                <th>#</th>
-                                <th class="sort" ng-click="sort('name')">
-                                    Name
-                                    <span class="fa fa-sort"
-                                          ng-show="sortKey=='name'"
-                                          ng-class="{'fa fa-angle-up':reverse,'fa fa-angle-down':!reverse}">
-                                    </span>
-                                </th>
-                                <th class="hide">RTO</th>
-                                <th class="hide">RPO</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tr ng-repeat="x in applications|orderBy:sortKey:reverse|filter:search"
-                            ng-click="onRowClicked(x.processID)"
-                            ng-class="{'selected':checkboxes.items[x.applicationID]}">
-                            <td>
-                                <input type="checkbox"
-                                       ng-model="checkboxes.items[x.applicationID]"
-                                       ng-click="$event.stopPropagation();" />
-                            </td>
-                            <td>{{$index + 1}}</td>
-                            <td>
-                                <a href="" ng-click="redirectToApplicationDetails(x.applicationID)">{{ x.name }}</a>
-                                <span class="badge badge-success" ng-show="isNewRow(x.applicationID)">New</span>
-                            </td>
-                            <td class="hide">{{x.rto}}</td>
-                            <td class="hide">{{x.rpo}}</td>
-                            @*<td class="hide">{{x.dateModified | date:'MMM d, y h:mm a'}}</td>*@
-                            <td>
-                                <div class="dropdown">
-                                    <span class="fa fa-ellipsis-v row-options" data-toggle="dropdown"></span>
-                                    <ul class="dropdown-menu dropdown-content">
-                                        <li><a ng-click="">Edit</a></li>
-                                        <li><a data-target="#deleteModal" data-toggle="modal">Delete</a></li>
-                                        <li><a href="" ng-click="redirectToApplicationDetails(x.applicationID)">Details</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <p>{{recordsError}}</p>
-                </div>
-                <div class="tab-pane fade" id="people">
-                    <p>Insert people resource table..</p>
-                </div>
-                <div class="tab-pane fade" id="third-parties">
-                    <p>Insert third party resource table.</p>
-                </div>
-                <div class="tab-pane fade" id="documents">
-                    <p>Insert documents resource table.</p>
-                </div>
-                <div class="tab-pane fade" id="equipment">
-                    <p>Insert equipment resource table.</p>
-                </div>
-            </div>
+            <button type="button"
+                    class="btn btn-sm btn-outline-secondary mr-1"
+                    ng-click="redirectToApplicationsIndex(process.processID)">
+                <span class="fa fa-laptop mr-2"></span>Applications
+            </button>
+            <button type="button"
+                    class="btn btn-sm btn-outline-secondary mr-1"
+                    ng-click="redirectToSkillsIndex(process.processID)">
+                <span class="fa fa-users mr-2"></span>Skills
+            </button>
+            <button type="button"
+                    class="btn btn-sm btn-outline-secondary mr-1"
+                    ng-click="redirectToThirdPartiesIndex(process.processID)">
+                <span class="fa fa-handshake-o mr-2"></span>Third Parties
+            </button>
+            <button type="button"
+                    class="btn btn-sm btn-outline-secondary mr-1"
+                    ng-click="redirectToDocumentsIndex(process.processID)">
+                <span class="fa fa-file-archive-o mr-2"></span>Documents
+            </button>
+            <button type="button"
+                    class="btn btn-sm btn-outline-secondary mr-1"
+                    ng-click="redirectToEquipmentsIndex(process.processID)">
+                <span class="fa fa-wrench mr-2"></span>Equipment
+            </button>          
         </div>
     </div>
 </div>

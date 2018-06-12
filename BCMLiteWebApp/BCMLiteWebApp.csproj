@@ -217,71 +217,28 @@
     <Compile Include="Controllers\Api\ProcessesApiController.cs" />
     <Compile Include="Controllers\Api\SkillsApiController.cs" />
     <Compile Include="Controllers\Api\ThirdPartiesApiController.cs" />
+    <Compile Include="Controllers\ApplicationsController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="Controllers\DocumentsController.cs" />
+    <Compile Include="Controllers\EquipmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProcessesController.cs" />
     <Compile Include="Controllers\RoutesDemoController.cs" />
+    <Compile Include="Controllers\SkillsController.cs" />
+    <Compile Include="Controllers\ThirdPartiesController.cs" />
     <Compile Include="DAL\BCMContext.cs" />
     <Compile Include="Extentions\IdentityExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201803082212213_Initial.cs" />
-    <Compile Include="Migrations\201803082212213_Initial.Designer.cs">
-      <DependentUpon>201803082212213_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201806111913139_InitialMigration.cs" />
+    <Compile Include="Migrations\201806111913139_InitialMigration.Designer.cs">
+      <DependentUpon>201806111913139_InitialMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201803121210240_RemoveDefaultCategory.cs" />
-    <Compile Include="Migrations\201803121210240_RemoveDefaultCategory.Designer.cs">
-      <DependentUpon>201803121210240_RemoveDefaultCategory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803221206043_RevenueFieldTypeUpdate.cs" />
-    <Compile Include="Migrations\201803221206043_RevenueFieldTypeUpdate.Designer.cs">
-      <DependentUpon>201803221206043_RevenueFieldTypeUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803221207483_RevenueFieldAdd.cs" />
-    <Compile Include="Migrations\201803221207483_RevenueFieldAdd.Designer.cs">
-      <DependentUpon>201803221207483_RevenueFieldAdd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803301058587_OrganisationIdFK.cs" />
-    <Compile Include="Migrations\201803301058587_OrganisationIdFK.Designer.cs">
-      <DependentUpon>201803301058587_OrganisationIdFK.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803311628334_TableLogs.cs" />
-    <Compile Include="Migrations\201803311628334_TableLogs.Designer.cs">
-      <DependentUpon>201803311628334_TableLogs.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803311629303_DatabaseTriggerSQL.cs" />
-    <Compile Include="Migrations\201803311629303_DatabaseTriggerSQL.Designer.cs">
-      <DependentUpon>201803311629303_DatabaseTriggerSQL.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803311654288_DefaultDateTime.cs" />
-    <Compile Include="Migrations\201803311654288_DefaultDateTime.Designer.cs">
-      <DependentUpon>201803311654288_DefaultDateTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201804011749110_ValidationRules.cs" />
-    <Compile Include="Migrations\201804011749110_ValidationRules.Designer.cs">
-      <DependentUpon>201804011749110_ValidationRules.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201804132040125_DateTrackingOnProcessModel.cs" />
-    <Compile Include="Migrations\201804132040125_DateTrackingOnProcessModel.Designer.cs">
-      <DependentUpon>201804132040125_DateTrackingOnProcessModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201804132041428_DbTriggerOnProcessTable.cs" />
-    <Compile Include="Migrations\201804132041428_DbTriggerOnProcessTable.Designer.cs">
-      <DependentUpon>201804132041428_DbTriggerOnProcessTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201804290740560_ImpactValuesNullable.cs" />
-    <Compile Include="Migrations\201804290740560_ImpactValuesNullable.Designer.cs">
-      <DependentUpon>201804290740560_ImpactValuesNullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201804300618479_ProcessIdIdentity.cs" />
-    <Compile Include="Migrations\201804300618479_ProcessIdIdentity.Designer.cs">
-      <DependentUpon>201804300618479_ProcessIdIdentity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201805050743027_ProcessModelExtension.cs" />
-    <Compile Include="Migrations\201805050743027_ProcessModelExtension.Designer.cs">
-      <DependentUpon>201805050743027_ProcessModelExtension.cs</DependentUpon>
+    <Compile Include="Migrations\201806111923270_DbTriggerOnResourceTables.cs" />
+    <Compile Include="Migrations\201806111923270_DbTriggerOnResourceTables.Designer.cs">
+      <DependentUpon>201806111923270_DbTriggerOnResourceTables.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -371,6 +328,10 @@
     <Content Include="Scripts\app\app.routes.js" />
     <Content Include="Scripts\app\components\application\applicationController.js" />
     <Content Include="Scripts\app\components\application\applicationService.js" />
+    <Content Include="Scripts\app\components\document\documentController.js" />
+    <Content Include="Scripts\app\components\document\documentService.js" />
+    <Content Include="Scripts\app\components\equipment\equipmentController.js" />
+    <Content Include="Scripts\app\components\equipment\equipmentService.js" />
     <Content Include="Scripts\app\components\organisation\organisationsController.js" />
     <Content Include="Scripts\app\components\department\departmentController.js" />
     <Content Include="Scripts\app\components\department\departmentService.js" />
@@ -379,6 +340,10 @@
     <Content Include="Scripts\app\app.module.js" />
     <Content Include="Scripts\app\components\process\processController.js" />
     <Content Include="Scripts\app\components\process\processService.js" />
+    <Content Include="Scripts\app\components\skill\skillController.js" />
+    <Content Include="Scripts\app\components\skill\skillService.js" />
+    <Content Include="Scripts\app\components\thirdParty\thirdPartyController.js" />
+    <Content Include="Scripts\app\components\thirdParty\thirdPartyService.js" />
     <Content Include="Scripts\app\shared\crud\crudService.js" />
     <Content Include="Scripts\app\shared\navigation\navigationController.js" />
     <Content Include="Scripts\app\shared\navigation\navigationService.js" />
@@ -1296,6 +1261,13 @@
     <Content Include="Views\Departments\Edit.cshtml" />
     <Content Include="Views\Processes\Edit.cshtml" />
     <Content Include="Views\Processes\Details.cshtml" />
+    <Content Include="Views\Applications\Create.cshtml" />
+    <Content Include="Views\Applications\Edit.cshtml" />
+    <Content Include="Views\Applications\Index.cshtml" />
+    <Content Include="Views\Skills\Index.cshtml" />
+    <Content Include="Views\ThirdParties\Index.cshtml" />
+    <Content Include="Views\Documents\Index.cshtml" />
+    <Content Include="Views\Equipments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1323,51 +1295,15 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201803082212213_Initial.resx">
-      <DependentUpon>201803082212213_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803121210240_RemoveDefaultCategory.resx">
-      <DependentUpon>201803121210240_RemoveDefaultCategory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803221206043_RevenueFieldTypeUpdate.resx">
-      <DependentUpon>201803221206043_RevenueFieldTypeUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803221207483_RevenueFieldAdd.resx">
-      <DependentUpon>201803221207483_RevenueFieldAdd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803301058587_OrganisationIdFK.resx">
-      <DependentUpon>201803301058587_OrganisationIdFK.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803311628334_TableLogs.resx">
-      <DependentUpon>201803311628334_TableLogs.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803311629303_DatabaseTriggerSQL.resx">
-      <DependentUpon>201803311629303_DatabaseTriggerSQL.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803311654288_DefaultDateTime.resx">
-      <DependentUpon>201803311654288_DefaultDateTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804011749110_ValidationRules.resx">
-      <DependentUpon>201804011749110_ValidationRules.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804132040125_DateTrackingOnProcessModel.resx">
-      <DependentUpon>201804132040125_DateTrackingOnProcessModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804132041428_DbTriggerOnProcessTable.resx">
-      <DependentUpon>201804132041428_DbTriggerOnProcessTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804290740560_ImpactValuesNullable.resx">
-      <DependentUpon>201804290740560_ImpactValuesNullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804300618479_ProcessIdIdentity.resx">
-      <DependentUpon>201804300618479_ProcessIdIdentity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805050743027_ProcessModelExtension.resx">
-      <DependentUpon>201805050743027_ProcessModelExtension.cs</DependentUpon>
-    </EmbeddedResource>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\index.d.ts" />
+    <EmbeddedResource Include="Migrations\201806111913139_InitialMigration.resx">
+      <DependentUpon>201806111913139_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806111923270_DbTriggerOnResourceTables.resx">
+      <DependentUpon>201806111923270_DbTriggerOnResourceTables.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

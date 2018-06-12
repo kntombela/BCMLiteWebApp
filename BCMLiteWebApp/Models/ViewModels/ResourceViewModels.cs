@@ -18,6 +18,8 @@ namespace BCMLiteWebApp.Models.ViewModels
         public string RPO { get; set; }
 
         public int? ProcessID { get; set; }
+
+        public DateTime DateModified { get; set; }
     }
 
     public class SkillViewModel
@@ -29,6 +31,8 @@ namespace BCMLiteWebApp.Models.ViewModels
         public string RTO { get; set; }
 
         public int? ProcessID { get; set; }
+
+        public DateTime DateModified { get; set; }
     }
 
     public class ThirdPartyViewModel
@@ -42,6 +46,8 @@ namespace BCMLiteWebApp.Models.ViewModels
         public string RTO { get; set; }
 
         public int? ProcessID { get; set; }
+
+        public DateTime DateModified { get; set; }
     }
 
     public class DocumentViewModel
@@ -53,6 +59,8 @@ namespace BCMLiteWebApp.Models.ViewModels
         public string RTO { get; set; }
 
         public int? ProcessID { get; set; }
+
+        public DateTime DateModified { get; set; }
     }
 
     public class EquipmentViewModel
@@ -64,5 +72,7 @@ namespace BCMLiteWebApp.Models.ViewModels
         public string RTO { get; set; }
 
         public int? ProcessID { get; set; }
+
+        public DateTime DateModified { get; set; }
     }
 }

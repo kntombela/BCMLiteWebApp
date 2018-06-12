@@ -1,5 +1,6 @@
 namespace BCMLiteWebApp.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,5 +20,9 @@ namespace BCMLiteWebApp.Models
         public int? ProcessID { get; set; }
 
         public virtual Process Process { get; set; }
+
+        public DateTime DateCreated { get; set; } = DateTime.Now;
+
+        public DateTime DateModified { get; set; } = DateTime.Now;
     }
 }

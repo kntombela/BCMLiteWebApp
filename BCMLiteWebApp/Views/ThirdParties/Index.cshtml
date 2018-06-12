@@ -1,0 +1,187 @@
+﻿<!-- Breadcrumbs-->
+<div ng-controller="processCtrl">
+    <ol class="breadcrumb mb-2 arr-bread">
+        <li class="breadcrumb-item">
+            <a href="" ng-click="redirectToDashboard()">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="" ng-click="redirectToDepartmentIndex()">Departments</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="" ng-click="redirectToDepartmentDetail()">Processes</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="" ng-click="redirectToProcessDetails(process.processID)">Details</a>
+        </li>
+        <li class="breadcrumb-item active">Third Parties</li>
+    </ol>
+    <!-- Process Details-->
+    <div class="ml-3 mb-3">
+        <h4 class="mb-3">{{process.name}}</h4>
+        <div class="row">
+            <div class="col-auto">
+                <strong>Description:</strong>
+            </div>
+            <div class="col-lg-auto pl-lg-0">
+                <p class="mb-0">{{process.description}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-auto">
+                <strong>Location:</strong>
+            </div>
+            <div class="col-lg-auto pl-lg-0">
+                <p class="mb-0">{{process.location}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-init="getThirdPartyList()">
+    <div class="card mb-3">
+        <div class="card-body">
+            <!-- Information Div-->
+            <div class="alert alert-dismissible alert-success" ng-show="showMessageAlert">
+                <strong>{{message}}</strong>
+            </div>
+            <!-- Card Header-->
+            <div class="form-inline">
+                <h5 class="text-muted">{{tableTitle}}</h5>
+                <ul class="nav panel_toolbox ml-auto">
+                    <li class="dropdown">
+                        <a href="" class="fa fa-wrench" data-toggle="dropdown"></a>
+                        <ul class="dropdown-menu dropdown-content">
+                            <li>
+                                <a href="" data-target="#import-modal" data-toggle="modal">Import</a>
+                            </li>
+                            <li>
+                                <a href="">Export</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#" class="fa fa-close"></a></li>
+                </ul>
+            </div>
+            <!-- CRUD Actions-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-inline m-3">
+                        <button type="button"
+                                class="btn btn-sm btn-outline-secondary mr-1"
+                                ng-show="showNew"
+                                data-target="#addEditModal"
+                                data-toggle="modal">
+                            <span class="fa fa-plus mr-2"></span>New
+                        </button>
+                        <button type="button"
+                                class="btn btn-sm btn-outline-secondary mr-1"
+                                ng-show="showEdit"
+                                data-target="#addEditModal"
+                                data-toggle="modal">
+                            <span class="fa fa-edit mr-2"></span>Edit
+                        </button>
+                        <button type="button"
+                                class="btn btn-sm btn-outline-secondary"
+                                ng-show="showDelete"
+                                data-target="#deleteModal"
+                                data-toggle="modal">
+                            <span class="fa fa-remove mr-2"></span>Delete
+                        </button>
+                    </div>
+                    <div class="form-inline ml-auto col-sm-auto mb-3 mb-sm-0">
+                        <label for="search" class="mr-2">Search:</label>
+                        <input type="text" id="search" ng-model="search" class="form-control form-control-sm">
+                    </div>
+                </div>
+            </div>
+            <!-- Third Parties Table-->
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" ng-model="checkboxes.checked" id="select_all" /></th>
+                        <th>#</th>
+                        <th class="sort" ng-click="sort('description')">
+                            Description
+                            <span class="fa fa-sort"
+                                  ng-show="sortKey=='description'"
+                                  ng-class="{'fa fa-angle-up':reverse,'fa fa-angle-down':!reverse}">
+                            </span>
+                        </th>
+                        <th class="hide">RTO</th>
+                        <th class="sort hide" ng-click="sort('dateModified')">
+                            Date Modified
+                            <span class="fa fa-sort"
+                                  ng-show="sortKey=='dateModified'"
+                                  ng-class="{'fa fa-angle-up':reverse,'fa fa-angle-down':!reverse}">
+                            </span>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="x in thirdParties|orderBy:sortKey:reverse|filter:search"
+                    ng-click="onRowClicked(x.processID)"
+                    ng-class="{'selected':checkboxes.items[x.thirdPartyID]}">
+                    <td>
+                        <input type="checkbox"
+                               ng-model="checkboxes.items[x.thirdPartyID]"
+                               ng-click="$event.stopPropagation();" />
+                    </td>
+                    <td>{{$index + 1}}</td>
+                    <td>
+                        <a href="" ng-click="redirectTothirdPartyDetails(x.thirdPartyID)">{{ x.description }}</a>
+                        <span class="badge badge-success" ng-show="isNewRow(x.thirdPartyID)">New</span>
+                    </td>
+                    <td class="hide">{{x.rto}}</td>
+                    <td class="hide">{{x.dateModified | date:'MMM d, y h:mm a'}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <span class="fa fa-ellipsis-v row-options" data-toggle="dropdown"></span>
+                            <ul class="dropdown-menu dropdown-content">
+                                <li><a ng-click="">Edit</a></li>
+                                <li><a data-target="#deleteModal" data-toggle="modal">Delete</a></li>
+                                <li><a href="" ng-click="redirectToThirdPartyDetails(x.thirdPartyID)">Details</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <p>{{recordsError}}</p>
+        </div>
+    </div>
+    <!-- Delete Third Party Modal-->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">Are you sure you want to delete this item?</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" data-dismiss="modal" ng-click="deleteThirdParty()">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Third Party Import-->
+    <div class="modal fade" id="import-modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <input type="file" name="file" class="form-control"
+                       onchange="angular.element(this).scope().loadFile(this.files)" />
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" data-dismiss="modal" ng-click="handleFile()">Import</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

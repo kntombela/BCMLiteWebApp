@@ -27,6 +27,26 @@
             templateUrl: function (params) { return '/processes/details?processId=' + params.processId; },
             controller: 'processCtrl'
         })
+        .when('/applications/index/:processId', {
+            templateUrl: function (params) { return '/applications/index?processId=' + params.processId; },
+            controller: 'applicationCtrl'
+        })
+        .when('/skills/index/:processId', {
+            templateUrl: function (params) { return '/skills/index?processId=' + params.processId; },
+            controller: 'skillCtrl'
+        })
+        .when('/thirdparties/index/:processId', {
+            templateUrl: function (params) { return '/thirdparties/index?processId=' + params.processId; },
+            controller: 'thirdPartyCtrl'
+        })
+        .when('/documents/index/:processId', {
+            templateUrl: function (params) { return '/documents/index?processId=' + params.processId; },
+            controller: 'documentCtrl'
+        })
+        .when('/equipments/index/:processId', {
+            templateUrl: function (params) { return '/equipments/index?processId=' + params.processId; },
+            controller: 'equipmentCtrl'
+        })
         .when('/routeTwo', {
             templateUrl: 'routesDemo/two'
         })

@@ -1,11 +1,12 @@
 ﻿testApp.controller('applicationCtrl', function ($scope, $rootScope, $http, $routeParams, applicationService, navService) {
 
     //Variables
+    $scope.tableTitle = 'Applications';
     $scope.applications = [];
     $scope.newRecords = [];
     $scope.checkboxes = { 'checked': false, items: {} };
     $scope.application = {
-        applicationID: 11,
+        applicationID: '',
         name: '',
         description: '',
         rto: '',

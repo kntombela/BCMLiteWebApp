@@ -36,8 +36,8 @@ namespace BCMLiteWebApp.Controllers.Api
             return Ok(processes);
         }
 
+        // GET: api/processes/1/details
         [ResponseType(typeof(ProcessDetailViewModel))]
-        // GET: api/processes/1
         [Route("~/api/processes/{id:int}/details")]
         public async Task<IHttpActionResult> GetProcess(int id)
         {
