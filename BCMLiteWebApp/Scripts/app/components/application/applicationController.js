@@ -20,7 +20,7 @@
         getApplicationList();
     }
 
-    //Add new departments
+    //Add new application
     $scope.addApplication = function () {
         $scope.application.processID = sessionStorage.processId;;
         var requestResponse = applicationService.addEditApplication($scope.application);
@@ -32,13 +32,29 @@
         getApplication($scope.applicationId);
     };
 
-    //Delete process
+    //Delete application
     $scope.deleteApplication = function () {
-        var requestResponse = applicationService.deleteApplication(getSelectedItems());
+        var requestResponse = applicationService.deleteApplications(getSelectedItems());
         Message(requestResponse);
         //Reset selected row
         resetRowSelect();
     };
+
+    //Import applications
+    function Import(data) {
+        if (sessionStorage.processId) {
+            //Append selected process to import data
+            for (x in data) {
+                data[x].processID = sessionStorage.processId;
+            }
+            var requestResponse = applicationService.importApplications(data);
+
+            Message(requestResponse);
+
+        } else {
+            alert("No process selected!");
+        }
+    }
 
     /**********************************HELPERS***************************************/
     //Get application
@@ -78,6 +94,8 @@
         requestResponse.then(function successCallback(response) {
             //Repopulate page with refreshed list
             getApplicationList();
+            //Close popup window
+            $('#addEditModal').modal('hide');
             //Show success message
             showMessageAlert(response.data.message)
             //Flag new rows
@@ -98,6 +116,50 @@
             flag = $scope.newRecords.includes(id);
         }
         return flag;
+    }
+
+    //Handle file import
+    $scope.loadFile = function (files) {
+
+        $scope.$apply(function () {
+
+            $scope.selectedFile = files[0];
+
+        })
+
+    }
+
+    $scope.handleFile = function () {
+        var file = $scope.selectedFile;
+
+        if (file) {
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+
+                var data = e.target.result;
+
+                var workbook = XLSX.read(data, { type: 'binary' });
+
+                var first_sheet_name = workbook.SheetNames[0];
+
+                var dataObjects = XLSX.utils.sheet_to_json(workbook.Sheets[first_sheet_name]);
+
+                if (dataObjects.length > 0) {
+
+                    Import(dataObjects);
+
+                    getApplicationList();
+
+                } else {
+                    $scope.msg = "Error : Something Wrong !";
+                }
+            }
+            reader.onerror = function (ex) {
+            }
+            reader.readAsBinaryString(file);
+        }
     }
 
     /**********************************CRUD ACTIONS**********************************/

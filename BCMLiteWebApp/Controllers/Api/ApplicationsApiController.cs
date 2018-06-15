@@ -124,6 +124,39 @@ namespace BCMLiteWebApp.Controllers.Api
             return Ok(new PostResponseViewModel { Ids = null, Message = message });
         }
 
+        // POST: api/applications    
+        [Route("import")]
+        [HttpPost]
+        [ResponseType(typeof(PostResponseViewModel))]
+        public async Task<IHttpActionResult> AddMultipleApplications(List<Application> applicationList)
+        {
+            var applicationIds = new List<int>();
+            string status = "";
+
+            if (!ModelState.IsValid)
+            {
+                status = "unsuccessful";
+                return BadRequest(ModelState);
+            }
+
+            foreach (var data in applicationList)
+            {
+                db.Applications.Add(data);
+            }
+            await db.SaveChangesAsync();
+
+            foreach (var data in applicationList)
+            {
+                applicationIds.Add(data.ApplicationID);
+            }
+
+            status = "successful";
+
+            string message = $"Application import { status }!";
+
+            return Ok(new PostResponseViewModel { Ids = applicationIds, Message = message });
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -163,6 +196,7 @@ namespace BCMLiteWebApp.Controllers.Api
                                                       Name = a.Name,
                                                       Description = a.Description,
                                                       RTO = a.RTO,
+                                                      RPO = a.RPO,
                                                       ProcessID = a.ProcessID,
                                                       DateModified = a.DateModified
                                                   }).FirstOrDefaultAsync();

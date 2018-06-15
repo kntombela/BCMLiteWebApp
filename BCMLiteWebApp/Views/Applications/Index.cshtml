@@ -68,6 +68,7 @@
                         <button type="button"
                                 class="btn btn-sm btn-outline-secondary mr-1"
                                 ng-show="showNew"
+                                ng-click="resetRowSelect()"
                                 data-target="#addEditModal"
                                 data-toggle="modal">
                             <span class="fa fa-plus mr-2"></span>New
@@ -139,7 +140,7 @@
                         <div class="dropdown">
                             <span class="fa fa-ellipsis-v row-options" data-toggle="dropdown"></span>
                             <ul class="dropdown-menu dropdown-content">
-                                <li><a ng-click="">Edit</a></li>
+                                <li><a ng-click="editApplication()" data-target="#addEditModal" data-toggle="modal">Edit</a></li>
                                 <li><a data-target="#deleteModal" data-toggle="modal">Delete</a></li>
                                 <li><a href="" ng-click="redirectToApplicationDetails(x.applicationID)">Details</a></li>
                             </ul>

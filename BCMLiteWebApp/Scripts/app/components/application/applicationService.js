@@ -28,13 +28,13 @@
         });
     };
 
-    //Import application
-    //this.importProcesses = function (processes) {
-    //    return $http({
-    //        method: "post",
-    //        url: "/api/processes/import",
-    //        data: processes
-    //    });
-    //};
+    //Import applications
+    this.importApplications = function (applications) {
+        return $http({
+            method: "post",
+            url: "/api/applications/import",
+            data: applications
+        });
+    };
 
 });

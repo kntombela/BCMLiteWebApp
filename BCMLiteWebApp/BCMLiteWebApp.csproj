@@ -1261,8 +1261,6 @@
     <Content Include="Views\Departments\Edit.cshtml" />
     <Content Include="Views\Processes\Edit.cshtml" />
     <Content Include="Views\Processes\Details.cshtml" />
-    <Content Include="Views\Applications\Create.cshtml" />
-    <Content Include="Views\Applications\Edit.cshtml" />
     <Content Include="Views\Applications\Index.cshtml" />
     <Content Include="Views\Skills\Index.cshtml" />
     <Content Include="Views\ThirdParties\Index.cshtml" />
