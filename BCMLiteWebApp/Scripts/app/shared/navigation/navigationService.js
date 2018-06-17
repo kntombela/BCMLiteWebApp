@@ -54,4 +54,15 @@
     $rootScope.redirectToThirdPartiesIndex = function (processId) {
         window.location.href = '/#/thirdparties/index/' + processId;
     };
+
+    //Plan Routes
+    $rootScope.redirectToPlansCreate = function (planId) {
+        window.location.href = '/#/plans/create/' + planId;
+        //Close popup window
+        $('#addModal').modal('hide');
+    };
+
+    $rootScope.redirectToPlansIndex = function () {
+        window.location.href = '/#/plans';
+    };
 });

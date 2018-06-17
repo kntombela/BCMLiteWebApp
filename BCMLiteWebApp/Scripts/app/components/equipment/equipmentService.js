@@ -1,7 +1,7 @@
 ﻿testApp.service("equipmentService", function ($http) {
 
     //Get all equipment
-    this.getEquipment = function (processId) {
+    this.getEquipments = function (processId) {
         return $http.get("/api/processes/" + processId + "/equipments");
     };
 

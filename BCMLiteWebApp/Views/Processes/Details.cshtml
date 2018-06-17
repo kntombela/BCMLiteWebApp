@@ -91,28 +91,43 @@
         <div class="col-8">
             <button type="button"
                     class="btn btn-sm btn-outline-secondary mr-1"
+                    ng-controller="applicationCtrl"
+                    ng-init="getApplicationCount()"
                     ng-click="redirectToApplicationsIndex(process.processID)">
                 <span class="fa fa-laptop mr-2"></span>Applications
+                <span class="badge badge-primary badge-pill">{{applicationCount}}</span>
             </button>
             <button type="button"
                     class="btn btn-sm btn-outline-secondary mr-1"
+                    ng-controller="skillCtrl"
+                    ng-init="getSkillCount()"
                     ng-click="redirectToSkillsIndex(process.processID)">
                 <span class="fa fa-users mr-2"></span>Skills
+                <span class="badge badge-primary badge-pill">{{skillCount}}</span>
             </button>
             <button type="button"
                     class="btn btn-sm btn-outline-secondary mr-1"
+                    ng-controller="thirdPartyCtrl"
+                    ng-init="getThirdPartyCount()"
                     ng-click="redirectToThirdPartiesIndex(process.processID)">
                 <span class="fa fa-handshake-o mr-2"></span>Third Parties
+                <span class="badge badge-primary badge-pill">{{thirdPartyCount}}</span>
             </button>
             <button type="button"
                     class="btn btn-sm btn-outline-secondary mr-1"
+                    ng-controller="documentCtrl"
+                    ng-init="getDocumentCount()"
                     ng-click="redirectToDocumentsIndex(process.processID)">
                 <span class="fa fa-file-archive-o mr-2"></span>Documents
+                <span class="badge badge-primary badge-pill">{{documentCount}}</span>
             </button>
             <button type="button"
                     class="btn btn-sm btn-outline-secondary mr-1"
+                    ng-controller="equipmentCtrl"
+                    ng-init="getEquipmentCount()"
                     ng-click="redirectToEquipmentsIndex(process.processID)">
                 <span class="fa fa-wrench mr-2"></span>Equipment
+                <span class="badge badge-primary badge-pill">{{equipmentCount}}</span>
             </button>          
         </div>
     </div>

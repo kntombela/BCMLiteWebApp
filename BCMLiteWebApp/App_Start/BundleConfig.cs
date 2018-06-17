@@ -63,7 +63,11 @@ namespace BCMLiteWebApp
                       "~/Scripts/app/components/equipment/equipmentService.js",
                       "~/Scripts/app/components/equipment/equipmentController.js",
                       "~/Scripts/app/components/thirdParty/thirdPartyService.js",
-                      "~/Scripts/app/components/thirdParty/thirdPartyController.js"));
+                      "~/Scripts/app/components/thirdParty/thirdPartyController.js",
+                      "~/Scripts/app/components/plan/planService.js",
+                      "~/Scripts/app/components/plan/planController.js",
+                      "~/Scripts/app/components/planTemplate/planTemplateController.js",
+                      "~/Scripts/app/components/planTemplate/planTemplateService.js"));
 
         }
     }

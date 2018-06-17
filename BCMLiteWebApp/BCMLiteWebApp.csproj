@@ -216,8 +216,10 @@
     <Compile Include="Controllers\Api\PlansApiController.cs" />
     <Compile Include="Controllers\Api\ProcessesApiController.cs" />
     <Compile Include="Controllers\Api\SkillsApiController.cs" />
+    <Compile Include="Controllers\Api\PlanTemplatesApiController.cs" />
     <Compile Include="Controllers\Api\ThirdPartiesApiController.cs" />
     <Compile Include="Controllers\ApplicationsController.cs" />
+    <Compile Include="Controllers\DepartmentPlansController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\DocumentsController.cs" />
     <Compile Include="Controllers\EquipmentsController.cs" />
@@ -226,6 +228,7 @@
     <Compile Include="Controllers\ProcessesController.cs" />
     <Compile Include="Controllers\RoutesDemoController.cs" />
     <Compile Include="Controllers\SkillsController.cs" />
+    <Compile Include="Controllers\PlanTemplatesController.cs" />
     <Compile Include="Controllers\ThirdPartiesController.cs" />
     <Compile Include="DAL\BCMContext.cs" />
     <Compile Include="Extentions\IdentityExtensions.cs" />
@@ -335,8 +338,10 @@
     <Content Include="Scripts\app\components\organisation\organisationsController.js" />
     <Content Include="Scripts\app\components\department\departmentController.js" />
     <Content Include="Scripts\app\components\department\departmentService.js" />
-    <Content Include="Scripts\app\components\plans\plansController.js" />
-    <Content Include="Scripts\app\components\plans\plansService.js" />
+    <Content Include="Scripts\app\components\planTemplate\planTemplateController.js" />
+    <Content Include="Scripts\app\components\planTemplate\planTemplateService.js" />
+    <Content Include="Scripts\app\components\plan\planController.js" />
+    <Content Include="Scripts\app\components\plan\planService.js" />
     <Content Include="Scripts\app\app.module.js" />
     <Content Include="Scripts\app\components\process\processController.js" />
     <Content Include="Scripts\app\components\process\processService.js" />
@@ -1266,6 +1271,9 @@
     <Content Include="Views\ThirdParties\Index.cshtml" />
     <Content Include="Views\Documents\Index.cshtml" />
     <Content Include="Views\Equipments\Index.cshtml" />
+    <Content Include="Views\DepartmentPlans\Index.cshtml" />
+    <Content Include="Views\PlanTemplates\Edit.cshtml" />
+    <Content Include="Views\DepartmentPlans\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

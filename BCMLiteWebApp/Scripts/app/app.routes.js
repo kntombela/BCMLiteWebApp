@@ -47,6 +47,18 @@
             templateUrl: function (params) { return '/equipments/index?processId=' + params.processId; },
             controller: 'equipmentCtrl'
         })
+        .when('/plans', {
+            templateUrl: 'departmentPlans/index',
+            controller: 'planCtrl'
+        })
+        .when('/plans/create/:planId', {
+            templateUrl: function (params) { return '/departmentplans/create?planId=' + params.planId; },
+            controller: 'planCtrl'
+        })
+        .when('/plantemplates/edit/:planId', {
+            templateUrl: function (params) { return '/plantemplates/index?planId=' + params.planId; },
+            controller: 'planTemplateCtrl'
+        })
         .when('/routeTwo', {
             templateUrl: 'routesDemo/two'
         })

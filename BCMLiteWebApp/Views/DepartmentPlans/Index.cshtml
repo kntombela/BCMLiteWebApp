@@ -1,0 +1,107 @@
+﻿<!-- Breadcrumbs-->
+<ol class="breadcrumb mb-2 arr-bread">
+    <li class="breadcrumb-item">
+        <a href="/#/dashboard">Home</a>
+    </li>
+    <li class="breadcrumb-item active">{{pageTitle}}</li>
+</ol>
+<!-- CRUD Actions-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="form-inline m-3">
+            <button type="button"
+                    class="btn btn-sm btn-outline-secondary mr-1"
+                    @*ng-show="showNew"*@
+                    data-toggle="modal"
+                    data-target="#addModal">
+                <span class="fa fa-plus mr-2"></span>New
+            </button>
+            <button type="button"
+                    class="btn btn-sm btn-outline-secondary mr-1"
+                    @*ng-show="showEdit"*@
+                    ng-click="editDepartment()"
+                    data-toggle="modal"
+                    data-target="#addEditDepartment">
+                <span class="fa fa-edit mr-2"></span>Edit
+            </button>
+            <button type="button"
+                    class="btn btn-sm btn-outline-secondary"
+                    @*ng-show="showDelete"*@
+                    data-toggle="modal"
+                    data-target="#deleteModal">
+                <span class="fa fa-remove mr-2"></span>Delete
+            </button>
+        </div>
+        <div class="form-inline ml-auto col-sm-auto mb-3 mb-sm-0">
+            <label for="search" class="mr-2">Search:</label>
+            <input type="text" id="search" ng-model="search" class="form-control form-control-sm">
+        </div>
+    </div>
+</div>
+<!-- Plans -->
+<div class="container-fluid" ng-init="getPlanList()">
+    <div class="row">
+        <div class="col-md-6 col-xl-3 mb-3" ng-repeat="x in plans|filter:search">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Menu Item-->
+                    <div class="dropdown float-right">
+                        <span class="fa fa-ellipsis-v p-2" data-toggle="dropdown"></span>
+                        <ul class="dropdown-menu dropdown-content">
+                            <li>
+                                <a data-target="#addModal" data-toggle="modal" ng-click="">Edit</a>
+                            </li>
+                            <li>
+                                <a data-target="#deleteModal" data-toggle="modal">Delete</a>
+                            </li>
+                            <li>
+                                <a href="#">Details</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Card Content-->
+                    <h4 class="card-title">{{x.departmentName}}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">{{x.name}}</h6>
+                    <p class="card-text">{{x.description}}</p>
+                    <a href="#" class="card-link">View</a>
+                    <a href="#" class="card-link">Share</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Modal-->
+<div id="addModal" class="modal fade" role="dialog" ng-controller="planTemplateCtrl" ng-init="getPlanTemplateList()">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title mr-auto">Create Plan</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h5 class="text-muted">{{pageTitle}}</h5>
+                <div class="scrolling-wrapper bg-light">
+                    <div class="card" ng-repeat="x in templatePlans"
+                         ng-class="{'card-selected': x.planID == planTemplateId}"
+                         ng-click="onPlanTemplateSelected(x.planID)">
+                        <div class="card-body">
+                            <h6 class="card-title">{{x.name}}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">{{x.planAbbreviation}}</h6>
+                            <p class="card-text small">{{x.description}}</p>
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-secondary mr-1"
+                                    ng-click="">
+                                <span class="fa fa-edit mr-2"></span>Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-2">Select a plan to begin, these plans can be edited. Alternatively, you can create your own plans by clicking 'New Template'</p>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary" ng-click="">New Template</button>
+                    <button type="submit" class="btn btn-success" ng-click="redirectToPlansCreate(planTemplateId)">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

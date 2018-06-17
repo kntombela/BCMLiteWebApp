@@ -56,6 +56,18 @@
         }
     }
 
+    //Get application count
+    $scope.getApplicationCount = function () {
+        applicationService.getApplications($routeParams.processId).then(function (response) {
+            if (response.data.length) {
+                $scope.applicationCount = response.data.length;
+            }
+            else {
+                $scope.applicationCount = 0;
+            }
+        });
+    };
+
     /**********************************HELPERS***************************************/
     //Get application
     function getApplication(id) {

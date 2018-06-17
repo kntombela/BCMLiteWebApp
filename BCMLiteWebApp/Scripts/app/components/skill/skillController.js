@@ -53,6 +53,18 @@
         }
     }
 
+    //Get skill count
+    $scope.getSkillCount = function () {
+        skillService.getSkills($routeParams.processId).then(function (response) {
+            if (response.data.length) {
+                $scope.skillCount = response.data.length;
+            }
+            else {
+                $scope.skillCount = 0;
+            }
+        });
+    };
+
     /**********************************HELPERS***************************************/
     //Get skill
     function getSkill(id) {

@@ -25,5 +25,16 @@ namespace BCMLiteWebApp.ViewModels
         public string Detail { get; set; }
     }
 
+    public class PlanTemplateViewModel
+    {
+        public int PlanID { get; set; }
 
+        public string PlanAbbreviation { get; set; }
+
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public string Type { get; set; }
+    }
 }

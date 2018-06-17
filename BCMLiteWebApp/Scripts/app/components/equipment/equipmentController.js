@@ -53,6 +53,18 @@
         }
     }
 
+    //Get equipment count
+    $scope.getEquipmentCount = function () {
+        equipmentService.getEquipments($routeParams.processId).then(function (response) {
+            if (response.data.length) {
+                $scope.equipmentCount = response.data.length;
+            }
+            else {
+                $scope.equipmentCount = 0;
+            }
+        });
+    };
+
     /**********************************HELPERS***************************************/
     //Get equipment
     function getEquipment(id) {
@@ -71,7 +83,7 @@
             //Show loader
             $scope.showLoader = true;
             //Get equipments
-            equipmentService.getEquipment($routeParams.processId).then(function (response) {
+            equipmentService.getEquipments($routeParams.processId).then(function (response) {
                 $scope.equipments = response.data;
                 if (!$scope.equipments.length) {
                     $scope.recordsError = "No equipment added yet, click 'New' to begin.";

@@ -53,6 +53,18 @@
         }
     }
 
+    //Get document count
+    $scope.getDocumentCount = function () {
+        documentService.getDocuments($routeParams.processId).then(function (response) {
+            if (response.data.length) {
+                $scope.documentCount = response.data.length;
+            }
+            else {
+                $scope.documentCount = 0;
+            }
+        });
+    };
+
     /**********************************HELPERS***************************************/
     //Get equipment
     function getDocument(id) {

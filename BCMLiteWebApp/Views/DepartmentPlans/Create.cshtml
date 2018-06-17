@@ -1,0 +1,32 @@
+﻿<div ng-controller="planTemplateCtrl">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb mb-2 arr-bread">
+        <li class="breadcrumb-item">
+            <a href="" ng-click="redirectToDashboard()">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="" ng-click="redirectToPlansIndex()">Plans</a>
+        </li>
+        <li class="breadcrumb-item active">New</li>
+    </ol>
+    <!-- Plan Template Details-->
+    <div class="ml-3 mb-3">
+        <h4 class="mb-3">{{planTemplate.name}}</h4>
+        <div class="row">
+            <div class="col-auto">
+                <strong>Type:</strong>
+            </div>
+            <div class="col-lg-auto pl-lg-0">
+                <p class="mb-0">{{planTemplate.type}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-auto">
+                <strong>Description:</strong>
+            </div>
+            <div class="col-lg-auto pl-lg-0">
+                <p class="mb-0">{{planTemplate.description}}</p>
+            </div>
+        </div>
+    </div>
+</div>

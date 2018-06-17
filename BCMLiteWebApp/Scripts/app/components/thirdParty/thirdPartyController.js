@@ -54,6 +54,18 @@
         }
     }
 
+    //Get thirdparty count
+    $scope.getThirdPartyCount = function () {
+        thirdPartyService.getThirdParties($routeParams.processId).then(function (response) {
+            if (response.data.length) {
+                $scope.thirdPartyCount = response.data.length;
+            }
+            else {
+                $scope.thirdPartyCount = 0;
+            }
+        });
+    };
+
     /**********************************HELPERS***************************************/
     //Get thirdParty
     function getThirdParty(id) {

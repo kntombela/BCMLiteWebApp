@@ -32,7 +32,7 @@
     $scope.$on('organisationSelected', function () {
         //Show loader
         $scope.showLoader = true;
-        getDepartmentList(sharedService.organisationId);
+        getDepartmentList();
         resetRowSelect();
     });
 

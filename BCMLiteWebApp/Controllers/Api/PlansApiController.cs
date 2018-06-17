@@ -10,6 +10,8 @@ using System.Web.Http.Description;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using BCMLiteWebApp.Models.ViewModels;
+using System.Data.Entity.Infrastructure;
 
 namespace BCMLiteWebApp.Controllers.API
 {
@@ -30,23 +32,9 @@ namespace BCMLiteWebApp.Controllers.API
         // GET api/organisations/1/plans
         [Route("~/api/organisations/{organisationId:int}/plans")]
         [ResponseType(typeof(PlanViewModel))]
-        public async Task<IHttpActionResult> GetPlansByOrganisation(int organisationId)
+        public async Task<IHttpActionResult> GetOrganisationPlans(int organisationId)
         {
-            var plans = new List<PlanViewModel>();
-
-            //If current user is not admin, show only plans from the user's organisation
-            if (!IsAdminUser())
-            {
-                var currentUser = User.Identity.GetUserId();
-
-                var id = db.Organisations.Where(o => o.Users.Any(u => u.Id == currentUser)).Single().OrganisationID;
-                plans = await GetOrganisationPlans(id);             
-            }
-            else
-            {
-                plans = await GetOrganisationPlans(organisationId);
-            }
-
+            var plans = await GetPlansByOrganisationId(organisationId);
 
             if (plans == null)
             {
@@ -54,38 +42,76 @@ namespace BCMLiteWebApp.Controllers.API
             }
 
             return Ok(plans);
-
         }
 
-        // GET api/Plan/Steps?planId=1
-        [ResponseType(typeof(PlanStepsViewModel))]
-        [Route("Steps")]
-        public async Task<IHttpActionResult> GetPlanSteps(int planId)
+        // GET: api/plans/1/details
+        [ResponseType(typeof(PlanViewModel))]
+        [Route("~/api/plans/{id:int}/details")]
+        public async Task<IHttpActionResult> GetPlan(int id)
         {
+            var plans = await GetPlanById(id);
 
-            var steps = await (from dp in db.DepartmentPlans
-                               join d in db.Departments on dp.DepartmentID equals d.DepartmentID
-                               join s in db.Steps on dp.DepartmentPlanID equals s.DepartmentPlanID
-                               join p in db.Plans on dp.PlanID equals p.PlanID
-                               where dp.DepartmentPlanID == planId
-                               select new PlanStepsViewModel
-                               {
-                                   DepartmentPlanID = dp.DepartmentPlanID,
-                                   Number = s.Number,
-                                   Title = s.Title,
-                                   Summary = s.Summary,
-                                   Detail = s.Detail,
-
-                               }).ToListAsync();
-
-            if (steps == null)
+            if (plans == null)
             {
                 return NotFound();
             }
 
-            return Ok(steps);
-
+            return Ok(plans);
         }
+
+       
+        // POST: api/plans    
+        [Route("")]
+        [HttpPost]
+        [ResponseType(typeof(PostResponseViewModel))]
+        public async Task<IHttpActionResult> AddEditPlan(DepartmentPlan plan)
+        {
+            string status = "";
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //Edit or add depending on if id exists
+            if (!PlanExists(plan.DepartmentPlanID))
+            {
+                db.DepartmentPlans.Add(plan);
+                await db.SaveChangesAsync();
+                status = "created";
+            }
+            else
+            {
+                db.Entry(plan).State = EntityState.Modified;
+
+                //When value is not specified for model DateTime property, the value defaults to 0001-01-01
+                //which is outside of the range of SQL Server's DATETIME
+                //plan.DateModified = DateTime.Now; 
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    status = "updated";
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PlanExists(plan.DepartmentPlanID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            string message = $"Plan successfully { status }!";
+
+            return Ok(new PostResponseViewModel { Ids = new List<int>() { plan.DepartmentPlanID }, Message = message });
+        }
+
+        
 
         protected override void Dispose(bool disposing)
         {
@@ -97,6 +123,11 @@ namespace BCMLiteWebApp.Controllers.API
         }
 
         #region Helpers
+        private bool PlanExists(int id)
+        {
+            return db.DepartmentPlans.Count(d => d.DepartmentPlanID == id) > 0;
+        }
+
         private Boolean IsAdminUser()
         {
 
@@ -115,7 +146,7 @@ namespace BCMLiteWebApp.Controllers.API
             return false;
         }
 
-        private async Task<List<PlanViewModel>> GetOrganisationPlans(int organisationId)
+        private async Task<List<PlanViewModel>> GetPlansByOrganisationId(int organisationId)
         {
             return await (from dp in db.DepartmentPlans
              join d in db.Departments on dp.DepartmentID equals d.DepartmentID
@@ -130,6 +161,23 @@ namespace BCMLiteWebApp.Controllers.API
                  DepartmentName = d.Name,
                  DepartmentID = d.DepartmentID
              }).ToListAsync();
+        }
+
+        private async Task<List<PlanViewModel>> GetPlanById(int planId)
+        {
+            return await (from dp in db.DepartmentPlans
+                          join d in db.Departments on dp.DepartmentID equals d.DepartmentID
+                          join p in db.Plans on dp.PlanID equals p.PlanID
+                          where dp.DepartmentPlanID == planId
+                          select new PlanViewModel
+                          {
+                              ID = dp.DepartmentPlanID,
+                              Name = p.Name,
+                              Description = p.Description,
+                              Type = p.Type,
+                              DepartmentName = d.Name,
+                              DepartmentID = d.DepartmentID
+                          }).ToListAsync();
         }
         #endregion
     }
