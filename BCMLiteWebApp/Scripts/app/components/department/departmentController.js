@@ -27,6 +27,7 @@
         getDepartmentList();
     };
 
+    getDepartmentList();
 
     //Handle organisation dropdown select event
     $scope.$on('organisationSelected', function () {
@@ -35,6 +36,7 @@
         getDepartmentList();
         resetRowSelect();
     });
+
 
     //Add new departments
     $scope.addDepartment = function () {
@@ -55,6 +57,10 @@
         Message(requestResponse);
 
         resetRowSelect();
+    };
+
+    $scope.setSelectedDepartment = function (departmentId) {
+        sharedService.setDepartmentId(departmentId);
     };
 
     //Clear form before adding new department

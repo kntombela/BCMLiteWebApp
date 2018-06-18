@@ -12,21 +12,210 @@
     <!-- Plan Template Details-->
     <div class="ml-3 mb-3">
         <h4 class="mb-3">{{planTemplate.name}}</h4>
-        <div class="row">
-            <div class="col-auto">
-                <strong>Type:</strong>
-            </div>
-            <div class="col-lg-auto pl-lg-0">
-                <p class="mb-0">{{planTemplate.type}}</p>
-            </div>
+        <strong>Type:</strong>
+        <p class="mb-0">{{planTemplate.type}}</p>
+        <strong>Description:</strong>
+        <p class="mb-0">{{planTemplate.description}}</p>
+    </div>
+</div>
+<div class="container-fluid" ng-controller="departmentCtrl">
+    <p class="lead">Select the department you wish to create a plan for:</p>
+    <form class="form-inline my-2 my-lg-0 mr-lg-2">
+        <div class="input-group">
+            <select class="form-control nav-link-text"
+                    ng-model="departmentId"
+                    ng-change="setSelectedDepartment(departmentId)"
+                    ng-options="department.departmentID as department.name for department in departments">
+                <option value="" disabled selected>--Select Department--</option>
+            </select>
         </div>
-        <div class="row">
-            <div class="col-auto">
-                <strong>Description:</strong>
+    </form>
+</div>
+<div class="container-fluid">
+    <div class="card my-3">
+        <div class="card-body">
+            <!-- Information Div-->
+            <div class="alert alert-dismissible alert-success" ng-show="showMessageAlert">
+                <strong>{{message}}</strong>
             </div>
-            <div class="col-lg-auto pl-lg-0">
-                <p class="mb-0">{{planTemplate.description}}</p>
+            <div class="form-inline">
+                <h5 class="text-muted">Plan Steps</h5>
+                <ul class="nav panel_toolbox ml-auto">
+                    <li class="dropdown">
+                        <a href="" class="fa fa-wrench" data-toggle="dropdown"></a>
+                        <ul class="dropdown-menu dropdown-content">
+                            <li>
+                                <a href="" data-target="#import-modal" data-toggle="modal">Import</a>
+                            </li>
+                            <li>
+                                <a href="">Export</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#" class="fa fa-close"></a></li>
+                </ul>
             </div>
+            <div class="loader" ng-if="showLoader"></div>
+            <!-- CRUD Actions-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-inline m-3">
+                        <button type="button"
+                                class="btn btn-sm btn-outline-secondary mr-1"
+                                @*ng-show="showNew"*@
+                                ng-click="resetRowSelect()"
+                                data-toggle="modal"
+                                data-target="#addEditDepartment">
+                            <span class="fa fa-plus mr-2"></span>New
+                        </button>
+                        <button type="button"
+                                class="btn btn-sm btn-outline-secondary mr-1"
+                                @*ng-show="showEdit"*@
+                                ng-click="editStep()"
+                                data-toggle="modal"
+                                data-target="#addEditDepartment">
+                            <span class="fa fa-edit mr-2"></span>Edit
+                        </button>
+                        <button type="button"
+                                class="btn btn-sm btn-outline-secondary"
+                                @*ng-show="showDelete"*@
+                                data-toggle="modal"
+                                data-target="#deleteModal">
+                            <span class="fa fa-remove mr-2"></span>Delete
+                        </button>
+                    </div>
+                    <div class="form-inline ml-auto col-sm-auto mb-3 mb-sm-0">
+                        <label for="search" class="mr-2">Search:</label>
+                        <input type="text" id="search" ng-model="search" class="form-control form-control-sm">
+                    </div>
+                </div>
+            </div>
+            <!-- Department Table-->
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" ng-model="checkboxes.checked" id="select_all" /></th>
+                        <th class="sort" ng-click="sort('title')">#</th>
+                        <th>Title</th>
+                        <th>Summary</th>
+                        <th class="sort hide" ng-click="sort('dateModified')">
+                            Date Modified
+                            <span class="fa fa-sort"
+                                  ng-show="sortKey=='dateModified'"
+                                  ng-class="{'fa fa-angle-up':reverse,'fa fa-angle-down':!reverse}">
+                            </span>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="checkbox" ng-model="checkboxes.items[x.stepID]"
+                                   ng-click="$event.stopPropagation();" />
+                        </td>
+                        <td>1</td>
+                        <td>BCP01</td>
+                        <td>High level summary for step 1 actions.</td>
+                        <td>18 June 2018, 10:00AM</td>
+                        <td>
+                            <div class="dropdown">
+                                <span class="fa fa-ellipsis-v row-options" data-toggle="dropdown"></span>
+                                <ul class="dropdown-menu dropdown-content">
+                                    <li>
+                                        <a data-target="#addEditDepartment" data-toggle="modal" ng-click="editStep()">Edit</a>
+                                    </li>
+                                    <li>
+                                        <a data-target="#deleteModal" data-toggle="modal">Delete</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Details</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" ng-model="checkboxes.items[x.stepID]"
+                                   ng-click="$event.stopPropagation();" />
+                        </td>
+                        <td>2</td>
+                        <td>BCP02</td>
+                        <td>High level summary for step 2 actions.</td>
+                        <td>18 June 2018, 11:00AM</td>
+                        <td>
+                            <div class="dropdown">
+                                <span class="fa fa-ellipsis-v row-options" data-toggle="dropdown"></span>
+                                <ul class="dropdown-menu dropdown-content">
+                                    <li>
+                                        <a data-target="#addEditDepartment" data-toggle="modal" ng-click="editStep()">Edit</a>
+                                    </li>
+                                    <li>
+                                        <a data-target="#deleteModal" data-toggle="modal">Delete</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Details</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" ng-model="checkboxes.items[x.stepID]"
+                                   ng-click="$event.stopPropagation();" />
+                        </td>
+                        <td>3</td>
+                        <td>BCP03</td>
+                        <td>High level summary for step 3 actions.</td>
+                        <td>18 June 2018, 12:00AM</td>
+                        <td>
+                            <div class="dropdown">
+                                <span class="fa fa-ellipsis-v row-options" data-toggle="dropdown"></span>
+                                <ul class="dropdown-menu dropdown-content">
+                                    <li>
+                                        <a data-target="#addEditDepartment" data-toggle="modal" ng-click="editStep()">Edit</a>
+                                    </li>
+                                    <li>
+                                        <a data-target="#deleteModal" data-toggle="modal">Delete</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Details</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" ng-model="checkboxes.items[x.stepID]"
+                                   ng-click="$event.stopPropagation();" />
+                        </td>
+                        <td>4</td>
+                        <td>BCP04</td>
+                        <td>High level summary for step 4 actions.</td>
+                        <td>18 June 2018, 13:00PM</td>
+                        <td>
+                            <div class="dropdown">
+                                <span class="fa fa-ellipsis-v row-options" data-toggle="dropdown"></span>
+                                <ul class="dropdown-menu dropdown-content">
+                                    <li>
+                                        <a data-target="#addEditDepartment" data-toggle="modal" ng-click="editStep()">Edit</a>
+                                    </li>
+                                    <li>
+                                        <a data-target="#deleteModal" data-toggle="modal">Delete</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Details</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>{{recordsError}}</p>
         </div>
     </div>
 </div>

@@ -21,7 +21,6 @@
         getPlanList();
     }
 
-
     //Handle organisation dropdown select event 
     $scope.$on('organisationSelected', function () {
         //Show loader
