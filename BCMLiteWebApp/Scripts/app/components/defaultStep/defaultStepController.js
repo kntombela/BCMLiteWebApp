@@ -1,80 +1,109 @@
-﻿testApp.controller('planCtrl', function ($scope, $rootScope, $http, $routeParams, planService, navService, sharedService) {
+﻿testApp.controller('defaultStepCtrl', function ($scope, $rootScope, $http, $routeParams, defaultStepService, navService, sharedService) {
 
     //Variables
-    $scope.pageTitle = 'Plans';
+    $scope.pageTitle = 'Default Steps';
     $scope.checkboxes = { 'checked': false, items: {} };
-    $scope.plans = [];
+    $scope.defaultSteps = [];
     $scope.newRecords = [];
-    $scope.departmentPlan = {
-        departmentPlanID: -1,
-        departmentID: '',
+    $scope.defaultStep = {
+        stepID: -1,
         planID: '',
-        departmentPlanInvoked: '',
+        number: '',
+        title: '',
+        summary: '',
+        detail: ''
     };
 
-    //Get plan list on controller load
-    getPlanList();
-
-    //Handle organisation dropdown select event 
-    $scope.$on('organisationSelected', function () {
-        //Show loader
-        $scope.showLoader = true;
-        getPlanList();
-    });
-
-    //Add new plan
-    $scope.addPlan = function () {
-        if (sharedService.departmentId) {
-            //Get department id attached to sharedService dropdown select
-            $scope.departmentPlan.departmentID = sharedService.departmentId;
-            //Get plan id from navigation route set when navigating to plans/create
-            $scope.departmentPlan.planID = $routeParams.planId;
-            //Call plan service to add new plan
-            var requestResponse = planService.addEditPlan($scope.departmentPlan);
-            //asynchronously add new plan to db using message helper
-            Message(requestResponse);
-        } else {
-            alert("No department selected");
-        }
+    //Get step list
+    getDefaultStepList();
+    
+    //Add new step
+    $scope.addStep = function () {
+        $scope.defaultStep.planID = sessionStorage.planId;
+        var requestResponse = defaultStepService.addEditStep($scope.defaultStep);
+        Message(requestResponse);
     };
 
-    //Edit Plan
-    $scope.editPlan = function () {
-        getPlan($scope.departmentPlanID);
+    //Edit step
+    $scope.editStep = function (stepId) {
+        getStep(stepId);
     };
 
-    //Delete plan
-    $scope.deletePlan = function () {
-        //Call plan service to delete plans
-        var requestResponse = planService.deletePlans(getSelectedItems());
-        //asynchronously delets plans from db using message helper
+    //Delete step
+    $scope.deleteStep = function () {
+        var requestResponse = defaultStepService.deleteStep(getSelectedItems());
         Message(requestResponse);
         //Reset selected row
         resetRowSelect();
     };
 
+
+    //Handle file import
+    $scope.loadFile = function (files) {
+
+        $scope.$apply(function () {
+
+            $scope.selectedFile = files[0];
+
+        })
+
+    }
+
+    $scope.handleFile = function () {
+        var file = $scope.selectedFile;
+
+        if (file) {
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+
+                var data = e.target.result;
+
+                var workbook = XLSX.read(data, { type: 'binary' });
+
+                var first_sheet_name = workbook.SheetNames[0];
+
+                var dataObjects = XLSX.utils.sheet_to_json(workbook.Sheets[first_sheet_name]);
+
+                if (dataObjects.length > 0) {
+
+                    Import(dataObjects);
+
+                    getDefaultStepList();
+
+                } else {
+                    $scope.msg = "Error : Something Wrong !";
+                }
+            }
+            reader.onerror = function (ex) {
+            }
+            reader.readAsBinaryString(file);
+        }
+    }
+
     /**********************************HELPERS***************************************/
-    //Get plan
-    function getPlan(id) {
-        planService.getPlanById(id).then(function (response) {
-            $scope.departmentPlan = response.data;
+    //Get step
+    function getDefaultStep(id) {
+        defaultStepService.getDefaultStepById(id).then(function (response) {
+            $scope.defaultStep = response.data;
         }, function () {
             alert('Error getting record');
         });
     }
 
-    //Get plan list
-    function getPlanList() {
-        if (sharedService.organisationId != null) {
+    //Get step list
+    function getDefaultStepList() {
+        if ($routeParams.planId) {
             //Show button to add new item
             $scope.showNew = true;
             //Show loader
             $scope.showLoader = true;
-            //Get applications
-            planService.getOrganisationPlans(sharedService.organisationId).then(function (response) {
-                $scope.plans = response.data;
-                if (!$scope.plans.length) {
-                    $scope.recordsError = "No plans created yet, click 'New' to begin.";
+            //Get steps
+            defaultStepService.getDefaultSteps($routeParams.planId).then(function (response) {
+                $scope.defaultSteps = response.data;
+                if (!$scope.defaultSteps.length) {
+                    $scope.recordsError = "No default steps added yet, click 'New' to begin.";
                 }
                 else {
                     $scope.recordsError = "";
@@ -89,20 +118,37 @@
     //Helper function to call api asynchronously
     function Message(requestResponse) {
         requestResponse.then(function successCallback(response) {
-            //Refresh plan list
-            getPlanList();
+            //Repopulate page with refreshed list
+            getDefaultStepList();
+            //Close popup window
+            $('#addEditModal').modal('hide');
             //Show success message
             showMessageAlert(response.data.message)
             //Flag new rows
             if (response.data.ids) {
-                $scope.departmentPlan.departmentPlanID = response.data.ids;
-                alert($scope.departmentPlan.departmentPlanID + ' Added');
+                $scope.newRecords = response.data.ids;
             }
 
         }, function errorCallback(response) {
             //Show error message
-            alert("Something went wrong, please try again or contact your administrator if the problem persists.");
+            showMessageAlert('Something went wrong, please try again or contact your administrator if the problem persists.');
         });
+    }
+
+    //Import steps
+    function Import(data) {
+        if (sessionStorage.planId) {
+            //Append selected plan to import data
+            for (x in data) {
+                data[x].planId = sessionStorage.planId;
+            }
+            var requestResponse = defaultStepService.importSteps(data);
+
+            Message(requestResponse);
+
+        } else {
+            alert("No plan selected!");
+        }
     }
 
     //Flag new rows
@@ -121,19 +167,19 @@
     }
 
     //Show CRUD actions when a row is selected
-    $scope.onRowClicked = function (planId) {          
-        $scope.planId = planId;
+    $scope.onRowClicked = function (stepId) {
+        $scope.stepId = stepId;
         //Clear check boxes prior to select if items have selected
         if (getSelectedItems()) {
             $scope.checkboxes.items = {};
         }
-        $scope.checkboxes.items[planId] = true;
+        $scope.checkboxes.items[stepId] = true;
         showCrudActions(true);
     }
 
     //Reset row select
     function resetRowSelect() {
-        $scope.plan = {};
+        $scope.defaultStep = {};
         $scope.checkboxes = { 'checked': false, items: {} };
         showCrudActions(false);
     }
@@ -148,10 +194,10 @@
     function getSelectedItems() {
         //Get list of checked items
         var checked = [];
-        angular.forEach($scope.plans, function (item) {
-            if ($scope.checkboxes.items[item.id]) {
+        angular.forEach($scope.defaultSteps, function (item) {
+            if ($scope.checkboxes.items[item.stepID]) {
                 //Push all selected ids into array
-                checked.push(item.id);
+                checked.push(item.stepID);
             }
         });
 
@@ -177,24 +223,24 @@
 
     //watch for check all checkbox
     $scope.$watch('checkboxes.checked', function (value) {
-        angular.forEach($scope.plans, function (item) {
-            if (angular.isDefined(item.id)) {
-                $scope.checkboxes.items[item.id] = value;
+        angular.forEach($scope.defaultSteps, function (item) {
+            if (angular.isDefined(item.stepID)) {
+                $scope.checkboxes.items[item.stepID] = value;
             }
         });
     });
 
     // Watch for multiple item selects
     $scope.$watch('checkboxes.items', function (value) {
-        if (!$scope.plans) {
+        if (!$scope.defaultSteps) {
             return;
         }
         //Count number of checked and unchecked checkboxes
         var checked = 0, unchecked = 0,
-            total = $scope.plans.length;
-        angular.forEach($scope.plans, function (item) {
-            checked += ($scope.checkboxes.items[item.id]) || 0;
-            unchecked += (!$scope.checkboxes.items[item.id]) || 0;
+            total = $scope.defaultSteps.length;
+        angular.forEach($scope.defaultSteps, function (item) {
+            checked += ($scope.checkboxes.items[item.stepID]) || 0;
+            unchecked += (!$scope.checkboxes.items[item.stepID]) || 0;
 
         });
 
@@ -203,7 +249,7 @@
             $scope.showEdit = false;
             $scope.showDelete = true;
         } else if (getSelectedItems().length == 1) {
-            $scope.planId = getSelectedItems()[0];
+            $scope.stepId = getSelectedItems()[0];
             showCrudActions(true);
         } else {
             showCrudActions(false);

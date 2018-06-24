@@ -55,9 +55,9 @@
             templateUrl: function (params) { return '/departmentplans/create?planId=' + params.planId; },
             controller: 'planCtrl'
         })
-        .when('/plantemplates/edit/:planId', {
-            templateUrl: function (params) { return '/plantemplates/index?planId=' + params.planId; },
-            controller: 'planTemplateCtrl'
+        .when('/defaultPlans/edit/:planId', {
+            templateUrl: function (params) { return '/defaultPlans/index?planId=' + params.planId; },
+            controller: 'defaultPlanCtrl'
         })
         .when('/routeTwo', {
             templateUrl: 'routesDemo/two'

@@ -11,22 +11,20 @@
         <div class="form-inline m-3">
             <button type="button"
                     class="btn btn-sm btn-outline-secondary mr-1"
-                    @*ng-show="showNew"*@
+                    ng-show="showNew"
                     data-toggle="modal"
                     data-target="#addModal">
                 <span class="fa fa-plus mr-2"></span>New
             </button>
             <button type="button"
                     class="btn btn-sm btn-outline-secondary mr-1"
-                    @*ng-show="showEdit"*@
-                    ng-click="editDepartment()"
-                    data-toggle="modal"
-                    data-target="#addEditDepartment">
+                    ng-show="showEdit"
+                    ng-click="editPlan()">
                 <span class="fa fa-edit mr-2"></span>Edit
             </button>
             <button type="button"
                     class="btn btn-sm btn-outline-secondary"
-                    @*ng-show="showDelete"*@
+                    ng-show="showDelete"
                     data-toggle="modal"
                     data-target="#deleteModal">
                 <span class="fa fa-remove mr-2"></span>Delete
@@ -39,17 +37,19 @@
     </div>
 </div>
 <!-- Plans -->
-<div class="container-fluid" ng-init="getPlanList()">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-6 col-xl-3 mb-3" ng-repeat="x in plans|filter:search">
-            <div class="card">
+            <div class="card plan-card"
+                 ng-click="onRowClicked(x.id)"
+                 ng-class="{'card-selected':checkboxes.items[x.id]}">
                 <div class="card-body">
                     <!-- Menu Item-->
                     <div class="dropdown float-right">
                         <span class="fa fa-ellipsis-v p-2" data-toggle="dropdown"></span>
                         <ul class="dropdown-menu dropdown-content">
                             <li>
-                                <a data-target="#addModal" data-toggle="modal" ng-click="">Edit</a>
+                                <a data-target="#addModal" data-toggle="modal" ng-click="editPlan()">Edit</a>
                             </li>
                             <li>
                                 <a data-target="#deleteModal" data-toggle="modal">Delete</a>
@@ -63,15 +63,15 @@
                     <h4 class="card-title">{{x.departmentName}}</h4>
                     <h6 class="card-subtitle mb-2 text-muted">{{x.name}}</h6>
                     <p class="card-text">{{x.description}}</p>
-                    <a href="#" class="card-link">View</a>
-                    <a href="#" class="card-link">Share</a>
+                    <a href="" ng-click="redirectToPlansDetails(x.id)" class="card-link">View</a>
+                    <a href="" class="card-link">Share</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- Add Modal-->
-<div id="addModal" class="modal fade" role="dialog" ng-controller="planTemplateCtrl" ng-init="getPlanTemplateList()">
+<div id="addModal" class="modal fade" role="dialog" ng-controller="defaultPlanCtrl">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -81,12 +81,12 @@
             <div class="modal-body">
                 <h5 class="text-muted">{{pageTitle}}</h5>
                 <div class="scrolling-wrapper bg-light">
-                    <div class="card" ng-repeat="x in templatePlans"
-                         ng-class="{'card-selected': x.planID == planTemplateId}"
-                         ng-click="onPlanTemplateSelected(x.planID)">
+                    <div class="card" ng-repeat="x in defaultPlans"
+                         ng-class="{'card-selected': x.id == planId}"
+                         ng-click="onDefaultPlanSelected(x.id)">
                         <div class="card-body">
                             <h6 class="card-title">{{x.name}}</h6>
-                            <h6 class="card-subtitle mb-2 text-muted">{{x.planAbbreviation}}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">{{x.abbreviation}}</h6>
                             <p class="card-text small">{{x.description}}</p>
                             <button type="button"
                                     class="btn btn-sm btn-outline-secondary mr-1"
@@ -99,8 +99,26 @@
                 <p class="mt-2">Select a plan to begin, these plans can be edited. Alternatively, you can create your own plans by clicking 'New Template'</p>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-secondary" ng-click="">New Template</button>
-                    <button type="submit" class="btn btn-success" ng-click="redirectToPlansCreate(planTemplateId)">Create</button>
+                    <button type="submit" class="btn btn-success" ng-click="redirectToPlansCreate(planId)">Create</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Delete Application Modal-->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">Are you sure you want to delete this item?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" data-dismiss="modal" ng-click="deletePlan()">Delete</a>
             </div>
         </div>
     </div>

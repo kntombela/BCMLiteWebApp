@@ -1,5 +1,6 @@
 namespace BCMLiteWebApp.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -30,5 +31,6 @@ namespace BCMLiteWebApp.Models
         public string Detail { get; set; }
 
         public virtual DepartmentPlan DepartmentPlan { get; set; }
+
     }
 }

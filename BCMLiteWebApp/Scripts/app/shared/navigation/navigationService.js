@@ -58,6 +58,7 @@
     //Plan Routes
     $rootScope.redirectToPlansCreate = function (planId) {
         window.location.href = '/#/plans/create/' + planId;
+        sessionStorage.planId = planId;
         //Close popup window
         $('#addModal').modal('hide');
     };

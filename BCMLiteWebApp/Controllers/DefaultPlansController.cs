@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace BCMLiteWebApp.Controllers
 {
-    public class PlanTemplatesController : Controller
+    public class DefaultPlansController : Controller
     {
-        public ActionResult Edit(int planId)
+        public ActionResult Index(int planId)
         {
             return View();
         }

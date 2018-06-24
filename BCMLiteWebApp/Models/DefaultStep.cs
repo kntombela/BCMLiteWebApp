@@ -1,5 +1,6 @@
 namespace BCMLiteWebApp.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,5 +23,9 @@ namespace BCMLiteWebApp.Models
         public string Detail { get; set; }
 
         public virtual DefaultPlan DefaultPlan { get; set; }
+
+        public DateTime DateCreated { get; set; } = DateTime.Now;
+
+        public DateTime DateModified { get; set; } = DateTime.Now;
     }
 }

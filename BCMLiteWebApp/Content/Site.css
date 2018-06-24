@@ -185,6 +185,16 @@ tr td a, a:hover {
     animation: spin 2s linear infinite;
 }
 
+.plan-card {
+    transition: .3s ease;
+}
+
+.plan-card:hover {
+    color: black;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    cursor: pointer;
+}
+
 .scrolling-wrapper {
     overflow-x: auto;
     min-width: 100%;
@@ -195,7 +205,7 @@ tr td a, a:hover {
     .scrolling-wrapper .card {
         min-width: 200px;
         margin: 5px;
-        transition: .3s ease;
+        transition: .2s ease;
     }
 
 

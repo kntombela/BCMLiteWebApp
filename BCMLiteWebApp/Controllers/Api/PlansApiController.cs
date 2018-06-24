@@ -31,7 +31,7 @@ namespace BCMLiteWebApp.Controllers.API
 
         // GET api/organisations/1/plans
         [Route("~/api/organisations/{organisationId:int}/plans")]
-        [ResponseType(typeof(PlanViewModel))]
+        [ResponseType(typeof(PlanSummaryViewModel))]
         public async Task<IHttpActionResult> GetOrganisationPlans(int organisationId)
         {
             var plans = await GetPlansByOrganisationId(organisationId);
@@ -45,7 +45,7 @@ namespace BCMLiteWebApp.Controllers.API
         }
 
         // GET: api/plans/1/details
-        [ResponseType(typeof(PlanViewModel))]
+        [ResponseType(typeof(PlanSummaryViewModel))]
         [Route("~/api/plans/{id:int}/details")]
         public async Task<IHttpActionResult> GetPlan(int id)
         {
@@ -86,7 +86,7 @@ namespace BCMLiteWebApp.Controllers.API
 
                 //When value is not specified for model DateTime property, the value defaults to 0001-01-01
                 //which is outside of the range of SQL Server's DATETIME
-                //plan.DateModified = DateTime.Now; 
+                plan.DateModified = DateTime.Now;
 
                 try
                 {
@@ -111,7 +111,28 @@ namespace BCMLiteWebApp.Controllers.API
             return Ok(new PostResponseViewModel { Ids = new List<int>() { plan.DepartmentPlanID }, Message = message });
         }
 
-        
+        // DELETE: api/plans/delete
+        [Route("delete")]
+        [HttpPost]
+        [ResponseType(typeof(PostResponseViewModel))]
+        public async Task<IHttpActionResult> Delete(int[] ids)
+        {
+            foreach (int i in ids)
+            {
+                DepartmentPlan plans = await db.DepartmentPlans.FindAsync(i);
+                if (plans == null)
+                {
+                    return NotFound();
+                }
+
+                db.DepartmentPlans.Remove(plans);
+            }
+            await db.SaveChangesAsync();
+
+            string message = "Plans deleted successfully!";
+
+            return Ok(new PostResponseViewModel { Ids = null, Message = message });
+        }
 
         protected override void Dispose(bool disposing)
         {
@@ -146,37 +167,40 @@ namespace BCMLiteWebApp.Controllers.API
             return false;
         }
 
-        private async Task<List<PlanViewModel>> GetPlansByOrganisationId(int organisationId)
+        private async Task<List<PlanSummaryViewModel>> GetPlansByOrganisationId(int organisationId)
         {
             return await (from dp in db.DepartmentPlans
              join d in db.Departments on dp.DepartmentID equals d.DepartmentID
              join p in db.Plans on dp.PlanID equals p.PlanID
              where d.Organisation.OrganisationID == organisationId
-             select new PlanViewModel
+             select new PlanSummaryViewModel
              {
                  ID = dp.DepartmentPlanID,
                  Name = p.Name,
                  Description = p.Description,
                  Type = p.Type,
                  DepartmentName = d.Name,
-                 DepartmentID = d.DepartmentID
+                 DepartmentID = d.DepartmentID,
+                 Invoked = dp.DepartmentPlanInvoked,
+                 DateModified = dp.DateModified
              }).ToListAsync();
         }
 
-        private async Task<List<PlanViewModel>> GetPlanById(int planId)
+        private async Task<List<PlanSummaryViewModel>> GetPlanById(int planId)
         {
             return await (from dp in db.DepartmentPlans
                           join d in db.Departments on dp.DepartmentID equals d.DepartmentID
                           join p in db.Plans on dp.PlanID equals p.PlanID
                           where dp.DepartmentPlanID == planId
-                          select new PlanViewModel
+                          select new PlanSummaryViewModel
                           {
                               ID = dp.DepartmentPlanID,
                               Name = p.Name,
                               Description = p.Description,
                               Type = p.Type,
                               DepartmentName = d.Name,
-                              DepartmentID = d.DepartmentID
+                              DepartmentID = d.DepartmentID,
+                              DateModified = dp.DateModified
                           }).ToListAsync();
         }
         #endregion

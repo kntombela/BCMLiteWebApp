@@ -66,8 +66,10 @@ namespace BCMLiteWebApp
                       "~/Scripts/app/components/thirdParty/thirdPartyController.js",
                       "~/Scripts/app/components/plan/planService.js",
                       "~/Scripts/app/components/plan/planController.js",
-                      "~/Scripts/app/components/planTemplate/planTemplateController.js",
-                      "~/Scripts/app/components/planTemplate/planTemplateService.js"));
+                      "~/Scripts/app/components/defaultPlan/defaultPlanController.js",
+                      "~/Scripts/app/components/defaultPlan/defaultPlanService.js",
+                      "~/Scripts/app/components/defaultStep/defaultStepController.js",
+                      "~/Scripts/app/components/defaultStep/defaultStepService.js"));
 
         }
     }

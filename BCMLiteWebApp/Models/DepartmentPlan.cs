@@ -1,5 +1,6 @@
 namespace BCMLiteWebApp.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -27,5 +28,9 @@ namespace BCMLiteWebApp.Models
         public virtual ICollection<ApplicationUser> Users { get; set; }
 
         public virtual ICollection<Step> Steps { get; set; }
+
+        public DateTime DateCreated { get; set; } = DateTime.Now;
+
+        public DateTime DateModified { get; set; } = DateTime.Now;
     }
 }
