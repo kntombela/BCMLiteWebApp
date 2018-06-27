@@ -215,6 +215,7 @@
     <Compile Include="Controllers\Api\DocumentsApiController.cs" />
     <Compile Include="Controllers\Api\EquipmentApiController.cs" />
     <Compile Include="Controllers\Api\OrganisationsApiController.cs" />
+    <Compile Include="Controllers\Api\DepartmentPlansApiController.cs" />
     <Compile Include="Controllers\Api\PlansApiController.cs" />
     <Compile Include="Controllers\Api\ProcessesApiController.cs" />
     <Compile Include="Controllers\Api\SkillsApiController.cs" />
@@ -264,6 +265,18 @@
     <Compile Include="Migrations\201806242010172_DateTrackingOnDepartmentPlanModel.cs" />
     <Compile Include="Migrations\201806242010172_DateTrackingOnDepartmentPlanModel.Designer.cs">
       <DependentUpon>201806242010172_DateTrackingOnDepartmentPlanModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806252048113_DatabaseGeneratedNoneOnPlan.cs" />
+    <Compile Include="Migrations\201806252048113_DatabaseGeneratedNoneOnPlan.Designer.cs">
+      <DependentUpon>201806252048113_DatabaseGeneratedNoneOnPlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806252113276_PlanNameLength.cs" />
+    <Compile Include="Migrations\201806252113276_PlanNameLength.Designer.cs">
+      <DependentUpon>201806252113276_PlanNameLength.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806252315302_RemovedCategoryFromStep.cs" />
+    <Compile Include="Migrations\201806252315302_RemovedCategoryFromStep.Designer.cs">
+      <DependentUpon>201806252315302_RemovedCategoryFromStep.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -374,6 +387,8 @@
     <Content Include="Scripts\app\components\skill\skillService.js" />
     <Content Include="Scripts\app\components\defaultStep\defaultStepController.js" />
     <Content Include="Scripts\app\components\defaultStep\defaultStepService.js" />
+    <Content Include="Scripts\app\components\step\stepController.js" />
+    <Content Include="Scripts\app\components\step\stepService.js" />
     <Content Include="Scripts\app\components\thirdParty\thirdPartyController.js" />
     <Content Include="Scripts\app\components\thirdParty\thirdPartyService.js" />
     <Content Include="Scripts\app\shared\crud\crudService.js" />
@@ -1352,6 +1367,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806242010172_DateTrackingOnDepartmentPlanModel.resx">
       <DependentUpon>201806242010172_DateTrackingOnDepartmentPlanModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806252048113_DatabaseGeneratedNoneOnPlan.resx">
+      <DependentUpon>201806252048113_DatabaseGeneratedNoneOnPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806252113276_PlanNameLength.resx">
+      <DependentUpon>201806252113276_PlanNameLength.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806252315302_RemovedCategoryFromStep.resx">
+      <DependentUpon>201806252315302_RemovedCategoryFromStep.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

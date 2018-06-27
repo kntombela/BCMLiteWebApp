@@ -173,7 +173,7 @@ namespace BCMLiteWebApp.Controllers.Api
             return db.DefaultSteps.Count(ds => ds.StepID == id) > 0;
         }
 
-        private async Task<List<StepViewModel>> GetStepsByPlanId(int planId)
+        public async Task<List<StepViewModel>> GetStepsByPlanId(int planId)
         {
             return await (from ds in db.DefaultSteps
                           where ds.PlanID == planId

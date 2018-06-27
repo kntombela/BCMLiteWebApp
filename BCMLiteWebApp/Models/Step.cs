@@ -18,8 +18,6 @@ namespace BCMLiteWebApp.Models
 
         public int DepartmentPlanID { get; set; }
 
-        public Category Category { get; set; }
-
         public int? Number { get; set; }
 
         [StringLength(500)]

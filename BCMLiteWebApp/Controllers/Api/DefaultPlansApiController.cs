@@ -16,7 +16,6 @@ using System.Web.Http.Description;
 namespace BCMLiteWebApp.Controllers.Api
 {
     [RoutePrefix("api/defaultPlans")]
-    [Authorize]
     public class DefaultPlansApiController : ApiController
     {
 

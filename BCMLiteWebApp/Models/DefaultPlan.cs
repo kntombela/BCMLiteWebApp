@@ -30,5 +30,6 @@ namespace BCMLiteWebApp.Models
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
         public DateTime DateModified { get; set; } = DateTime.Now;
+
     }
 }

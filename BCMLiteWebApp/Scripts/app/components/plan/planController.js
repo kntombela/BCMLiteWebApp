@@ -22,8 +22,12 @@
         getPlanList();
     });
 
+    $scope.$on('departmentSelected', function () {
+        addPlan();
+    });
+
     //Add new plan
-    $scope.addPlan = function () {
+    function addPlan () {
         if (sharedService.departmentId) {
             //Get department id attached to sharedService dropdown select
             $scope.departmentPlan.departmentID = sharedService.departmentId;
@@ -96,6 +100,7 @@
             //Flag new rows
             if (response.data.ids) {
                 $scope.departmentPlan.departmentPlanID = response.data.ids;
+                sessionStorage.departmentPlanID = $scope.departmentPlan.departmentPlanID;
                 alert($scope.departmentPlan.departmentPlanID + ' Added');
             }
 

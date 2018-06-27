@@ -1,72 +1,34 @@
 ﻿using BCMLiteWebApp.DAL;
 using BCMLiteWebApp.Models;
+using BCMLiteWebApp.Models.ViewModels;
 using BCMLiteWebApp.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
 using System.Data.Entity;
-using System.Web.Http.Description;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using BCMLiteWebApp.Models.ViewModels;
 using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Description;
 
-namespace BCMLiteWebApp.Controllers.API
+namespace BCMLiteWebApp.Controllers.Api
 {
     [RoutePrefix("api/plans")]
-    [Authorize]
     public class PlansApiController : ApiController
     {
-        protected UserManager<ApplicationUser> UserManager { get; set; }
+
         private BCMContext db = new BCMContext();
 
-        public PlansApiController()
-        {
-            //Handle "Self referencing loop detected for property" error
-            //db.Configuration.ProxyCreationEnabled = false;
-            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-        }
+        
 
-        // GET api/organisations/1/plans
-        [Route("~/api/organisations/{organisationId:int}/plans")]
-        [ResponseType(typeof(PlanSummaryViewModel))]
-        public async Task<IHttpActionResult> GetOrganisationPlans(int organisationId)
-        {
-            var plans = await GetPlansByOrganisationId(organisationId);
-
-            if (plans == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(plans);
-        }
-
-        // GET: api/plans/1/details
-        [ResponseType(typeof(PlanSummaryViewModel))]
-        [Route("~/api/plans/{id:int}/details")]
-        public async Task<IHttpActionResult> GetPlan(int id)
-        {
-            var plans = await GetPlanById(id);
-
-            if (plans == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(plans);
-        }
-
-       
         // POST: api/plans    
         [Route("")]
         [HttpPost]
         [ResponseType(typeof(PostResponseViewModel))]
-        public async Task<IHttpActionResult> AddEditPlan(DepartmentPlan plan)
+        public async Task<IHttpActionResult> AddEditPlan(Plan plan)
         {
-            string status = "";
 
             if (!ModelState.IsValid)
             {
@@ -74,41 +36,14 @@ namespace BCMLiteWebApp.Controllers.API
             }
 
             //Edit or add depending on if id exists
-            if (!PlanExists(plan.DepartmentPlanID))
+            if (!PlanExists(plan.PlanID))
             {
-                db.DepartmentPlans.Add(plan);
+                db.Plans.Add(plan);
+
                 await db.SaveChangesAsync();
-                status = "created";
             }
-            else
-            {
-                db.Entry(plan).State = EntityState.Modified;
-
-                //When value is not specified for model DateTime property, the value defaults to 0001-01-01
-                //which is outside of the range of SQL Server's DATETIME
-                plan.DateModified = DateTime.Now;
-
-                try
-                {
-                    await db.SaveChangesAsync();
-                    status = "updated";
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PlanExists(plan.DepartmentPlanID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-            }
-
-            string message = $"Plan successfully { status }!";
-
-            return Ok(new PostResponseViewModel { Ids = new List<int>() { plan.DepartmentPlanID }, Message = message });
+          
+            return Ok(new PostResponseViewModel { Ids = new List<int>() { plan.PlanID }, Message = null });
         }
 
         // DELETE: api/plans/delete
@@ -119,13 +54,13 @@ namespace BCMLiteWebApp.Controllers.API
         {
             foreach (int i in ids)
             {
-                DepartmentPlan plans = await db.DepartmentPlans.FindAsync(i);
+                Plan plans = await db.Plans.FindAsync(i);
                 if (plans == null)
                 {
                     return NotFound();
                 }
 
-                db.DepartmentPlans.Remove(plans);
+                db.Plans.Remove(plans);
             }
             await db.SaveChangesAsync();
 
@@ -146,63 +81,9 @@ namespace BCMLiteWebApp.Controllers.API
         #region Helpers
         private bool PlanExists(int id)
         {
-            return db.DepartmentPlans.Count(d => d.DepartmentPlanID == id) > 0;
+            return db.Plans.Count(d => d.PlanID == id) > 0;
         }
 
-        private Boolean IsAdminUser()
-        {
-
-            if (User.Identity.IsAuthenticated)
-            {
-                var s = UserManager.GetRoles(User.Identity.GetUserId());
-                if (s[0].ToString() == "Admin")
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        private async Task<List<PlanSummaryViewModel>> GetPlansByOrganisationId(int organisationId)
-        {
-            return await (from dp in db.DepartmentPlans
-             join d in db.Departments on dp.DepartmentID equals d.DepartmentID
-             join p in db.Plans on dp.PlanID equals p.PlanID
-             where d.Organisation.OrganisationID == organisationId
-             select new PlanSummaryViewModel
-             {
-                 ID = dp.DepartmentPlanID,
-                 Name = p.Name,
-                 Description = p.Description,
-                 Type = p.Type,
-                 DepartmentName = d.Name,
-                 DepartmentID = d.DepartmentID,
-                 Invoked = dp.DepartmentPlanInvoked,
-                 DateModified = dp.DateModified
-             }).ToListAsync();
-        }
-
-        private async Task<List<PlanSummaryViewModel>> GetPlanById(int planId)
-        {
-            return await (from dp in db.DepartmentPlans
-                          join d in db.Departments on dp.DepartmentID equals d.DepartmentID
-                          join p in db.Plans on dp.PlanID equals p.PlanID
-                          where dp.DepartmentPlanID == planId
-                          select new PlanSummaryViewModel
-                          {
-                              ID = dp.DepartmentPlanID,
-                              Name = p.Name,
-                              Description = p.Description,
-                              Type = p.Type,
-                              DepartmentName = d.Name,
-                              DepartmentID = d.DepartmentID,
-                              DateModified = dp.DateModified
-                          }).ToListAsync();
-        }
         #endregion
     }
 }

@@ -7,21 +7,21 @@ namespace BCMLiteWebApp.Models
     [Table("bcp.Plan")]
     public partial class Plan
     {
-        
+
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int PlanID { get; set; }
 
         [StringLength(6)]
-        public string PlanAbbreviation { get; set; }
+        public string Abbreviation { get; set; }
 
         [Required]
-        [StringLength(53)]
+        [StringLength(100)]
         public string Name { get; set; }
 
         [Required]
-        [StringLength(500)]
         public string Description { get; set; }
 
-        [StringLength(11)]
+        [StringLength(20)]
         public string Type { get; set; }
 
         public virtual ICollection<DepartmentPlan> DepartmentPlans { get; set; }
