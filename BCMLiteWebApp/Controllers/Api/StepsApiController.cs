@@ -37,7 +37,7 @@ namespace BCMLiteWebApp.Controllers.Api
 
         // GET: api/steps/1/details
         [ResponseType(typeof(StepViewModel))]
-        [Route("~/api/steps/{id:int}/details")]
+        [Route("{id:int}/details")]
         public async Task<IHttpActionResult> GetStep(int id)
         {
             var step = await GetStepById(id);
@@ -53,17 +53,14 @@ namespace BCMLiteWebApp.Controllers.Api
         // POST: api/steps/copyDefaultSteps/3/3   
         [Route("copyDefaultSteps/{planId:int}/{departmentPlanId:int}")]
         [HttpPost]
-        [ResponseType(typeof(PostResponseViewModel))]
+        [ResponseType(typeof(StepViewModel))]
         public async Task<IHttpActionResult> CopyDefaultSteps(int planId, int departmentPlanId)
-        {
-            string message = "";
-
-            //Get default plan steps          
-            var stepCopy = await db.DefaultSteps.Where(s => s.PlanID == planId).ToListAsync();
-
+        {         
             if (!DepartmentPlanExists(departmentPlanId))
-            {
+            {    
                 //Copy default steps to steps and associate with department planId
+                var stepCopy = await db.DefaultSteps.Where(s => s.PlanID == planId).ToListAsync();
+
                 foreach (var data in stepCopy)
                 {
                     Step step = new Step
@@ -78,16 +75,13 @@ namespace BCMLiteWebApp.Controllers.Api
                     db.Steps.Add(step);
                 }
 
-                await db.SaveChangesAsync();
-
-                message = "Steps copied successfully!";
+                await db.SaveChangesAsync();             
             }
-            else {
 
-                message = "This department already has a plan!";
-            }
-           
-            return Ok(new PostResponseViewModel { Ids = null, Message = message });
+            //Get steps
+            var steps = await GetStepsByPlanId(departmentPlanId);
+
+            return Ok(steps);
         }
 
 

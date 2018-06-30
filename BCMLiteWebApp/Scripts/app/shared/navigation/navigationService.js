@@ -1,4 +1,4 @@
-﻿testApp.service("navService", function ($rootScope) {
+﻿testApp.service("navService", function ($rootScope, sharedService) {
 
     //****Navigation Methods*****
     $rootScope.redirectToDashboard = function () {
@@ -13,7 +13,7 @@
 
     $rootScope.redirectToProcessEdit = function (processId) {
         window.location.href = '/#/processes/edit/' + processId;
-        sessionStorage.processId = id;
+        sessionStorage.processId = processId;
     };
 
     $rootScope.redirectToProcessDetails = function (processId) {
@@ -64,6 +64,7 @@
     };
 
     $rootScope.redirectToPlansIndex = function () {
+        sharedService.setDepartmentPlanId(0);
         window.location.href = '/#/plans';
     };
 });

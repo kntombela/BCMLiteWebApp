@@ -57,6 +57,20 @@
         resetRowSelect();
     };
 
+    //Cancel plan creation
+    $scope.cancelPlanCreate = function () {
+        //Check if plan has been created by reading shared service departmentPlanId property
+        if (sharedService.departmentPlanId) {
+            //Call plan service to delete plans
+            var requestResponse = planService.deletePlans(sharedService.departmentPlanId);
+            //asynchronously delets plans from db using message helper
+            Message(requestResponse);
+        }
+        
+        //Return to department plan index
+        $rootScope.redirectToPlansIndex();
+    }
+
     /**********************************HELPERS***************************************/
     //Get plan
     function getPlan(id) {
@@ -99,9 +113,9 @@
             showMessageAlert(response.data.message)
             //Flag new rows
             if (response.data.ids) {
-                $scope.departmentPlan.departmentPlanID = response.data.ids;
-                sessionStorage.departmentPlanID = $scope.departmentPlan.departmentPlanID;
-                alert($scope.departmentPlan.departmentPlanID + ' Added');
+                //Set departmentPlanId using sharedService, 
+                //this will broadcase the departmentPlanId when it is available due to the callback function
+                sharedService.setDepartmentPlanId(response.data.ids);
             }
 
         }, function errorCallback(response) {

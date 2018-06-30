@@ -14,15 +14,6 @@
         detail: ''
     };
 
-    var step = {
-        stepID: -1,
-        departmentPlanID: -1,
-        number: '',
-        title: '',
-        summary: '',
-        detail: ''
-    };
-
     //Get step list
     getStepList();
 
@@ -47,7 +38,7 @@
     };
 
     //Copy steps on department drop down select
-    $scope.$on('departmentSelected', function () {
+    $scope.$on('departmentPlanIdSet', function () {
         copyStepList();
     });
 
@@ -106,51 +97,25 @@
     }
 
     function copyStepList() {
-        
-        var stepCopy = [];
-
-        var stp = [];
-
-        defaultStepService.getDefaultSteps($routeParams.planId).then(function (response) {
-            //push default steps into department plans steps only if department
-            //plan is available and there's data coming from default steps                     
-            if (response.data.length) {
-                //Push steps
-                for (var i = 0; i < response.data.length; i++) {
-
-                    step = {};
-
-                    step.departmentPlanID = 3;
-                    step.number = i;
-                    step.title = response.data[i].title;
-                    step.summary = response.data[i].summary;
-                    step.detail = response.data[i].detail;
-
-                    stepCopy.push(step);
-                };
-              
-                var requestResponse = stepService.importSteps(stepCopy);
-
-                Message(requestResponse);
-
-                //Clear array
-                stepCopy = [];
-            }
-            else {
-                alert("Something went wrong with assigning default steps to department plan steps");
-            }
-        });
+        if ($routeParams.planId && sharedService.departmentPlanId != null) {
+            stepService.copyDefaultSteps($routeParams.planId, sharedService.departmentPlanId).then(function (response) {
+                getStepList();
+            });
+        }
     }
 
     //Get step list
     function getStepList() {
-        if (sessionStorage.departmentPlanID) {
+        //Clear step list before load
+        $scope.steps = [];
+
+        if (sharedService.departmentPlanId) {
             //Show button to add new item
             $scope.showNew = true;
             //Show loader
             $scope.showLoader = true;
             //Get steps
-            stepService.getSteps(sessionStorage.departmentPlanID).then(function (response) {
+            stepService.getSteps(sharedService.departmentPlanId).then(function (response) {
                 $scope.steps = response.data;
                 if (!$scope.steps.length) {
                     $scope.recordsError = "No steps added yet, click 'New' to begin.";

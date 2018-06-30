@@ -19,6 +19,13 @@
         });
     };
 
+    this.copyDefaultSteps = function (planId, departmentPlanId) {
+        return $http({
+            method: "post",
+            url: "/api/steps/copyDefaultSteps/" + planId + "/" + departmentPlanId
+        });
+    };
+
     //Delete step
     this.deleteStep = function (ids) {
         return $http({

@@ -1,27 +1,41 @@
-﻿<div ng-controller="defaultPlanCtrl">
-    <!-- Breadcrumbs-->
-    <ol class="breadcrumb mb-2 arr-bread">
-        <li class="breadcrumb-item">
-            <a href="" ng-click="redirectToDashboard()">Home</a>
-        </li>
-        <li class="breadcrumb-item">
-            <a href="" ng-click="redirectToPlansIndex()">Plans</a>
-        </li>
-        <li class="breadcrumb-item active">New</li>
-    </ol>
-    <!-- Plan Template Details-->
-    <div class="ml-3 mb-3">
-        <h4 class="mb-3">{{defaultPlan.name}}</h4>
-        <strong>Type:</strong>
-        <p class="mb-0">{{defaultPlan.type}}</p>
-        <strong>Description:</strong>
-        <p class="mb-0">{{defaultPlan.description}}</p>
+﻿    <!-- Breadcrumbs-->
+<div class="row my-2">
+    <div class="col">
+        <ol class="breadcrumb arr-bread pt-0">
+            <li class="breadcrumb-item">
+                <a href="" ng-click="redirectToDashboard()">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="" ng-click="redirectToPlansIndex()">Plans</a>
+            </li>
+            <li class="breadcrumb-item active">New</li>
+        </ol>
+    </div>
+    <div class="col-12 col-sm-4 text-sm-right mx-3">
+        <div class="form-group">
+            <button type="submit" class="btn btn-secondary" ng-click="cancelPlanCreate()">Cancel</button>
+            <button type="submit" class="btn btn-success" ng-click="redirectToPlansIndex()">Save</button>
+        </div>
     </div>
 </div>
-<div class="container">
-    <p class="lead">Select the department you wish to create a plan for:</p>
-    <div class="row">
-        <div class="col-sm-4" ng-controller="departmentCtrl">
+<!-- Plan Template Details-->
+<div class="ml-3 mb-3" ng-controller="defaultPlanCtrl">
+    <h4 class="mb-3">{{defaultPlan.name}}</h4>
+    <strong>Type:</strong>
+    <p>{{defaultPlan.type}}</p>
+    <strong>Description:</strong>
+    <p class="mb-0">{{defaultPlan.description}}</p>
+</div>
+
+<!-- Department Select-->
+<div class="container-fluid">
+    <div class="form-group row">
+        <div class="col">
+            <p class="lead mb-0">Select the department you wish to create a plan for:</p>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col col-sm-4" ng-controller="departmentCtrl">
             <select class="form-control nav-link-text"
                     ng-model="departmentId"
                     ng-change="setSelectedDepartment(departmentId)"
@@ -29,12 +43,9 @@
                 <option value="" disabled selected>--Select Department--</option>
             </select>
         </div>
-        <button class="btn btn-success" ng-click="addPlan()">Create Plan</button>
     </div>
 </div>
-
-
-
+<!-- Plan Step Card-->
 <div class="container-fluid" ng-controller="stepCtrl">
     <div class="card my-3">
         <div class="card-body">
@@ -106,7 +117,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="x in defaultSteps|orderBy:sortKey:reverse|filter:search"
+                    <tr ng-repeat="x in steps|orderBy:sortKey:reverse|filter:search"
                         ng-click="onRowClicked(x.stepID)"
                         ng-class="{'selected':checkboxes.items[x.stepID]}">
                         <td>
@@ -132,7 +143,7 @@
                                 </ul>
                             </div>
                         </td>
-                    </tr>                  
+                    </tr>
                 </tbody>
             </table>
             <p>{{recordsError}}</p>
