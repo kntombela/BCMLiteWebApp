@@ -49,6 +49,8 @@ namespace BCMLiteWebApp.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                if(UserManager.GetRoles(User.Identity.GetUserId()).Count() < 1) { return false; }
+
                 var s = UserManager.GetRoles(User.Identity.GetUserId());
                 if (s[0].ToString() == "Admin")
                 {

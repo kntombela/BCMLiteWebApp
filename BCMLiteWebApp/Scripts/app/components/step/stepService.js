@@ -11,11 +11,11 @@
     };
 
     //Add/Edit step
-    this.addEditStep = function (plan) {
+    this.addEditStep = function (step) {
         return $http({
             method: "post",
             url: "/api/steps",
-            data: plan
+            data: step
         });
     };
 

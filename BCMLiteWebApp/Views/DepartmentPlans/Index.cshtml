@@ -12,6 +12,7 @@
             <button type="button"
                     class="btn btn-sm btn-outline-secondary mr-1"
                     ng-show="showNew"
+                    ng-click="resetRowSelect()"
                     data-toggle="modal"
                     data-target="#addModal">
                 <span class="fa fa-plus mr-2"></span>New
@@ -19,7 +20,7 @@
             <button type="button"
                     class="btn btn-sm btn-outline-secondary mr-1"
                     ng-show="showEdit"
-                    ng-click="editPlan()">
+                    ng-click="redirectToPlansEdit(departmentPlanId)">
                 <span class="fa fa-edit mr-2"></span>Edit
             </button>
             <button type="button"
@@ -49,7 +50,7 @@
                         <span class="fa fa-ellipsis-v p-2" data-toggle="dropdown"></span>
                         <ul class="dropdown-menu dropdown-content">
                             <li>
-                                <a data-target="#addModal" data-toggle="modal" ng-click="editPlan()">Edit</a>
+                                <a ng-click="redirectToPlansEdit(x.id)">Edit</a>
                             </li>
                             <li>
                                 <a data-target="#deleteModal" data-toggle="modal">Delete</a>
@@ -63,8 +64,6 @@
                     <h4 class="card-title">{{x.departmentName}}</h4>
                     <h6 class="card-subtitle mb-2 text-muted">{{x.name}}</h6>
                     <p class="card-text">{{x.description}}</p>
-                    <a href="" ng-click="redirectToPlansDetails(x.id)" class="card-link">View</a>
-                    <a href="" class="card-link">Share</a>
                 </div>
             </div>
         </div>

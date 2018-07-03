@@ -186,7 +186,7 @@ namespace BCMLiteWebApp.Controllers.API
              }).ToListAsync();
         }
 
-        private async Task<List<PlanSummaryViewModel>> GetPlanById(int planId)
+        private async Task<PlanSummaryViewModel> GetPlanById(int planId)
         {
             return await (from dp in db.DepartmentPlans
                           join d in db.Departments on dp.DepartmentID equals d.DepartmentID
@@ -201,7 +201,7 @@ namespace BCMLiteWebApp.Controllers.API
                               DepartmentName = d.Name,
                               DepartmentID = d.DepartmentID,
                               DateModified = dp.DateModified
-                          }).ToListAsync();
+                          }).SingleOrDefaultAsync();
         }
         #endregion
     }

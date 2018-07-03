@@ -63,6 +63,10 @@
         $('#addModal').modal('hide');
     };
 
+    $rootScope.redirectToPlansEdit = function (departmentPlanId) {
+        window.location.href = '/#/plans/edit/' + departmentPlanId;
+    };
+
     $rootScope.redirectToPlansIndex = function () {
         sharedService.setDepartmentPlanId(0);
         window.location.href = '/#/plans';

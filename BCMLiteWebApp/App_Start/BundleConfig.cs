@@ -71,7 +71,9 @@ namespace BCMLiteWebApp
                       "~/Scripts/app/components/defaultStep/defaultStepController.js",
                       "~/Scripts/app/components/defaultStep/defaultStepService.js",
                       "~/Scripts/app/components/step/stepController.js",
-                      "~/Scripts/app/components/step/stepService.js"));
+                      "~/Scripts/app/components/step/stepService.js",
+                      "~/Scripts/app/components/users/userController.js",
+                      "~/Scripts/app/components/users/userService.js"));
 
         }
     }

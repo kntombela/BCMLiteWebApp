@@ -13,15 +13,27 @@
         summary: '',
         detail: ''
     };
+    var departmentPlanId;
 
-    //Get step list
-    getStepList();
+    setDepartmentPlanId();
+
+    //Get step list when departmentPlanId is available in route params
+    if ($routeParams.departmentPlanId) {
+        getStepList();
+    }
+
+    //Copy steps on department drop down select
+    $scope.$on('departmentPlanIdSet', function () {
+        copyStepList();
+    });
 
     //Add new step
     $scope.addStep = function () {
-        $scope.step.planID = sessionStorage.planId;
-        var requestResponse = stepService.addEditStep($scope.step);
-        Message(requestResponse);
+        if (departmentPlanId){
+            $scope.step.departmentPlanID = departmentPlanId;
+            var requestResponse = stepService.addEditStep($scope.step);
+            Message(requestResponse);
+        }
     };
 
     //Edit step
@@ -37,11 +49,6 @@
         resetRowSelect();
     };
 
-    //Copy steps on department drop down select
-    $scope.$on('departmentPlanIdSet', function () {
-        copyStepList();
-    });
-
     //Handle file import
     $scope.loadFile = function (files) {
 
@@ -49,9 +56,9 @@
 
             $scope.selectedFile = files[0];
 
-        })
+        });
 
-    }
+    };
 
     $scope.handleFile = function () {
         var file = $scope.selectedFile;
@@ -84,7 +91,7 @@
             }
             reader.readAsBinaryString(file);
         }
-    }
+    };
 
     /**********************************HELPERS***************************************/
     //Get step
@@ -109,13 +116,13 @@
         //Clear step list before load
         $scope.steps = [];
 
-        if (sharedService.departmentPlanId) {
+        if (departmentPlanId) {
             //Show button to add new item
             $scope.showNew = true;
             //Show loader
             $scope.showLoader = true;
             //Get steps
-            stepService.getSteps(sharedService.departmentPlanId).then(function (response) {
+            stepService.getSteps(departmentPlanId).then(function (response) {
                 $scope.steps = response.data;
                 if (!$scope.steps.length) {
                     $scope.recordsError = "No steps added yet, click 'New' to begin.";
@@ -130,6 +137,37 @@
         }
     }
 
+    function setDepartmentPlanId() {
+        if (sharedService.departmentPlanId || $routeParams.departmentPlanId) {
+            if (sharedService.departmentPlanId) {
+                departmentPlanId = sharedService.departmentPlanId;
+            } else {
+                departmentPlanId = $routeParams.departmentPlanId;
+            }
+        }
+    }
+
+    //Get step list
+    //function getStepList(departmentPlanId) {
+    //    //Show button to add new item
+    //    $scope.showNew = true;
+    //    //Show loader
+    //    $scope.showLoader = true;
+    //    //Get steps
+    //    stepService.getSteps(departmentPlanId).then(function (response) {
+    //        $scope.steps = response.data;
+    //        if (!$scope.steps.length) {
+    //            $scope.recordsError = "No steps added yet, click 'New' to begin.";
+    //        }
+    //        else {
+    //            $scope.recordsError = "";
+    //        }
+    //    }).finally(function () {
+    //        //Close loader when data has been loaded
+    //        $scope.showLoader = false;
+    //    });
+    //}
+
     //Helper function to call api asynchronously
     function Message(requestResponse) {
         requestResponse.then(function successCallback(response) {
@@ -138,7 +176,7 @@
             //Close popup window
             $('#addEditModal').modal('hide');
             //Show success message
-            showMessageAlert(response.data.message)
+            showMessageAlert(response.data.message);
             //Flag new rows
             if (response.data.ids) {
                 $scope.newRecords = response.data.ids;
@@ -168,18 +206,18 @@
 
     //Flag new rows
     $scope.isNewRow = function (id) {
-        var flag = false
+        var flag = false;
         if ($scope.newRecords) {
             flag = $scope.newRecords.includes(id);
         }
         return flag;
-    }
+    };
 
     /**********************************CRUD ACTIONS**********************************/
     //Clear form before adding new process
     $scope.resetRowSelect = function () {
         resetRowSelect();
-    }
+    };
 
     //Show CRUD actions when a row is selected
     $scope.onRowClicked = function (stepId) {
@@ -190,7 +228,7 @@
         }
         $scope.checkboxes.items[stepId] = true;
         showCrudActions(true);
-    }
+    };
 
     //Reset row select
     function resetRowSelect() {
@@ -234,7 +272,7 @@
     $scope.sort = function (keyname) {
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-    }
+    };
 
     //watch for check all checkbox
     $scope.$watch('checkboxes.checked', function (value) {

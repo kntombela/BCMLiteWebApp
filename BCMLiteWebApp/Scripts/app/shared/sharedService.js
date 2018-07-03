@@ -4,6 +4,7 @@
     sharedService.organisationId = null;
     sharedService.departmentId = null;
     sharedService.departmentPlanId = null;
+    sharedService.userId = null;
 
     //Public methods that set IDs based on drop downs 
     sharedService.prepForPublish = function (organisationId) {
@@ -14,6 +15,11 @@
     sharedService.setDepartmentId = function (departmentId) {
         this.departmentId = departmentId;
         this.onDepartmentIdSelected();
+    }
+
+    sharedService.setPlanOwner = function (userId) {
+        this.userId = userId;
+        this.onPlanOwnerSelected();
     }
 
     sharedService.setDepartmentPlanId = function (departmentPlanId) {
@@ -31,6 +37,10 @@
 
     sharedService.onDepartmentIdSelected = function () {
         $rootScope.$broadcast("departmentSelected");
+    };
+
+    sharedService.onPlanOwnerSelected = function () {
+        $rootScope.$broadcast("planOwnerSelected");
     };
 
     sharedService.onDepartmentPlanIdSet = function () {

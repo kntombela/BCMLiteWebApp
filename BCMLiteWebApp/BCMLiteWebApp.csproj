@@ -221,6 +221,7 @@
     <Compile Include="Controllers\Api\SkillsApiController.cs" />
     <Compile Include="Controllers\Api\StepsApiController.cs" />
     <Compile Include="Controllers\Api\ThirdPartiesApiController.cs" />
+    <Compile Include="Controllers\Api\UsersApiController.cs" />
     <Compile Include="Controllers\ApplicationsController.cs" />
     <Compile Include="Controllers\DepartmentPlansController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
@@ -303,6 +304,7 @@
     <Compile Include="Models\ViewModels\ProcessViewModels.cs" />
     <Compile Include="Models\ViewModels\ResourceViewModels.cs" />
     <Compile Include="Models\ViewModels\StepViewModels.cs" />
+    <Compile Include="Models\ViewModels\UserViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -391,6 +393,8 @@
     <Content Include="Scripts\app\components\step\stepService.js" />
     <Content Include="Scripts\app\components\thirdParty\thirdPartyController.js" />
     <Content Include="Scripts\app\components\thirdParty\thirdPartyService.js" />
+    <Content Include="Scripts\app\components\users\userController.js" />
+    <Content Include="Scripts\app\components\users\userService.js" />
     <Content Include="Scripts\app\shared\crud\crudService.js" />
     <Content Include="Scripts\app\shared\navigation\navigationController.js" />
     <Content Include="Scripts\app\shared\navigation\navigationService.js" />
@@ -1317,6 +1321,7 @@
     <Content Include="Views\DefaultPlans\Edit.cshtml" />
     <Content Include="Views\DepartmentPlans\Create.cshtml" />
     <Content Include="Views\DefaultPlans\Index.cshtml" />
+    <Content Include="Views\DepartmentPlans\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

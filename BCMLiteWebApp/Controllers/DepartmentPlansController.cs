@@ -18,5 +18,10 @@ namespace BCMLiteWebApp.Controllers
             return View();
         }
 
+        public ActionResult Edit(int departmentPlanId)
+        {
+            return View();
+        }
+
     }
 }

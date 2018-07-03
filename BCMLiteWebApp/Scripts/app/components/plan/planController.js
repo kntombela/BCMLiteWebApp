@@ -9,7 +9,17 @@
         departmentPlanID: -1,
         departmentID: '',
         planID: '',
-        departmentPlanInvoked: '',
+        departmentPlanInvoked: ''
+    };
+    $scope.departmentPlanDetail = {
+        id: -1,
+        name: '',
+        description: '',
+        type: '',
+        invoked: 0,
+        departmentName: '',
+        departmentID: '',
+        dateModified: ''
     };
 
     //Get plan list on controller load
@@ -26,6 +36,15 @@
         addPlan();
     });
 
+    $scope.$on('planOwnerSelected', function () {
+        //addPlanOwner();
+    });
+
+    //Get plan detail when departmentPlanId is available in route params
+    if ($routeParams.departmentPlanId) {
+        getPlan($routeParams.departmentPlanId);
+    }
+
     //Add new plan
     function addPlan () {
         if (sharedService.departmentId) {
@@ -40,12 +59,7 @@
         } else {
             alert("No department selected");
         }
-    };
-
-    //Edit Plan
-    $scope.editPlan = function () {
-        getPlan($scope.departmentPlanID);
-    };
+    }
 
     //Delete plan
     $scope.deletePlan = function () {
@@ -66,21 +80,12 @@
             //asynchronously delets plans from db using message helper
             Message(requestResponse);
         }
-        
+
         //Return to department plan index
         $rootScope.redirectToPlansIndex();
-    }
+    };
 
     /**********************************HELPERS***************************************/
-    //Get plan
-    function getPlan(id) {
-        planService.getPlanById(id).then(function (response) {
-            $scope.departmentPlan = response.data;
-        }, function () {
-            alert('Error getting record');
-        });
-    }
-
     //Get plan list
     function getPlanList() {
         if (sharedService.organisationId != null) {
@@ -104,18 +109,27 @@
         }
     }
 
+    //Get process
+    function getPlan(id) {
+        planService.getPlanById(id).then(function (response) {
+            $scope.departmentPlanDetail = response.data;
+        }, function () {
+            alert('Error getting record');
+        });
+    }
+
     //Helper function to call api asynchronously
     function Message(requestResponse) {
         requestResponse.then(function successCallback(response) {
             //Refresh plan list
             getPlanList();
             //Show success message
-            showMessageAlert(response.data.message)
+            showMessageAlert(response.data.message);
             //Flag new rows
             if (response.data.ids) {
                 //Set departmentPlanId using sharedService, 
                 //this will broadcase the departmentPlanId when it is available due to the callback function
-                sharedService.setDepartmentPlanId(response.data.ids);
+                sharedService.setDepartmentPlanId(response.data.ids[0]);
             }
 
         }, function errorCallback(response) {
@@ -126,33 +140,33 @@
 
     //Flag new rows
     $scope.isNewRow = function (id) {
-        var flag = false
+        var flag = false;
         if ($scope.newRecords) {
             flag = $scope.newRecords.includes(id);
         }
         return flag;
-    }
+    };
 
     /**********************************CRUD ACTIONS**********************************/
     //Clear form before adding new process
     $scope.resetRowSelect = function () {
         resetRowSelect();
-    }
+    };
 
     //Show CRUD actions when a row is selected
-    $scope.onRowClicked = function (planId) {          
-        $scope.planId = planId;
+    $scope.onRowClicked = function (departmentPlanId) {
+        $scope.departmentPlanId = departmentPlanId;
         //Clear check boxes prior to select if items have selected
         if (getSelectedItems()) {
             $scope.checkboxes.items = {};
         }
-        $scope.checkboxes.items[planId] = true;
+        $scope.checkboxes.items[departmentPlanId] = true;
         showCrudActions(true);
-    }
+    };
 
     //Reset row select
     function resetRowSelect() {
-        $scope.plan = {};
+        $scope.departmentPlanId = -1;
         $scope.checkboxes = { 'checked': false, items: {} };
         showCrudActions(false);
     }
@@ -192,7 +206,7 @@
     $scope.sort = function (keyname) {
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-    }
+    };
 
     //watch for check all checkbox
     $scope.$watch('checkboxes.checked', function (value) {

@@ -11,7 +11,7 @@ namespace BCMLiteWebApp.Models.ViewModels
         {
             public int StepID { get; set; }
 
-            public int PlanID { get; set; }
+            public int DepartmentPlanID { get; set; }
 
             public int? Number { get; set; }
 

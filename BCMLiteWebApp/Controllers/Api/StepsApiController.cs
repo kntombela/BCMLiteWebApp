@@ -89,7 +89,7 @@ namespace BCMLiteWebApp.Controllers.Api
         [Route("")]
         [HttpPost]
         [ResponseType(typeof(PostResponseViewModel))]
-        public async Task<IHttpActionResult> AddEditPlan(Step step)
+        public async Task<IHttpActionResult> AddEditStep(Step step)
         {
             string status = "";
 
@@ -223,7 +223,7 @@ namespace BCMLiteWebApp.Controllers.Api
                               Title = s.Title,
                               Summary = s.Summary,
                               Detail = s.Detail,
-                              PlanID = s.DepartmentPlanID
+                              DepartmentPlanID = s.DepartmentPlanID
                           }).ToListAsync();
         }
 
@@ -238,7 +238,7 @@ namespace BCMLiteWebApp.Controllers.Api
                               Title = s.Title,
                               Summary = s.Summary,
                               Detail = s.Detail,
-                              PlanID = s.DepartmentPlanID
+                              DepartmentPlanID = s.DepartmentPlanID
                           }).FirstOrDefaultAsync();
         }
         #endregion

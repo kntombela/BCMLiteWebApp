@@ -184,7 +184,7 @@ namespace BCMLiteWebApp.Controllers.Api
                               Title = ds.Title,
                               Summary = ds.Summary,
                               Detail = ds.Detail,
-                              PlanID = ds.PlanID,
+                              DepartmentPlanID = ds.PlanID,
                               DateModified = ds.DateModified
 
                           }).ToListAsync();
@@ -201,7 +201,7 @@ namespace BCMLiteWebApp.Controllers.Api
                               Title = ds.Title,
                               Summary = ds.Summary,
                               Detail = ds.Detail,
-                              PlanID = ds.PlanID,
+                              DepartmentPlanID = ds.PlanID,
                               DateModified = ds.DateModified
                           }).FirstOrDefaultAsync();
         }
