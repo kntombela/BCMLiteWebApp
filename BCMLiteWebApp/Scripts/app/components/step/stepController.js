@@ -29,7 +29,7 @@
 
     //Add new step
     $scope.addStep = function () {
-        if (departmentPlanId){
+        if (departmentPlanId) {
             $scope.step.departmentPlanID = departmentPlanId;
             var requestResponse = stepService.addEditStep($scope.step);
             Message(requestResponse);
@@ -116,25 +116,26 @@
         //Clear step list before load
         $scope.steps = [];
 
-        if (departmentPlanId) {
-            //Show button to add new item
-            $scope.showNew = true;
-            //Show loader
-            $scope.showLoader = true;
-            //Get steps
-            stepService.getSteps(departmentPlanId).then(function (response) {
-                $scope.steps = response.data;
-                if (!$scope.steps.length) {
-                    $scope.recordsError = "No steps added yet, click 'New' to begin.";
-                }
-                else {
-                    $scope.recordsError = "";
-                }
-            }).finally(function () {
-                //Close loader when data has been loaded
-                $scope.showLoader = false;
-            });
-        }
+        //Set departmentPlanId depending on create or edit modes
+        setDepartmentPlanId();
+
+        //Show button to add new item
+        $scope.showNew = true;
+        //Show loader
+        $scope.showLoader = true;
+        //Get steps
+        stepService.getSteps(departmentPlanId).then(function (response) {
+            $scope.steps = response.data;
+            if (!$scope.steps.length) {
+                $scope.recordsError = "No steps added yet, click 'New' to begin.";
+            }
+            else {
+                $scope.recordsError = "";
+            }
+        }).finally(function () {
+            //Close loader when data has been loaded
+            $scope.showLoader = false;
+        });
     }
 
     function setDepartmentPlanId() {

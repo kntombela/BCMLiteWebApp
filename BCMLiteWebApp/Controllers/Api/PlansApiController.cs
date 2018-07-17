@@ -20,9 +20,7 @@ namespace BCMLiteWebApp.Controllers.Api
     {
 
         private BCMContext db = new BCMContext();
-
-        
-
+                
         // POST: api/plans    
         [Route("")]
         [HttpPost]

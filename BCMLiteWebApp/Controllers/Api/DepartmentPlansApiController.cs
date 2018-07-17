@@ -16,7 +16,6 @@ using System.Data.Entity.Infrastructure;
 namespace BCMLiteWebApp.Controllers.API
 {
     [RoutePrefix("api/departmentPlans")]
-    [Authorize]
     public class DepartmentPlansApiController : ApiController
     {
         protected UserManager<ApplicationUser> UserManager { get; set; }
